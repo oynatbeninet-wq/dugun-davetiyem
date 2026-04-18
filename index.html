@@ -7,12 +7,47 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Cinzel:wght@400;600&family=Lora:wght@400;600&family=Montserrat:wght@300;400;600&family=Raleway:wght@300;400;600&family=Inter:wght@300;400;600&display=swap');
+
     body { font-family: 'Inter', sans-serif; }
-    .title-font { font-family: 'Playfair Display', serif; }
     .hero-bg { background-size: cover; background-position: center; background-attachment: fixed; transition: all 0.4s; }
     .countdown-box { animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+    /* Edit Panel Tabs */
+    .tab-btn { transition: all 0.2s; }
+    .tab-btn.active { background: #e11d48; color: white; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Section Cards in Edit */
+    .section-card { border: 2px solid #f3f4f6; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+    .section-card:hover { border-color: #e11d48; }
+    .field-label { font-size: 12px; font-weight: 600; color: #6b7280; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .edit-input { width: 100%; border: 1.5px solid #e5e7eb; border-radius: 12px; padding: 10px 14px; font-size: 14px; transition: border 0.2s; }
+    .edit-input:focus { outline: none; border-color: #e11d48; }
+    .color-input { height: 48px; border-radius: 12px; border: 1.5px solid #e5e7eb; cursor: pointer; }
+    .section-header { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 16px; display: flex; align-items: center; gap-8px; }
+    .badge { background: #fff1f2; color: #e11d48; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; border: 1px solid #fecdd3; }
+
+    /* Icon picker */
+    .icon-option { cursor: pointer; padding: 8px; border-radius: 8px; border: 2px solid transparent; text-align: center; font-size: 18px; }
+    .icon-option:hover, .icon-option.selected { border-color: #e11d48; background: #fff1f2; }
+
+    /* Font size slider */
+    input[type=range] { accent-color: #e11d48; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f9fafb; }
+    ::-webkit-scrollbar-thumb { background: #e11d48; border-radius: 10px; }
+
+    /* Edit toggle button */
+    #editToggleBtn { position: fixed; bottom: 24px; right: 24px; z-index: 9998; background: #e11d48; color: white; width: 60px; height: 60px; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(225,29,72,0.4); cursor: pointer; transition: transform 0.2s; }
+    #editToggleBtn:hover { transform: scale(1.1); }
+
+    .font-option { padding: 6px 12px; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+    .font-option:hover, .font-option.selected { border-color: #e11d48; background: #fff1f2; }
   </style>
 </head>
 <body class="bg-stone-950 text-white overflow-x-hidden">
@@ -20,13 +55,13 @@
   <!-- LANDING -->
   <div id="landing" class="hero-bg min-h-screen flex items-center justify-center relative">
     <div class="text-center z-10">
-      <h1 id="landing-baslik" class="title-font text-6xl md:text-7xl tracking-widest">Düğün Davetiyesi</h1>
-      <div class="flex justify-center gap-6 mt-8 text-5xl md:text-6xl title-font">
+      <h1 id="landing-baslik" class="title-font text-6xl md:text-7xl tracking-widest" style="font-family:'Playfair Display',serif">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-6 mt-8 text-5xl md:text-6xl" style="font-family:'Playfair Display',serif">
         <span id="landing-gelin">Berna</span>
-        <span id="landing-and" class="text-rose-400">&</span>
+        <span id="landing-and" style="color:#fb7185">&</span>
         <span id="landing-damat">Melih</span>
       </div>
-      <button onclick="openInvitation()" id="open-btn" class="mt-16 px-12 py-6 text-2xl font-semibold rounded-3xl shadow-2xl transition-all hover:scale-105">
+      <button onclick="openInvitation()" id="open-btn" class="mt-16 px-12 py-6 text-2xl font-semibold rounded-3xl shadow-2xl transition-all hover:scale-105" style="background:#e11d48;color:white">
         DAVETİYEYİ AÇ
       </button>
     </div>
@@ -35,49 +70,67 @@
   <!-- TAM DAVETİYE -->
   <div id="invitation" class="hero-bg min-h-screen hidden">
 
+    <!-- BÖLÜM 1: Başlık -->
     <div class="text-center pt-12 pb-8">
-      <h1 id="baslik" class="title-font text-6xl md:text-7xl tracking-widest">Düğün Davetiyesi</h1>
-      <div class="flex justify-center gap-8 mt-8 text-4xl md:text-5xl title-font">
+      <h1 id="baslik" class="text-6xl md:text-7xl tracking-widest" style="font-family:'Playfair Display',serif">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-8 mt-8 text-4xl md:text-5xl" id="isimler-wrap" style="font-family:'Playfair Display',serif">
         <span id="gelin">Berna</span>
-        <span class="text-rose-400">&</span>
+        <span id="and-symbol" style="color:#fb7185">&</span>
         <span id="damat">Melih</span>
       </div>
     </div>
 
+    <!-- BÖLÜM 3: Tarih -->
     <div class="text-center py-12 bg-black/40 backdrop-blur-md">
-      <p class="text-amber-200 text-xl">Tarih</p>
-      <p id="tarih-goster" class="text-5xl title-font mt-2">15 Ekim 2026 • 16:00</p>
+      <p id="tarih-label" class="text-xl" style="color:#fde68a">Tarih</p>
+      <p id="tarih-goster" class="text-5xl mt-2" style="font-family:'Playfair Display',serif">15 Ekim 2026 • 16:00</p>
     </div>
 
-    <!-- AİLE BİLGİLERİ (güzel tasarım) -->
+    <!-- BÖLÜM 2: Aile -->
     <div class="max-w-4xl mx-auto py-8 px-6">
       <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
-        <h2 id="aile-baslik" class="text-3xl title-font text-center mb-8 flex items-center justify-center gap-3">
-          <i class="fas fa-heart text-rose-400"></i> Ailelerimiz <i class="fas fa-heart text-rose-400"></i>
+        <h2 id="aile-baslik" class="text-3xl text-center mb-8 flex items-center justify-center gap-3" style="font-family:'Playfair Display',serif">
+          <i id="aile-icon-left" class="fas fa-heart" style="color:#fb7185"></i>
+          <span id="aile-baslik-text">Ailelerimiz</span>
+          <i id="aile-icon-right" class="fas fa-heart" style="color:#fb7185"></i>
         </h2>
         <div class="grid md:grid-cols-2 gap-10">
-          <div class="text-center border-r border-white/20 md:border-r">
-            <h3 class="text-xl font-semibold mb-6 text-pink-300">Gelin Tarafı</h3>
+          <div class="text-center border-r border-white/20">
+            <h3 id="gelin-taraf-baslik" class="text-xl font-semibold mb-6" style="color:#f9a8d4">Gelin Tarafı</h3>
             <div class="space-y-6">
-              <div><p class="text-sm text-pink-200">Anne</p><p id="gelin-anne" class="text-2xl font-medium">Ayşe</p></div>
-              <div><p class="text-sm text-pink-200">Baba</p><p id="gelin-baba" class="text-2xl font-medium">Mehmet</p></div>
+              <div>
+                <p id="gelin-anne-label" class="text-sm" style="color:#f9a8d4">Anne</p>
+                <p id="gelin-anne" class="text-2xl font-medium">Ayşe</p>
+              </div>
+              <div>
+                <p id="gelin-baba-label" class="text-sm" style="color:#f9a8d4">Baba</p>
+                <p id="gelin-baba" class="text-2xl font-medium">Mehmet</p>
+              </div>
             </div>
           </div>
           <div class="text-center">
-            <h3 class="text-xl font-semibold mb-6 text-blue-300">Damat Tarafı</h3>
+            <h3 id="damat-taraf-baslik" class="text-xl font-semibold mb-6" style="color:#93c5fd">Damat Tarafı</h3>
             <div class="space-y-6">
-              <div><p class="text-sm text-blue-200">Anne</p><p id="damat-anne" class="text-2xl font-medium">Fatma</p></div>
-              <div><p class="text-sm text-blue-200">Baba</p><p id="damat-baba" class="text-2xl font-medium">Ahmet</p></div>
+              <div>
+                <p id="damat-anne-label" class="text-sm" style="color:#93c5fd">Anne</p>
+                <p id="damat-anne" class="text-2xl font-medium">Fatma</p>
+              </div>
+              <div>
+                <p id="damat-baba-label" class="text-sm" style="color:#93c5fd">Baba</p>
+                <p id="damat-baba" class="text-2xl font-medium">Ahmet</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- KONUM -->
+    <!-- BÖLÜM 4: Konum -->
     <div class="max-w-4xl mx-auto px-6 pb-12">
       <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
-        <h2 id="konum-baslik" class="text-3xl title-font text-center mb-6">Nerede Buluşuyoruz?</h2>
+        <h2 id="konum-baslik" class="text-3xl text-center mb-6" style="font-family:'Playfair Display',serif">
+          <i id="konum-icon" class="fas fa-map-marker-alt mr-2" style="color:#fb7185"></i>Nerede Buluşuyoruz?
+        </h2>
         <p id="konum-text" class="text-xl text-center mb-8">Marmara Üniversitesi Kongre Merkezi, İstanbul</p>
         <div id="map-container" class="rounded-2xl overflow-hidden shadow-2xl">
           <iframe id="googleMap" width="100%" height="400" style="border:0" allowfullscreen></iframe>
@@ -85,177 +138,890 @@
       </div>
     </div>
 
-    <!-- Geri Sayım -->
+    <!-- BÖLÜM 5: Geri Sayım -->
     <div class="max-w-4xl mx-auto py-12 px-6">
       <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 text-center countdown-box">
-        <p class="text-amber-200 mb-6 text-lg">Büyük güne kalan süre</p>
+        <p id="countdown-label" class="mb-6 text-lg" style="color:#fde68a">Büyük güne kalan süre</p>
         <div class="grid grid-cols-4 gap-4 text-center">
-          <div><span id="gun" class="text-6xl font-bold">124</span><br><span class="text-sm">GÜN</span></div>
-          <div><span id="saat" class="text-6xl font-bold">14</span><br><span class="text-sm">SAAT</span></div>
-          <div><span id="dakika" class="text-6xl font-bold">32</span><br><span class="text-sm">DAKİKA</span></div>
-          <div><span id="saniye" class="text-6xl font-bold">09</span><br><span class="text-sm">SANİYE</span></div>
+          <div>
+            <span id="gun" class="text-6xl font-bold">124</span><br>
+            <span id="gun-label" class="text-sm">GÜN</span>
+          </div>
+          <div>
+            <span id="saat" class="text-6xl font-bold">14</span><br>
+            <span id="saat-label" class="text-sm">SAAT</span>
+          </div>
+          <div>
+            <span id="dakika" class="text-6xl font-bold">32</span><br>
+            <span id="dakika-label" class="text-sm">DAKİKA</span>
+          </div>
+          <div>
+            <span id="saniye" class="text-6xl font-bold">09</span><br>
+            <span id="saniye-label" class="text-sm">SANİYE</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- MÜZİK (görünür ve butona basınca çalıyor) -->
+    <!-- BÖLÜM 6: Müzik -->
     <div class="text-center py-8" id="music-section">
-      <p class="text-amber-200 mb-3">Özel şarkımız çalıyor 💕</p>
+      <p id="muzik-label" class="mb-3" style="color:#fde68a">Özel şarkımız çalıyor 💕</p>
       <div id="mp3-player" class="hidden"><audio id="musicPlayer" controls loop class="mx-auto w-80"><source id="musicSource" src="" type="audio/mpeg"></audio></div>
       <div id="youtube-player" class="hidden mx-auto max-w-md"><iframe id="youtube-iframe" width="100%" height="200" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
       <div id="spotify-player" class="hidden mx-auto max-w-md"><iframe id="spotify-iframe" width="100%" height="352" src="" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
     </div>
 
-    <footer class="text-center py-12 text-amber-200/60 text-sm">
-      Seni aramızda görmek isteriz ❤️<br>
-      <span id="footer-isim">Berna & Melih</span>
+    <!-- BÖLÜM 7: Footer -->
+    <footer class="text-center py-12 text-sm">
+      <p id="footer-mesaj" style="color:rgba(253,230,138,0.6)">Seni aramızda görmek isteriz ❤️</p>
+      <p id="footer-isim" class="mt-1" style="color:rgba(253,230,138,0.6)">Berna & Melih</p>
     </footer>
   </div>
 
+  <!-- EDIT TOGGLE BUTTON -->
+  <div id="editToggleBtn" onclick="openEdit()" title="Düzenle">
+    <i class="fas fa-pen"></i>
+  </div>
+
   <!-- DÜZENLEME PANELİ -->
-  <div id="editPanel" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center overflow-auto">
-    <div class="bg-white text-black w-full max-w-3xl mx-4 rounded-3xl p-8 my-8 max-h-[95vh] overflow-auto">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-3xl font-bold">✏️ Davetiyeyi Düzenle</h2>
-        <button onclick="closeEdit()" class="text-rose-600 text-4xl leading-none">✕</button>
+  <div id="editPanel" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center overflow-auto p-4">
+    <div class="bg-white text-black w-full max-w-3xl rounded-3xl shadow-2xl my-4" style="max-height:95vh;overflow:hidden;display:flex;flex-direction:column">
+      
+      <!-- Panel Header -->
+      <div class="flex justify-between items-center px-8 py-6 border-b bg-gray-50 rounded-t-3xl flex-shrink-0">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-900">✏️ Davetiyeyi Düzenle</h2>
+          <p class="text-sm text-gray-500 mt-0.5">Bölüme tıklayarak düzenle</p>
+        </div>
+        <button onclick="closeEdit()" class="text-gray-400 hover:text-red-500 text-3xl leading-none transition-colors">✕</button>
       </div>
 
-      <!-- Genel Bilgiler -->
-      <div class="mb-8">
-        <h3 class="font-semibold text-lg mb-4">Genel Bilgiler</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div><label class="block text-sm mb-1">Gelin İsmi</label><input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-          <div><label class="block text-sm mb-1">Damat İsmi</label><input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-        </div>
-        <div class="mt-4"><label class="block text-sm mb-1">Başlık</label><input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div class="mt-4"><label class="block text-sm mb-1">Tarih ve Saat</label><input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3"></div>
+      <!-- TAB BAR -->
+      <div class="flex gap-2 px-8 py-4 border-b overflow-x-auto flex-shrink-0 bg-white">
+        <button class="tab-btn active px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab1',this)">
+          📋 Bölüm 1<br><span class="text-xs font-normal opacity-70">Başlık</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab2',this)">
+          👨‍👩‍👧 Bölüm 2<br><span class="text-xs font-normal opacity-70">Aileler</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab3',this)">
+          📅 Bölüm 3<br><span class="text-xs font-normal opacity-70">Tarih</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab4',this)">
+          📍 Bölüm 4<br><span class="text-xs font-normal opacity-70">Konum</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab5',this)">
+          ⏳ Bölüm 5<br><span class="text-xs font-normal opacity-70">Geri Sayım</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab6',this)">
+          🎵 Bölüm 6<br><span class="text-xs font-normal opacity-70">Müzik</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab7',this)">
+          🌿 Bölüm 7<br><span class="text-xs font-normal opacity-70">Footer</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab8',this)">
+          🎨 Genel<br><span class="text-xs font-normal opacity-70">Arka Plan</span>
+        </button>
       </div>
 
-      <!-- Görünüm -->
-      <div class="mb-8 border-t pt-6">
-        <h3 class="font-semibold text-lg mb-4">Görünüm</h3>
-        <div class="grid grid-cols-2 gap-6">
-          <div><label class="block text-sm mb-1">Arka Plan Resmi URL</label><input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-          <div><label class="block text-sm mb-1">Arka Plan Rengi</label><input id="edit-bgcolor" type="color" value="#1f2937" class="w-full h-12 rounded-2xl border-0"></div>
-        </div>
-        <div class="grid grid-cols-2 gap-6 mt-4">
-          <div><label class="block text-sm mb-1">Yazı Rengi</label><input id="edit-textcolor" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
-          <div><label class="block text-sm mb-1">Buton Rengi</label><input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0"></div>
-        </div>
-        <div class="mt-4"><label class="block text-sm mb-1">Buton Yazısı</label><input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ"></div>
-      </div>
+      <!-- TAB CONTENTS -->
+      <div class="overflow-y-auto flex-1 px-8 py-6">
 
-      <!-- Aile Bilgileri -->
-      <div class="mb-8 border-t pt-6">
-        <h3 class="font-semibold text-lg mb-4">Aile Bilgileri</h3>
-        <div class="grid grid-cols-2 gap-6">
-          <div>
-            <p class="font-medium mb-2 text-pink-600">Gelin Tarafı</p>
-            <input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
-            <input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
+        <!-- ===== BÖLÜM 1: BAŞLIK ===== -->
+        <div id="tab1" class="tab-content active">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📋</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 1 — Başlık ve İsimler</h3>
+              <p class="text-sm text-gray-500">Ana başlık, gelin & damat isimleri, buton</p>
+            </div>
           </div>
-          <div>
-            <p class="font-medium mb-2 text-blue-600">Damat Tarafı</p>
-            <input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
-            <input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📝 Yazı İçerikleri</p>
+            <div class="grid grid-cols-1 gap-4">
+              <div>
+                <p class="field-label">Ana Başlık</p>
+                <input id="edit-baslik" type="text" class="edit-input" value="Düğün Davetiyesi">
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="field-label">Gelin İsmi</p>
+                  <input id="edit-gelin" type="text" class="edit-input" value="Berna">
+                </div>
+                <div>
+                  <p class="field-label">Damat İsmi</p>
+                  <input id="edit-damat" type="text" class="edit-input" value="Melih">
+                </div>
+              </div>
+              <div>
+                <p class="field-label">Buton Yazısı</p>
+                <input id="edit-btntext" type="text" class="edit-input" value="DAVETİYEYİ AÇ">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Başlık Rengi</p>
+                <input id="edit-baslik-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Gelin Adı Rengi</p>
+                <input id="edit-gelin-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">"&" Sembol Rengi</p>
+                <input id="edit-and-renk" type="color" value="#fb7185" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Damat Adı Rengi</p>
+                <input id="edit-damat-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Buton Rengi</p>
+                <input id="edit-btncolor" type="color" value="#e11d48" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Buton Yazı Rengi</p>
+                <input id="edit-btn-textcolor" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🔤 Yazı Karakteri</p>
+            <div>
+              <p class="field-label mb-2">Başlık & İsimler Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2" id="font-picker-sec1">
+                <button class="font-option selected" onclick="selectFont('sec1','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec1','Great Vibes')" style="font-family:'Great Vibes'">Great Vibes</button>
+                <button class="font-option" onclick="selectFont('sec1','Dancing Script')" style="font-family:'Dancing Script'">Dancing Script</button>
+                <button class="font-option" onclick="selectFont('sec1','Cinzel')" style="font-family:'Cinzel'">Cinzel</button>
+                <button class="font-option" onclick="selectFont('sec1','Cormorant Garamond')" style="font-family:'Cormorant Garamond'">Cormorant</button>
+                <button class="font-option" onclick="selectFont('sec1','Lora')" style="font-family:'Lora'">Lora</button>
+                <button class="font-option" onclick="selectFont('sec1','Montserrat')" style="font-family:'Montserrat'">Montserrat</button>
+                <button class="font-option" onclick="selectFont('sec1','Raleway')" style="font-family:'Raleway'">Raleway</button>
+              </div>
+              <input type="hidden" id="edit-sec1-font" value="Playfair Display">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Başlık Büyüklüğü: <span id="baslik-size-val">72</span>px</p>
+              <input type="range" min="32" max="120" value="72" class="w-full mt-1" id="edit-baslik-size" oninput="document.getElementById('baslik-size-val').textContent=this.value">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">İsim Büyüklüğü: <span id="isim-size-val">48</span>px</p>
+              <input type="range" min="24" max="96" value="48" class="w-full mt-1" id="edit-isim-size" oninput="document.getElementById('isim-size-val').textContent=this.value">
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Konum -->
-      <div class="mb-8 border-t pt-6">
-        <h3 class="font-semibold text-lg mb-4">Konum</h3>
-        <div><label class="block text-sm mb-1">Konum Başlığı</label><input id="edit-konum-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Nerede Buluşuyoruz?"></div>
-        <div class="mt-4"><label class="block text-sm mb-1">Konum Adresi</label><input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div class="mt-4"><label class="block text-sm mb-1">Google Maps Embed URL</label><input id="edit-map" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-      </div>
+        <!-- ===== BÖLÜM 2: AİLE ===== -->
+        <div id="tab2" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">👨‍👩‍👧</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 2 — Ailelerimiz</h3>
+              <p class="text-sm text-gray-500">Gelin & damat tarafı aile bilgileri, simgeler, renkler</p>
+            </div>
+          </div>
 
-      <!-- Müzik -->
-      <div class="border-t pt-6">
-        <h3 class="font-semibold text-lg mb-4">Müzik</h3>
-        <div class="mb-4"><label class="block text-sm mb-1">MP3 Dosya Yükle</label><input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div class="mb-4"><label class="block text-sm mb-1">veya MP3 URL</label><input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div class="mb-4"><label class="block text-sm mb-1">YouTube URL</label><input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-sm mb-1">Spotify URL</label><input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-      </div>
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📝 Başlık</p>
+            <div>
+              <p class="field-label">Bölüm Başlığı</p>
+              <input id="edit-aile-baslik" type="text" class="edit-input" value="Ailelerimiz">
+            </div>
+            <div class="mt-4">
+              <p class="field-label mb-2">Başlık Yanı Simge</p>
+              <div class="flex flex-wrap gap-2" id="aile-icon-picker">
+                <button class="icon-option selected" onclick="selectAileIcon('fa-heart')"><i class="fas fa-heart"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-rings-wedding')"><i class="fas fa-rings-wedding"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-dove')"><i class="fas fa-dove"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-star')"><i class="fas fa-star"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-gem')"><i class="fas fa-gem"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-crown')"><i class="fas fa-crown"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-flower')"><i class="fas fa-seedling"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-infinity')"><i class="fas fa-infinity"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('')">—</button>
+              </div>
+              <input type="hidden" id="edit-aile-icon" value="fa-heart">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Simge Rengi</p>
+              <input id="edit-aile-icon-renk" type="color" value="#fb7185" class="color-input w-full">
+            </div>
+          </div>
 
-      <div class="flex gap-4 pt-8 border-t mt-8">
-        <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-4 rounded-3xl text-lg font-semibold">💾 Kaydet ve Güncelle</button>
-        <button onclick="closeEdit()" class="flex-1 border border-gray-300 py-4 rounded-3xl text-lg">İptal</button>
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">💒 Gelin Tarafı</p>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <p class="field-label">Bölüm Başlığı</p>
+                <input id="edit-gelin-taraf-baslik" type="text" class="edit-input" value="Gelin Tarafı">
+              </div>
+              <div>
+                <p class="field-label">Başlık Rengi</p>
+                <input id="edit-gelin-taraf-renk" type="color" value="#f9a8d4" class="color-input w-full">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-3">
+              <div>
+                <p class="field-label">Anne Etiketi</p>
+                <input id="edit-gelin-anne-label" type="text" class="edit-input" value="Anne">
+              </div>
+              <div>
+                <p class="field-label">Anne Adı</p>
+                <input id="edit-gelin-anne" type="text" class="edit-input" value="Ayşe">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Baba Etiketi</p>
+                <input id="edit-gelin-baba-label" type="text" class="edit-input" value="Baba">
+              </div>
+              <div>
+                <p class="field-label">Baba Adı</p>
+                <input id="edit-gelin-baba" type="text" class="edit-input" value="Mehmet">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Etiket Rengi (Anne/Baba)</p>
+              <input id="edit-gelin-etiket-renk" type="color" value="#f9a8d4" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-blue-600 mb-4 uppercase tracking-wide">🤵 Damat Tarafı</p>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <p class="field-label">Bölüm Başlığı</p>
+                <input id="edit-damat-taraf-baslik" type="text" class="edit-input" value="Damat Tarafı">
+              </div>
+              <div>
+                <p class="field-label">Başlık Rengi</p>
+                <input id="edit-damat-taraf-renk" type="color" value="#93c5fd" class="color-input w-full">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-3">
+              <div>
+                <p class="field-label">Anne Etiketi</p>
+                <input id="edit-damat-anne-label" type="text" class="edit-input" value="Anne">
+              </div>
+              <div>
+                <p class="field-label">Anne Adı</p>
+                <input id="edit-damat-anne" type="text" class="edit-input" value="Fatma">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Baba Etiketi</p>
+                <input id="edit-damat-baba-label" type="text" class="edit-input" value="Baba">
+              </div>
+              <div>
+                <p class="field-label">Baba Adı</p>
+                <input id="edit-damat-baba" type="text" class="edit-input" value="Ahmet">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Etiket Rengi (Anne/Baba)</p>
+              <input id="edit-damat-etiket-renk" type="color" value="#93c5fd" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🔤 Yazı Tipi & Boyutu</p>
+            <div>
+              <p class="field-label mb-2">Başlık Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="font-option selected" onclick="selectFont('sec2','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec2','Great Vibes')" style="font-family:'Great Vibes'">Great Vibes</button>
+                <button class="font-option" onclick="selectFont('sec2','Dancing Script')" style="font-family:'Dancing Script'">Dancing Script</button>
+                <button class="font-option" onclick="selectFont('sec2','Cinzel')" style="font-family:'Cinzel'">Cinzel</button>
+                <button class="font-option" onclick="selectFont('sec2','Lora')" style="font-family:'Lora'">Lora</button>
+                <button class="font-option" onclick="selectFont('sec2','Montserrat')" style="font-family:'Montserrat'">Montserrat</button>
+              </div>
+              <input type="hidden" id="edit-sec2-font" value="Playfair Display">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Bölüm Başlık Büyüklüğü: <span id="aile-baslik-size-val">30</span>px</p>
+              <input type="range" min="16" max="60" value="30" class="w-full mt-1" id="edit-aile-baslik-size" oninput="document.getElementById('aile-baslik-size-val').textContent=this.value">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">İsim Büyüklüğü: <span id="aile-isim-size-val">24</span>px</p>
+              <input type="range" min="12" max="48" value="24" class="w-full mt-1" id="edit-aile-isim-size" oninput="document.getElementById('aile-isim-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 3: TARİH ===== -->
+        <div id="tab3" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📅</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 3 — Tarih & Saat</h3>
+              <p class="text-sm text-gray-500">Düğün tarihi, saati ve görünümü</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📅 Tarih Bilgisi</p>
+            <div>
+              <p class="field-label">Tarih ve Saat</p>
+              <input id="edit-tarih" type="datetime-local" class="edit-input" value="2026-10-15T16:00">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Tarih Etiketi ("Tarih" yazısı)</p>
+              <input id="edit-tarih-label" type="text" class="edit-input" value="Tarih">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Etiket Rengi</p>
+                <input id="edit-tarih-label-renk" type="color" value="#fde68a" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Tarih Yazı Rengi</p>
+                <input id="edit-tarih-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🔤 Yazı Tipi & Boyutu</p>
+            <div>
+              <p class="field-label mb-2">Tarih Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="font-option selected" onclick="selectFont('sec3','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec3','Great Vibes')" style="font-family:'Great Vibes'">Great Vibes</button>
+                <button class="font-option" onclick="selectFont('sec3','Cinzel')" style="font-family:'Cinzel'">Cinzel</button>
+                <button class="font-option" onclick="selectFont('sec3','Lora')" style="font-family:'Lora'">Lora</button>
+                <button class="font-option" onclick="selectFont('sec3','Montserrat')" style="font-family:'Montserrat'">Montserrat</button>
+              </div>
+              <input type="hidden" id="edit-sec3-font" value="Playfair Display">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Tarih Yazı Büyüklüğü: <span id="tarih-size-val">48</span>px</p>
+              <input type="range" min="20" max="80" value="48" class="w-full mt-1" id="edit-tarih-size" oninput="document.getElementById('tarih-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 4: KONUM ===== -->
+        <div id="tab4" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📍</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 4 — Konum</h3>
+              <p class="text-sm text-gray-500">Düğün yeri, adres ve harita</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📍 Konum Bilgileri</p>
+            <div>
+              <p class="field-label">Bölüm Başlığı</p>
+              <input id="edit-konum-baslik" type="text" class="edit-input" value="Nerede Buluşuyoruz?">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Adres</p>
+              <input id="edit-konum" type="text" class="edit-input" value="Marmara Üniversitesi Kongre Merkezi, İstanbul">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Google Maps Embed URL</p>
+              <input id="edit-map" type="text" class="edit-input" placeholder="https://maps.google.com/embed?...">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🗺️ Konum Simgesi</p>
+            <div class="flex flex-wrap gap-2">
+              <button class="icon-option selected" onclick="selectKonumIcon('fa-map-marker-alt')"><i class="fas fa-map-marker-alt"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('fa-location-dot')"><i class="fas fa-location-dot"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('fa-church')"><i class="fas fa-church"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('fa-building')"><i class="fas fa-building"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('fa-map')"><i class="fas fa-map"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('')">—</button>
+            </div>
+            <input type="hidden" id="edit-konum-icon" value="fa-map-marker-alt">
+            <div class="mt-4">
+              <p class="field-label">Simge Rengi</p>
+              <input id="edit-konum-icon-renk" type="color" value="#fb7185" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler & Yazı</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Başlık Rengi</p>
+                <input id="edit-konum-baslik-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Adres Rengi</p>
+                <input id="edit-konum-adres-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label mb-2">Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="font-option selected" onclick="selectFont('sec4','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec4','Cinzel')" style="font-family:'Cinzel'">Cinzel</button>
+                <button class="font-option" onclick="selectFont('sec4','Lora')" style="font-family:'Lora'">Lora</button>
+                <button class="font-option" onclick="selectFont('sec4','Montserrat')" style="font-family:'Montserrat'">Montserrat</button>
+              </div>
+              <input type="hidden" id="edit-sec4-font" value="Playfair Display">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Başlık Büyüklüğü: <span id="konum-size-val">30</span>px</p>
+              <input type="range" min="16" max="56" value="30" class="w-full mt-1" id="edit-konum-size" oninput="document.getElementById('konum-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 5: GERİ SAYIM ===== -->
+        <div id="tab5" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">⏳</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 5 — Geri Sayım</h3>
+              <p class="text-sm text-gray-500">Sayaç etiketi ve görünümü</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">⏳ Etiket Metinleri</p>
+            <div>
+              <p class="field-label">Üst Yazı</p>
+              <input id="edit-countdown-label" type="text" class="edit-input" value="Büyük güne kalan süre">
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div>
+                <p class="field-label">Gün Etiketi</p>
+                <input id="edit-gun-label" type="text" class="edit-input" value="GÜN">
+              </div>
+              <div>
+                <p class="field-label">Saat Etiketi</p>
+                <input id="edit-saat-label" type="text" class="edit-input" value="SAAT">
+              </div>
+              <div>
+                <p class="field-label">Dakika Etiketi</p>
+                <input id="edit-dakika-label" type="text" class="edit-input" value="DAKİKA">
+              </div>
+              <div>
+                <p class="field-label">Saniye Etiketi</p>
+                <input id="edit-saniye-label" type="text" class="edit-input" value="SANİYE">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler & Boyut</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Üst Yazı Rengi</p>
+                <input id="edit-countdown-label-renk" type="color" value="#fde68a" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Sayı Rengi</p>
+                <input id="edit-countdown-sayi-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Sayı Büyüklüğü: <span id="countdown-size-val">60</span>px</p>
+              <input type="range" min="32" max="96" value="60" class="w-full mt-1" id="edit-countdown-size" oninput="document.getElementById('countdown-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 6: MÜZİK ===== -->
+        <div id="tab6" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">🎵</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 6 — Müzik</h3>
+              <p class="text-sm text-gray-500">Özel şarkı ve müzik kaynağı</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎵 Müzik Etiketi</p>
+            <div>
+              <p class="field-label">Üst Yazı</p>
+              <input id="edit-muzik-label" type="text" class="edit-input" value="Özel şarkımız çalıyor 💕">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Etiket Rengi</p>
+              <input id="edit-muzik-label-renk" type="color" value="#fde68a" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎶 Müzik Kaynağı (birini seç)</p>
+            <div class="mb-4">
+              <p class="field-label">MP3 Dosya Yükle</p>
+              <input id="edit-music-upload" type="file" accept="audio/mpeg" class="edit-input py-2">
+            </div>
+            <div class="mb-4">
+              <p class="field-label">veya MP3 URL</p>
+              <input id="edit-music-url" type="text" class="edit-input" placeholder="https://...mp3">
+            </div>
+            <div class="mb-4">
+              <p class="field-label">YouTube URL</p>
+              <input id="edit-youtube" type="text" class="edit-input" placeholder="https://youtube.com/watch?v=...">
+            </div>
+            <div>
+              <p class="field-label">Spotify URL</p>
+              <input id="edit-spotify" type="text" class="edit-input" placeholder="https://open.spotify.com/track/...">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 7: FOOTER ===== -->
+        <div id="tab7" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">🌿</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 7 — Alt Kısım (Footer)</h3>
+              <p class="text-sm text-gray-500">Davetiye kapanış mesajı ve isimler</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📝 Metinler</p>
+            <div>
+              <p class="field-label">Kapanış Mesajı</p>
+              <input id="edit-footer-mesaj" type="text" class="edit-input" value="Seni aramızda görmek isteriz ❤️">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Alt İsimler (otomatik dolar, veya özelleştir)</p>
+              <input id="edit-footer-isim" type="text" class="edit-input" value="Berna & Melih">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler & Yazı</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Mesaj Rengi</p>
+                <input id="edit-footer-renk" type="color" value="#fde68a" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">İsim Rengi</p>
+                <input id="edit-footer-isim-renk" type="color" value="#fde68a" class="color-input w-full">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label mb-2">Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="font-option selected" onclick="selectFont('sec7','Inter')" style="font-family:'Inter'">Inter</button>
+                <button class="font-option" onclick="selectFont('sec7','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec7','Great Vibes')" style="font-family:'Great Vibes'">Great Vibes</button>
+                <button class="font-option" onclick="selectFont('sec7','Lora')" style="font-family:'Lora'">Lora</button>
+              </div>
+              <input type="hidden" id="edit-sec7-font" value="Inter">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Yazı Büyüklüğü: <span id="footer-size-val">14</span>px</p>
+              <input type="range" min="10" max="32" value="14" class="w-full mt-1" id="edit-footer-size" oninput="document.getElementById('footer-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== GENEL / ARKA PLAN ===== -->
+        <div id="tab8" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">🎨</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Genel Ayarlar — Arka Plan</h3>
+              <p class="text-sm text-gray-500">Davetiyenin genel görünümü ve arka planı</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🖼️ Arka Plan</p>
+            <div>
+              <p class="field-label">Arka Plan Resmi URL</p>
+              <input id="edit-bg" type="text" class="edit-input" placeholder="https://... (resim URL)">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">veya Arka Plan Rengi</p>
+              <input id="edit-bgcolor" type="color" value="#1c1917" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🔒 Şifre</p>
+            <div>
+              <p class="field-label">Düzenleme Şifresi</p>
+              <input id="edit-password" type="text" class="edit-input" placeholder="Yeni şifre (boş bırakırsan değişmez)">
+              <p class="text-xs text-gray-400 mt-1">Mevcut şifre: <strong>1234</strong></p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end scroll area -->
+
+      <!-- SAVE FOOTER -->
+      <div class="px-8 py-5 border-t bg-gray-50 rounded-b-3xl flex gap-3 flex-shrink-0">
+        <button onclick="saveChanges()" class="flex-1 text-white py-4 rounded-2xl text-base font-semibold transition-all hover:opacity-90" style="background:#e11d48">
+          💾 Kaydet ve Güncelle
+        </button>
+        <button onclick="closeEdit()" class="flex-1 border-2 border-gray-200 py-4 rounded-2xl text-base font-semibold hover:bg-gray-100 transition-all">
+          İptal
+        </button>
       </div>
     </div>
   </div>
 
   <script>
-    const EDIT_PASSWORD = "1234";
+    let EDIT_PASSWORD = "1234";
 
+    // ---- TAB SWITCHING ----
+    function switchTab(id, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // ---- FONT SELECTION ----
+    function selectFont(section, font) {
+      document.getElementById('edit-' + section + '-font').value = font;
+      const picker = document.querySelectorAll('#font-picker-' + section + ' .font-option, [onclick*="selectFont(\'' + section + '\'"]');
+      // find all font-option buttons in this section by looking at all buttons with this section's selectFont call
+      document.querySelectorAll('button[onclick*="selectFont(\'' + section + '\'"]').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.getAttribute('onclick').includes("'" + font + "'")) btn.classList.add('selected');
+      });
+    }
+
+    // ---- ICON SELECTION ----
+    function selectAileIcon(icon) {
+      document.getElementById('edit-aile-icon').value = icon;
+      document.querySelectorAll('#aile-icon-picker .icon-option').forEach((btn, i) => {
+        btn.classList.remove('selected');
+        if (btn.getAttribute('onclick') === "selectAileIcon('" + icon + "')") btn.classList.add('selected');
+      });
+    }
+
+    function selectKonumIcon(icon) {
+      document.getElementById('edit-konum-icon').value = icon;
+      document.querySelectorAll('[onclick*="selectKonumIcon"]').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.getAttribute('onclick') === "selectKonumIcon('" + icon + "')") btn.classList.add('selected');
+      });
+    }
+
+    // ---- YOUTUBE ID ----
     function getYouTubeId(url) {
       const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
       const match = url.match(reg);
       return (match && match[2].length === 11) ? match[2] : null;
     }
 
+    // ---- LOAD SETTINGS ----
     function loadSettings() {
-      const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      const s = JSON.parse(localStorage.getItem('davetSettings')) || {};
 
-      // Genel
-      document.getElementById('landing-baslik').textContent = saved.baslik || "Düğün Davetiyesi";
-      document.getElementById('baslik').textContent = saved.baslik || "Düğün Davetiyesi";
-      document.getElementById('landing-gelin').textContent = saved.gelin || "Berna";
-      document.getElementById('gelin').textContent = saved.gelin || "Berna";
-      document.getElementById('landing-damat').textContent = saved.damat || "Melih";
-      document.getElementById('damat').textContent = saved.damat || "Melih";
-      document.getElementById('footer-isim').textContent = (saved.gelin || "Berna") + " & " + (saved.damat || "Melih");
+      // Bölüm 1: Başlık & İsimler
+      const baslik = s.baslik || "Düğün Davetiyesi";
+      const gelin = s.gelin || "Berna";
+      const damat = s.damat || "Melih";
+      const baslikFont = s.sec1Font || "Playfair Display";
+      const baslikSize = s.baslikSize || 72;
+      const isimSize = s.isimSize || 48;
 
-      // Görünüm
-      const heroes = document.querySelectorAll('.hero-bg');
-      if (saved.bg) heroes.forEach(el => el.style.backgroundImage = `url('${saved.bg}')`);
-      else heroes.forEach(el => el.style.backgroundImage = 'none');
-      if (saved.bgcolor) heroes.forEach(el => el.style.backgroundColor = saved.bgcolor);
-      if (saved.textcolor) document.querySelectorAll('h1, span, p, div').forEach(el => { if (el.id !== 'open-btn') el.style.color = saved.textcolor; });
-      if (saved.btncolor) document.getElementById('open-btn').style.backgroundColor = saved.btncolor;
-      if (saved.btntext) document.getElementById('open-btn').textContent = saved.btntext;
+      ['landing-baslik','baslik'].forEach(id => {
+        const el = document.getElementById(id);
+        el.textContent = baslik;
+        el.style.fontFamily = "'" + baslikFont + "', serif";
+        el.style.fontSize = baslikSize + "px";
+      });
+      ['landing-gelin','gelin'].forEach(id => {
+        const el = document.getElementById(id);
+        el.textContent = gelin;
+        el.style.fontSize = isimSize + "px";
+        el.style.fontFamily = "'" + baslikFont + "', serif";
+        el.style.color = s.gelinRenk || "#ffffff";
+      });
+      ['landing-damat','damat'].forEach(id => {
+        const el = document.getElementById(id);
+        el.textContent = damat;
+        el.style.fontSize = isimSize + "px";
+        el.style.fontFamily = "'" + baslikFont + "', serif";
+        el.style.color = s.damatRenk || "#ffffff";
+      });
+      document.getElementById('landing-and').style.color = s.andRenk || "#fb7185";
+      document.getElementById('and-symbol').style.color = s.andRenk || "#fb7185";
+      document.getElementById('and-symbol').style.fontSize = isimSize + "px";
 
-      // Tarih
-      if (saved.tarih) {
-        const d = new Date(saved.tarih);
-        document.getElementById('tarih-goster').innerHTML = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+      if (s.baslikRenk) ['landing-baslik','baslik'].forEach(id => document.getElementById(id).style.color = s.baslikRenk);
+
+      const btn = document.getElementById('open-btn');
+      btn.textContent = s.btntext || "DAVETİYEYİ AÇ";
+      btn.style.backgroundColor = s.btncolor || "#e11d48";
+      btn.style.color = s.btnTextColor || "#ffffff";
+
+      // Footer isim
+      document.getElementById('footer-isim').textContent = s.footerIsim || (gelin + " & " + damat);
+
+      // Bölüm 2: Aile
+      const aileFont = s.sec2Font || "Playfair Display";
+      const aileBaslikSize = s.aileBaslikSize || 30;
+      const aileIsimSize = s.aileIsimSize || 24;
+
+      document.getElementById('aile-baslik-text').textContent = s.aileBaslik || "Ailelerimiz";
+      document.getElementById('aile-baslik').style.fontSize = aileBaslikSize + "px";
+      document.getElementById('aile-baslik').style.fontFamily = "'" + aileFont + "', serif";
+
+      const aileIconName = s.aileIcon !== undefined ? s.aileIcon : "fa-heart";
+      const aileIconRenk = s.aileIconRenk || "#fb7185";
+      if (aileIconName) {
+        document.getElementById('aile-icon-left').className = "fas " + aileIconName;
+        document.getElementById('aile-icon-right').className = "fas " + aileIconName;
+        document.getElementById('aile-icon-left').style.color = aileIconRenk;
+        document.getElementById('aile-icon-right').style.color = aileIconRenk;
+      } else {
+        document.getElementById('aile-icon-left').className = "";
+        document.getElementById('aile-icon-right').className = "";
+      }
+
+      document.getElementById('gelin-taraf-baslik').textContent = s.gelinTarafBaslik || "Gelin Tarafı";
+      document.getElementById('gelin-taraf-baslik').style.color = s.gelinTarafRenk || "#f9a8d4";
+      document.getElementById('damat-taraf-baslik').textContent = s.damatTarafBaslik || "Damat Tarafı";
+      document.getElementById('damat-taraf-baslik').style.color = s.damatTarafRenk || "#93c5fd";
+
+      document.getElementById('gelin-anne-label').textContent = s.gelinAnneLabel || "Anne";
+      document.getElementById('gelin-anne-label').style.color = s.gelinEtiketRenk || "#f9a8d4";
+      document.getElementById('gelin-baba-label').textContent = s.gelinBabaLabel || "Baba";
+      document.getElementById('gelin-baba-label').style.color = s.gelinEtiketRenk || "#f9a8d4";
+      document.getElementById('damat-anne-label').textContent = s.damatAnneLabel || "Anne";
+      document.getElementById('damat-anne-label').style.color = s.damatEtiketRenk || "#93c5fd";
+      document.getElementById('damat-baba-label').textContent = s.damatBabaLabel || "Baba";
+      document.getElementById('damat-baba-label').style.color = s.damatEtiketRenk || "#93c5fd";
+
+      const gelinAnneEl = document.getElementById('gelin-anne');
+      const gelinBabaEl = document.getElementById('gelin-baba');
+      const damatAnneEl = document.getElementById('damat-anne');
+      const damatBabaEl = document.getElementById('damat-baba');
+
+      gelinAnneEl.textContent = s.gelinAnne || "Ayşe";
+      gelinBabaEl.textContent = s.gelinBaba || "Mehmet";
+      damatAnneEl.textContent = s.damatAnne || "Fatma";
+      damatBabaEl.textContent = s.damatBaba || "Ahmet";
+      [gelinAnneEl,gelinBabaEl,damatAnneEl,damatBabaEl].forEach(el => el.style.fontSize = aileIsimSize + "px");
+
+      // Bölüm 3: Tarih
+      const tarihFont = s.sec3Font || "Playfair Display";
+      const tarihSize = s.tarihSize || 48;
+      document.getElementById('tarih-label').textContent = s.tarihLabel || "Tarih";
+      document.getElementById('tarih-label').style.color = s.tarihLabelRenk || "#fde68a";
+      const tarihEl = document.getElementById('tarih-goster');
+      tarihEl.style.fontFamily = "'" + tarihFont + "', serif";
+      tarihEl.style.fontSize = tarihSize + "px";
+      tarihEl.style.color = s.tarihRenk || "#ffffff";
+      if (s.tarih) {
+        const d = new Date(s.tarih);
+        tarihEl.innerHTML = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
         startCountdown(d.getTime());
       }
 
-      // Aile
-      document.getElementById('gelin-anne').textContent = saved.gelinAnne || "Ayşe";
-      document.getElementById('gelin-baba').textContent = saved.gelinBaba || "Mehmet";
-      document.getElementById('damat-anne').textContent = saved.damatAnne || "Fatma";
-      document.getElementById('damat-baba').textContent = saved.damatBaba || "Ahmet";
+      // Bölüm 4: Konum
+      const konumFont = s.sec4Font || "Playfair Display";
+      const konumSize = s.konumSize || 30;
+      const konumBaslikEl = document.getElementById('konum-baslik');
+      konumBaslikEl.style.fontFamily = "'" + konumFont + "', serif";
+      konumBaslikEl.style.fontSize = konumSize + "px";
+      konumBaslikEl.style.color = s.konumBaslikRenk || "#ffffff";
 
-      // Konum
-      document.getElementById('konum-baslik').textContent = saved.konumBaslik || "Nerede Buluşuyoruz?";
-      document.getElementById('konum-text').textContent = saved.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
-      if (saved.map) document.getElementById('googleMap').src = saved.map;
+      const konumIconEl = document.getElementById('konum-icon');
+      const konumIconName = s.konumIcon !== undefined ? s.konumIcon : "fa-map-marker-alt";
+      if (konumIconName) {
+        konumIconEl.className = "fas " + konumIconName + " mr-2";
+        konumIconEl.style.color = s.konumIconRenk || "#fb7185";
+      } else {
+        konumIconEl.className = "";
+      }
+      // Rebuild konum-baslik with new icon
+      const konumBaslikText = s.konumBaslik || "Nerede Buluşuyoruz?";
+      document.getElementById('konum-baslik').innerHTML = '';
+      if (konumIconName) {
+        const iTag = document.createElement('i');
+        iTag.id = "konum-icon";
+        iTag.className = "fas " + konumIconName + " mr-2";
+        iTag.style.color = s.konumIconRenk || "#fb7185";
+        document.getElementById('konum-baslik').appendChild(iTag);
+      }
+      document.getElementById('konum-baslik').appendChild(document.createTextNode(konumBaslikText));
 
-      renderMusicPlayer(saved);
+      document.getElementById('konum-text').textContent = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
+      document.getElementById('konum-text').style.color = s.konumAdresRenk || "#ffffff";
+      if (s.map) document.getElementById('googleMap').src = s.map;
+
+      // Bölüm 5: Geri Sayım
+      const countdownLabelEl = document.getElementById('countdown-label');
+      countdownLabelEl.textContent = s.countdownLabel || "Büyük güne kalan süre";
+      countdownLabelEl.style.color = s.countdownLabelRenk || "#fde68a";
+      document.getElementById('gun-label').textContent = s.gunLabel || "GÜN";
+      document.getElementById('saat-label').textContent = s.saatLabel || "SAAT";
+      document.getElementById('dakika-label').textContent = s.dakikaLabel || "DAKİKA";
+      document.getElementById('saniye-label').textContent = s.saniyeLabel || "SANİYE";
+      const countdownSize = s.countdownSize || 60;
+      ['gun','saat','dakika','saniye'].forEach(id => {
+        document.getElementById(id).style.fontSize = countdownSize + "px";
+        if (s.countdownSayiRenk) document.getElementById(id).style.color = s.countdownSayiRenk;
+      });
+
+      // Bölüm 6: Müzik
+      const muzikLabelEl = document.getElementById('muzik-label');
+      muzikLabelEl.textContent = s.muzikLabel || "Özel şarkımız çalıyor 💕";
+      muzikLabelEl.style.color = s.muzikLabelRenk || "#fde68a";
+      renderMusicPlayer(s);
+
+      // Bölüm 7: Footer
+      const footerMesajEl = document.getElementById('footer-mesaj');
+      const footerIsimEl = document.getElementById('footer-isim');
+      footerMesajEl.textContent = s.footerMesaj || "Seni aramızda görmek isteriz ❤️";
+      footerMesajEl.style.color = s.footerRenk || "rgba(253,230,138,0.6)";
+      footerIsimEl.style.color = s.footerIsimRenk || "rgba(253,230,138,0.6)";
+      const footerFont = s.sec7Font || "Inter";
+      const footerSize = s.footerSize || 14;
+      [footerMesajEl, footerIsimEl].forEach(el => {
+        el.style.fontFamily = "'" + footerFont + "', sans-serif";
+        el.style.fontSize = footerSize + "px";
+      });
+
+      // Genel: Arka Plan
+      const heroes = document.querySelectorAll('.hero-bg');
+      if (s.bg) heroes.forEach(el => el.style.backgroundImage = `url('${s.bg}')`);
+      else heroes.forEach(el => el.style.backgroundImage = 'none');
+      if (s.bgcolor) heroes.forEach(el => el.style.backgroundColor = s.bgcolor);
     }
 
-    function renderMusicPlayer(saved) {
+    function renderMusicPlayer(s) {
       document.getElementById('mp3-player').classList.add('hidden');
       document.getElementById('youtube-player').classList.add('hidden');
       document.getElementById('spotify-player').classList.add('hidden');
-
-      if (saved.youtube) {
-        const id = getYouTubeId(saved.youtube);
+      if (s.youtube) {
+        const id = getYouTubeId(s.youtube);
         if (id) {
           document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}`;
           document.getElementById('youtube-player').classList.remove('hidden');
         }
-      } else if (saved.spotify) {
-        const id = saved.spotify.split('/track/')[1]?.split('?')[0] || '';
+      } else if (s.spotify) {
+        const id = s.spotify.split('/track/')[1]?.split('?')[0] || '';
         if (id) {
           document.getElementById('spotify-iframe').src = `https://open.spotify.com/embed/track/${id}?autoplay=1`;
           document.getElementById('spotify-player').classList.remove('hidden');
         }
-      } else if (saved.music) {
-        document.getElementById('musicSource').src = saved.music;
+      } else if (s.music) {
+        document.getElementById('musicSource').src = s.music;
         document.getElementById('musicPlayer').load();
         document.getElementById('mp3-player').classList.remove('hidden');
       }
@@ -264,86 +1030,223 @@
     function openInvitation() {
       document.getElementById('landing').classList.add('hidden');
       document.getElementById('invitation').classList.remove('hidden');
-
-      // MÜZİK BURADA BAŞLIYOR
       const audio = document.getElementById('musicPlayer');
-      if (audio.src) {
-        audio.volume = 0.7;
-        audio.play().catch(() => {});
-      }
+      if (audio.src) { audio.volume = 0.7; audio.play().catch(() => {}); }
     }
 
     function openEdit() {
       const pw = prompt("Düzenleme paneli için şifreyi girin:");
       if (pw !== EDIT_PASSWORD) { alert("❌ Yanlış şifre!"); return; }
-      
       const s = JSON.parse(localStorage.getItem('davetSettings')) || {};
+
+      // Fill Bölüm 1
       document.getElementById('edit-gelin').value = s.gelin || "Berna";
       document.getElementById('edit-damat').value = s.damat || "Melih";
       document.getElementById('edit-baslik').value = s.baslik || "Düğün Davetiyesi";
-      document.getElementById('edit-tarih').value = s.tarih || "2026-10-15T16:00";
-      document.getElementById('edit-bg').value = s.bg || "";
-      document.getElementById('edit-bgcolor').value = s.bgcolor || "#1f2937";
-      document.getElementById('edit-textcolor').value = s.textcolor || "#ffffff";
-      document.getElementById('edit-btncolor').value = s.btncolor || "#e11d48";
       document.getElementById('edit-btntext').value = s.btntext || "DAVETİYEYİ AÇ";
+      document.getElementById('edit-baslik-renk').value = s.baslikRenk || "#ffffff";
+      document.getElementById('edit-gelin-renk').value = s.gelinRenk || "#ffffff";
+      document.getElementById('edit-damat-renk').value = s.damatRenk || "#ffffff";
+      document.getElementById('edit-and-renk').value = s.andRenk || "#fb7185";
+      document.getElementById('edit-btncolor').value = s.btncolor || "#e11d48";
+      document.getElementById('edit-btn-textcolor').value = s.btnTextColor || "#ffffff";
+      document.getElementById('edit-baslik-size').value = s.baslikSize || 72;
+      document.getElementById('baslik-size-val').textContent = s.baslikSize || 72;
+      document.getElementById('edit-isim-size').value = s.isimSize || 48;
+      document.getElementById('isim-size-val').textContent = s.isimSize || 48;
+      if (s.sec1Font) highlightFont('sec1', s.sec1Font);
+
+      // Fill Bölüm 2
+      document.getElementById('edit-aile-baslik').value = s.aileBaslik || "Ailelerimiz";
+      document.getElementById('edit-aile-icon-renk').value = s.aileIconRenk || "#fb7185";
+      document.getElementById('edit-gelin-taraf-baslik').value = s.gelinTarafBaslik || "Gelin Tarafı";
+      document.getElementById('edit-gelin-taraf-renk').value = s.gelinTarafRenk || "#f9a8d4";
+      document.getElementById('edit-gelin-anne-label').value = s.gelinAnneLabel || "Anne";
+      document.getElementById('edit-gelin-anne').value = s.gelinAnne || "Ayşe";
+      document.getElementById('edit-gelin-baba-label').value = s.gelinBabaLabel || "Baba";
+      document.getElementById('edit-gelin-baba').value = s.gelinBaba || "Mehmet";
+      document.getElementById('edit-gelin-etiket-renk').value = s.gelinEtiketRenk || "#f9a8d4";
+      document.getElementById('edit-damat-taraf-baslik').value = s.damatTarafBaslik || "Damat Tarafı";
+      document.getElementById('edit-damat-taraf-renk').value = s.damatTarafRenk || "#93c5fd";
+      document.getElementById('edit-damat-anne-label').value = s.damatAnneLabel || "Anne";
+      document.getElementById('edit-damat-anne').value = s.damatAnne || "Fatma";
+      document.getElementById('edit-damat-baba-label').value = s.damatBabaLabel || "Baba";
+      document.getElementById('edit-damat-baba').value = s.damatBaba || "Ahmet";
+      document.getElementById('edit-damat-etiket-renk').value = s.damatEtiketRenk || "#93c5fd";
+      document.getElementById('edit-aile-baslik-size').value = s.aileBaslikSize || 30;
+      document.getElementById('aile-baslik-size-val').textContent = s.aileBaslikSize || 30;
+      document.getElementById('edit-aile-isim-size').value = s.aileIsimSize || 24;
+      document.getElementById('aile-isim-size-val').textContent = s.aileIsimSize || 24;
+
+      // Fill Bölüm 3
+      document.getElementById('edit-tarih').value = s.tarih || "2026-10-15T16:00";
+      document.getElementById('edit-tarih-label').value = s.tarihLabel || "Tarih";
+      document.getElementById('edit-tarih-label-renk').value = s.tarihLabelRenk || "#fde68a";
+      document.getElementById('edit-tarih-renk').value = s.tarihRenk || "#ffffff";
+      document.getElementById('edit-tarih-size').value = s.tarihSize || 48;
+      document.getElementById('tarih-size-val').textContent = s.tarihSize || 48;
+
+      // Fill Bölüm 4
       document.getElementById('edit-konum-baslik').value = s.konumBaslik || "Nerede Buluşuyoruz?";
       document.getElementById('edit-konum').value = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
       document.getElementById('edit-map').value = s.map || "";
-      document.getElementById('edit-gelin-anne').value = s.gelinAnne || "Ayşe";
-      document.getElementById('edit-gelin-baba').value = s.gelinBaba || "Mehmet";
-      document.getElementById('edit-damat-anne').value = s.damatAnne || "Fatma";
-      document.getElementById('edit-damat-baba').value = s.damatBaba || "Ahmet";
+      document.getElementById('edit-konum-icon-renk').value = s.konumIconRenk || "#fb7185";
+      document.getElementById('edit-konum-baslik-renk').value = s.konumBaslikRenk || "#ffffff";
+      document.getElementById('edit-konum-adres-renk').value = s.konumAdresRenk || "#ffffff";
+      document.getElementById('edit-konum-size').value = s.konumSize || 30;
+      document.getElementById('konum-size-val').textContent = s.konumSize || 30;
+
+      // Fill Bölüm 5
+      document.getElementById('edit-countdown-label').value = s.countdownLabel || "Büyük güne kalan süre";
+      document.getElementById('edit-gun-label').value = s.gunLabel || "GÜN";
+      document.getElementById('edit-saat-label').value = s.saatLabel || "SAAT";
+      document.getElementById('edit-dakika-label').value = s.dakikaLabel || "DAKİKA";
+      document.getElementById('edit-saniye-label').value = s.saniyeLabel || "SANİYE";
+      document.getElementById('edit-countdown-label-renk').value = s.countdownLabelRenk || "#fde68a";
+      document.getElementById('edit-countdown-sayi-renk').value = s.countdownSayiRenk || "#ffffff";
+      document.getElementById('edit-countdown-size').value = s.countdownSize || 60;
+      document.getElementById('countdown-size-val').textContent = s.countdownSize || 60;
+
+      // Fill Bölüm 6
+      document.getElementById('edit-muzik-label').value = s.muzikLabel || "Özel şarkımız çalıyor 💕";
+      document.getElementById('edit-muzik-label-renk').value = s.muzikLabelRenk || "#fde68a";
       document.getElementById('edit-music-url').value = s.music && !s.music.startsWith('data:') ? s.music : "";
       document.getElementById('edit-youtube').value = s.youtube || "";
       document.getElementById('edit-spotify').value = s.spotify || "";
 
+      // Fill Bölüm 7
+      document.getElementById('edit-footer-mesaj').value = s.footerMesaj || "Seni aramızda görmek isteriz ❤️";
+      document.getElementById('edit-footer-isim').value = s.footerIsim || ((s.gelin||"Berna") + " & " + (s.damat||"Melih"));
+      document.getElementById('edit-footer-renk').value = s.footerRenk || "#fde68a";
+      document.getElementById('edit-footer-isim-renk').value = s.footerIsimRenk || "#fde68a";
+      document.getElementById('edit-footer-size').value = s.footerSize || 14;
+      document.getElementById('footer-size-val').textContent = s.footerSize || 14;
+
+      // Fill Genel
+      document.getElementById('edit-bg').value = s.bg || "";
+      document.getElementById('edit-bgcolor').value = s.bgcolor || "#1c1917";
+
       document.getElementById('editPanel').classList.remove('hidden');
+    }
+
+    function highlightFont(section, font) {
+      document.querySelectorAll('[onclick*="selectFont(\'' + section + '\'"]').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.getAttribute('onclick').includes("'" + font + "'")) btn.classList.add('selected');
+      });
     }
 
     function closeEdit() { document.getElementById('editPanel').classList.add('hidden'); }
 
     function saveChanges() {
       const file = document.getElementById('edit-music-upload').files[0];
+      const gelin = document.getElementById('edit-gelin').value;
+      const damat = document.getElementById('edit-damat').value;
+
       const settings = {
-        gelin: document.getElementById('edit-gelin').value,
-        damat: document.getElementById('edit-damat').value,
+        // Bölüm 1
+        gelin, damat,
         baslik: document.getElementById('edit-baslik').value,
-        tarih: document.getElementById('edit-tarih').value,
-        bg: document.getElementById('edit-bg').value.trim(),
-        bgcolor: document.getElementById('edit-bgcolor').value,
-        textcolor: document.getElementById('edit-textcolor').value,
-        btncolor: document.getElementById('edit-btncolor').value,
         btntext: document.getElementById('edit-btntext').value,
+        baslikRenk: document.getElementById('edit-baslik-renk').value,
+        gelinRenk: document.getElementById('edit-gelin-renk').value,
+        damatRenk: document.getElementById('edit-damat-renk').value,
+        andRenk: document.getElementById('edit-and-renk').value,
+        btncolor: document.getElementById('edit-btncolor').value,
+        btnTextColor: document.getElementById('edit-btn-textcolor').value,
+        baslikSize: document.getElementById('edit-baslik-size').value,
+        isimSize: document.getElementById('edit-isim-size').value,
+        sec1Font: document.getElementById('edit-sec1-font').value,
+
+        // Bölüm 2
+        aileBaslik: document.getElementById('edit-aile-baslik').value,
+        aileIcon: document.getElementById('edit-aile-icon').value,
+        aileIconRenk: document.getElementById('edit-aile-icon-renk').value,
+        gelinTarafBaslik: document.getElementById('edit-gelin-taraf-baslik').value,
+        gelinTarafRenk: document.getElementById('edit-gelin-taraf-renk').value,
+        gelinAnneLabel: document.getElementById('edit-gelin-anne-label').value,
+        gelinAnne: document.getElementById('edit-gelin-anne').value,
+        gelinBabaLabel: document.getElementById('edit-gelin-baba-label').value,
+        gelinBaba: document.getElementById('edit-gelin-baba').value,
+        gelinEtiketRenk: document.getElementById('edit-gelin-etiket-renk').value,
+        damatTarafBaslik: document.getElementById('edit-damat-taraf-baslik').value,
+        damatTarafRenk: document.getElementById('edit-damat-taraf-renk').value,
+        damatAnneLabel: document.getElementById('edit-damat-anne-label').value,
+        damatAnne: document.getElementById('edit-damat-anne').value,
+        damatBabaLabel: document.getElementById('edit-damat-baba-label').value,
+        damatBaba: document.getElementById('edit-damat-baba').value,
+        damatEtiketRenk: document.getElementById('edit-damat-etiket-renk').value,
+        aileBaslikSize: document.getElementById('edit-aile-baslik-size').value,
+        aileIsimSize: document.getElementById('edit-aile-isim-size').value,
+        sec2Font: document.getElementById('edit-sec2-font').value,
+
+        // Bölüm 3
+        tarih: document.getElementById('edit-tarih').value,
+        tarihLabel: document.getElementById('edit-tarih-label').value,
+        tarihLabelRenk: document.getElementById('edit-tarih-label-renk').value,
+        tarihRenk: document.getElementById('edit-tarih-renk').value,
+        tarihSize: document.getElementById('edit-tarih-size').value,
+        sec3Font: document.getElementById('edit-sec3-font').value,
+
+        // Bölüm 4
         konumBaslik: document.getElementById('edit-konum-baslik').value,
         konum: document.getElementById('edit-konum').value,
         map: document.getElementById('edit-map').value,
-        gelinAnne: document.getElementById('edit-gelin-anne').value,
-        gelinBaba: document.getElementById('edit-gelin-baba').value,
-        damatAnne: document.getElementById('edit-damat-anne').value,
-        damatBaba: document.getElementById('edit-damat-baba').value,
+        konumIcon: document.getElementById('edit-konum-icon').value,
+        konumIconRenk: document.getElementById('edit-konum-icon-renk').value,
+        konumBaslikRenk: document.getElementById('edit-konum-baslik-renk').value,
+        konumAdresRenk: document.getElementById('edit-konum-adres-renk').value,
+        konumSize: document.getElementById('edit-konum-size').value,
+        sec4Font: document.getElementById('edit-sec4-font').value,
+
+        // Bölüm 5
+        countdownLabel: document.getElementById('edit-countdown-label').value,
+        gunLabel: document.getElementById('edit-gun-label').value,
+        saatLabel: document.getElementById('edit-saat-label').value,
+        dakikaLabel: document.getElementById('edit-dakika-label').value,
+        saniyeLabel: document.getElementById('edit-saniye-label').value,
+        countdownLabelRenk: document.getElementById('edit-countdown-label-renk').value,
+        countdownSayiRenk: document.getElementById('edit-countdown-sayi-renk').value,
+        countdownSize: document.getElementById('edit-countdown-size').value,
+
+        // Bölüm 6
+        muzikLabel: document.getElementById('edit-muzik-label').value,
+        muzikLabelRenk: document.getElementById('edit-muzik-label-renk').value,
         music: document.getElementById('edit-music-url').value.trim(),
         youtube: document.getElementById('edit-youtube').value.trim(),
-        spotify: document.getElementById('edit-spotify').value.trim()
+        spotify: document.getElementById('edit-spotify').value.trim(),
+
+        // Bölüm 7
+        footerMesaj: document.getElementById('edit-footer-mesaj').value,
+        footerIsim: document.getElementById('edit-footer-isim').value,
+        footerRenk: document.getElementById('edit-footer-renk').value,
+        footerIsimRenk: document.getElementById('edit-footer-isim-renk').value,
+        footerSize: document.getElementById('edit-footer-size').value,
+        sec7Font: document.getElementById('edit-sec7-font').value,
+
+        // Genel
+        bg: document.getElementById('edit-bg').value.trim(),
+        bgcolor: document.getElementById('edit-bgcolor').value,
+      };
+
+      // New password
+      const newPw = document.getElementById('edit-password').value.trim();
+      if (newPw) EDIT_PASSWORD = newPw;
+
+      const doSave = (s) => {
+        localStorage.setItem('davetSettings', JSON.stringify(s));
+        loadSettings();
+        closeEdit();
+        alert("✅ Kaydedildi!");
       };
 
       if (file) {
         const reader = new FileReader();
-        reader.onload = e => {
-          settings.music = e.target.result;
-          localStorage.setItem('davetSettings', JSON.stringify(settings));
-          loadSettings();
-          closeEdit();
-          alert("✅ Kaydedildi!");
-        };
+        reader.onload = e => { settings.music = e.target.result; doSave(settings); };
         reader.readAsDataURL(file);
         return;
       }
-
-      localStorage.setItem('davetSettings', JSON.stringify(settings));
-      loadSettings();
-      closeEdit();
-      alert("✅ Kaydedildi!");
+      doSave(settings);
     }
 
     let countdownInterval;
