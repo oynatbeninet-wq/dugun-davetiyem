@@ -49,39 +49,25 @@
       <p id="tarih-goster" class="text-5xl title-font mt-2">15 Ekim 2026 • 16:00</p>
     </div>
 
-    <!-- AİLE BİLGİLERİ - YENİ GÜZEL TASARIM -->
+    <!-- AİLE BİLGİLERİ (güzel tasarım) -->
     <div class="max-w-4xl mx-auto py-8 px-6">
       <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
         <h2 id="aile-baslik" class="text-3xl title-font text-center mb-8 flex items-center justify-center gap-3">
           <i class="fas fa-heart text-rose-400"></i> Ailelerimiz <i class="fas fa-heart text-rose-400"></i>
         </h2>
         <div class="grid md:grid-cols-2 gap-10">
-          <!-- Gelin Tarafı -->
           <div class="text-center border-r border-white/20 md:border-r">
             <h3 class="text-xl font-semibold mb-6 text-pink-300">Gelin Tarafı</h3>
             <div class="space-y-6">
-              <div>
-                <p class="text-sm text-pink-200">Anne</p>
-                <p id="gelin-anne" class="text-2xl font-medium">Ayşe</p>
-              </div>
-              <div>
-                <p class="text-sm text-pink-200">Baba</p>
-                <p id="gelin-baba" class="text-2xl font-medium">Mehmet</p>
-              </div>
+              <div><p class="text-sm text-pink-200">Anne</p><p id="gelin-anne" class="text-2xl font-medium">Ayşe</p></div>
+              <div><p class="text-sm text-pink-200">Baba</p><p id="gelin-baba" class="text-2xl font-medium">Mehmet</p></div>
             </div>
           </div>
-          <!-- Damat Tarafı -->
           <div class="text-center">
             <h3 class="text-xl font-semibold mb-6 text-blue-300">Damat Tarafı</h3>
             <div class="space-y-6">
-              <div>
-                <p class="text-sm text-blue-200">Anne</p>
-                <p id="damat-anne" class="text-2xl font-medium">Fatma</p>
-              </div>
-              <div>
-                <p class="text-sm text-blue-200">Baba</p>
-                <p id="damat-baba" class="text-2xl font-medium">Ahmet</p>
-              </div>
+              <div><p class="text-sm text-blue-200">Anne</p><p id="damat-anne" class="text-2xl font-medium">Fatma</p></div>
+              <div><p class="text-sm text-blue-200">Baba</p><p id="damat-baba" class="text-2xl font-medium">Ahmet</p></div>
             </div>
           </div>
         </div>
@@ -112,7 +98,7 @@
       </div>
     </div>
 
-    <!-- MÜZİK -->
+    <!-- MÜZİK (görünür ve butona basınca çalıyor) -->
     <div class="text-center py-8" id="music-section">
       <p class="text-amber-200 mb-3">Özel şarkımız çalıyor 💕</p>
       <div id="mp3-player" class="hidden"><audio id="musicPlayer" controls loop class="mx-auto w-80"><source id="musicSource" src="" type="audio/mpeg"></audio></div>
@@ -126,42 +112,257 @@
     </footer>
   </div>
 
-  <!-- DÜZENLEME PANELİ (aynı kaldı) -->
-  <!-- ... (önceki mesajdaki edit paneli aynı şekilde devam ediyor) ... -->
-  <!-- Kodu kısaltmak için burada sadece değişen kısmı gösteriyorum. Tam kodu aşağıda vereceğim. -->
+  <!-- DÜZENLEME PANELİ -->
+  <div id="editPanel" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center overflow-auto">
+    <div class="bg-white text-black w-full max-w-3xl mx-4 rounded-3xl p-8 my-8 max-h-[95vh] overflow-auto">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold">✏️ Davetiyeyi Düzenle</h2>
+        <button onclick="closeEdit()" class="text-rose-600 text-4xl leading-none">✕</button>
+      </div>
+
+      <!-- Genel Bilgiler -->
+      <div class="mb-8">
+        <h3 class="font-semibold text-lg mb-4">Genel Bilgiler</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div><label class="block text-sm mb-1">Gelin İsmi</label><input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+          <div><label class="block text-sm mb-1">Damat İsmi</label><input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+        </div>
+        <div class="mt-4"><label class="block text-sm mb-1">Başlık</label><input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div class="mt-4"><label class="block text-sm mb-1">Tarih ve Saat</label><input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3"></div>
+      </div>
+
+      <!-- Görünüm -->
+      <div class="mb-8 border-t pt-6">
+        <h3 class="font-semibold text-lg mb-4">Görünüm</h3>
+        <div class="grid grid-cols-2 gap-6">
+          <div><label class="block text-sm mb-1">Arka Plan Resmi URL</label><input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+          <div><label class="block text-sm mb-1">Arka Plan Rengi</label><input id="edit-bgcolor" type="color" value="#1f2937" class="w-full h-12 rounded-2xl border-0"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-6 mt-4">
+          <div><label class="block text-sm mb-1">Yazı Rengi</label><input id="edit-textcolor" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
+          <div><label class="block text-sm mb-1">Buton Rengi</label><input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0"></div>
+        </div>
+        <div class="mt-4"><label class="block text-sm mb-1">Buton Yazısı</label><input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ"></div>
+      </div>
+
+      <!-- Aile Bilgileri -->
+      <div class="mb-8 border-t pt-6">
+        <h3 class="font-semibold text-lg mb-4">Aile Bilgileri</h3>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="font-medium mb-2 text-pink-600">Gelin Tarafı</p>
+            <input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
+            <input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
+          </div>
+          <div>
+            <p class="font-medium mb-2 text-blue-600">Damat Tarafı</p>
+            <input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
+            <input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
+          </div>
+        </div>
+      </div>
+
+      <!-- Konum -->
+      <div class="mb-8 border-t pt-6">
+        <h3 class="font-semibold text-lg mb-4">Konum</h3>
+        <div><label class="block text-sm mb-1">Konum Başlığı</label><input id="edit-konum-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Nerede Buluşuyoruz?"></div>
+        <div class="mt-4"><label class="block text-sm mb-1">Konum Adresi</label><input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div class="mt-4"><label class="block text-sm mb-1">Google Maps Embed URL</label><input id="edit-map" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+      </div>
+
+      <!-- Müzik -->
+      <div class="border-t pt-6">
+        <h3 class="font-semibold text-lg mb-4">Müzik</h3>
+        <div class="mb-4"><label class="block text-sm mb-1">MP3 Dosya Yükle</label><input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div class="mb-4"><label class="block text-sm mb-1">veya MP3 URL</label><input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div class="mb-4"><label class="block text-sm mb-1">YouTube URL</label><input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div><label class="block text-sm mb-1">Spotify URL</label><input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+      </div>
+
+      <div class="flex gap-4 pt-8 border-t mt-8">
+        <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-4 rounded-3xl text-lg font-semibold">💾 Kaydet ve Güncelle</button>
+        <button onclick="closeEdit()" class="flex-1 border border-gray-300 py-4 rounded-3xl text-lg">İptal</button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // ... (script'in diğer kısımları aynı) ...
+    const EDIT_PASSWORD = "1234";
 
-    function openInvitation() {
-      document.getElementById('landing').classList.add('hidden');
-      document.getElementById('invitation').classList.remove('hidden');
-      
-      // MÜZİK BURADA BAŞLIYOR (butona basınca)
-      const audio = document.getElementById('musicPlayer');
-      if (audio.src) {
-        audio.volume = 0.7;
-        audio.play().catch(() => {});
-      }
-      // YouTube ve Spotify zaten autoplay ile başlıyor
+    function getYouTubeId(url) {
+      const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(reg);
+      return (match && match[2].length === 11) ? match[2] : null;
     }
 
-    // loadSettings içinde aile bilgilerini yükle (zaten var)
     function loadSettings() {
       const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
-      // ... diğer kodlar aynı ...
 
-      // Aile bilgileri
+      // Genel
+      document.getElementById('landing-baslik').textContent = saved.baslik || "Düğün Davetiyesi";
+      document.getElementById('baslik').textContent = saved.baslik || "Düğün Davetiyesi";
+      document.getElementById('landing-gelin').textContent = saved.gelin || "Berna";
+      document.getElementById('gelin').textContent = saved.gelin || "Berna";
+      document.getElementById('landing-damat').textContent = saved.damat || "Melih";
+      document.getElementById('damat').textContent = saved.damat || "Melih";
+      document.getElementById('footer-isim').textContent = (saved.gelin || "Berna") + " & " + (saved.damat || "Melih");
+
+      // Görünüm
+      const heroes = document.querySelectorAll('.hero-bg');
+      if (saved.bg) heroes.forEach(el => el.style.backgroundImage = `url('${saved.bg}')`);
+      else heroes.forEach(el => el.style.backgroundImage = 'none');
+      if (saved.bgcolor) heroes.forEach(el => el.style.backgroundColor = saved.bgcolor);
+      if (saved.textcolor) document.querySelectorAll('h1, span, p, div').forEach(el => { if (el.id !== 'open-btn') el.style.color = saved.textcolor; });
+      if (saved.btncolor) document.getElementById('open-btn').style.backgroundColor = saved.btncolor;
+      if (saved.btntext) document.getElementById('open-btn').textContent = saved.btntext;
+
+      // Tarih
+      if (saved.tarih) {
+        const d = new Date(saved.tarih);
+        document.getElementById('tarih-goster').innerHTML = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+        startCountdown(d.getTime());
+      }
+
+      // Aile
       document.getElementById('gelin-anne').textContent = saved.gelinAnne || "Ayşe";
       document.getElementById('gelin-baba').textContent = saved.gelinBaba || "Mehmet";
       document.getElementById('damat-anne').textContent = saved.damatAnne || "Fatma";
       document.getElementById('damat-baba').textContent = saved.damatBaba || "Ahmet";
 
-      // Konum başlığı
+      // Konum
       document.getElementById('konum-baslik').textContent = saved.konumBaslik || "Nerede Buluşuyoruz?";
+      document.getElementById('konum-text').textContent = saved.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
+      if (saved.map) document.getElementById('googleMap').src = saved.map;
+
+      renderMusicPlayer(saved);
     }
 
-    // openEdit fonksiyonunda yeni alanları da doldur (zaten var)
+    function renderMusicPlayer(saved) {
+      document.getElementById('mp3-player').classList.add('hidden');
+      document.getElementById('youtube-player').classList.add('hidden');
+      document.getElementById('spotify-player').classList.add('hidden');
+
+      if (saved.youtube) {
+        const id = getYouTubeId(saved.youtube);
+        if (id) {
+          document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}`;
+          document.getElementById('youtube-player').classList.remove('hidden');
+        }
+      } else if (saved.spotify) {
+        const id = saved.spotify.split('/track/')[1]?.split('?')[0] || '';
+        if (id) {
+          document.getElementById('spotify-iframe').src = `https://open.spotify.com/embed/track/${id}?autoplay=1`;
+          document.getElementById('spotify-player').classList.remove('hidden');
+        }
+      } else if (saved.music) {
+        document.getElementById('musicSource').src = saved.music;
+        document.getElementById('musicPlayer').load();
+        document.getElementById('mp3-player').classList.remove('hidden');
+      }
+    }
+
+    function openInvitation() {
+      document.getElementById('landing').classList.add('hidden');
+      document.getElementById('invitation').classList.remove('hidden');
+
+      // MÜZİK BURADA BAŞLIYOR
+      const audio = document.getElementById('musicPlayer');
+      if (audio.src) {
+        audio.volume = 0.7;
+        audio.play().catch(() => {});
+      }
+    }
+
+    function openEdit() {
+      const pw = prompt("Düzenleme paneli için şifreyi girin:");
+      if (pw !== EDIT_PASSWORD) { alert("❌ Yanlış şifre!"); return; }
+      
+      const s = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      document.getElementById('edit-gelin').value = s.gelin || "Berna";
+      document.getElementById('edit-damat').value = s.damat || "Melih";
+      document.getElementById('edit-baslik').value = s.baslik || "Düğün Davetiyesi";
+      document.getElementById('edit-tarih').value = s.tarih || "2026-10-15T16:00";
+      document.getElementById('edit-bg').value = s.bg || "";
+      document.getElementById('edit-bgcolor').value = s.bgcolor || "#1f2937";
+      document.getElementById('edit-textcolor').value = s.textcolor || "#ffffff";
+      document.getElementById('edit-btncolor').value = s.btncolor || "#e11d48";
+      document.getElementById('edit-btntext').value = s.btntext || "DAVETİYEYİ AÇ";
+      document.getElementById('edit-konum-baslik').value = s.konumBaslik || "Nerede Buluşuyoruz?";
+      document.getElementById('edit-konum').value = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
+      document.getElementById('edit-map').value = s.map || "";
+      document.getElementById('edit-gelin-anne').value = s.gelinAnne || "Ayşe";
+      document.getElementById('edit-gelin-baba').value = s.gelinBaba || "Mehmet";
+      document.getElementById('edit-damat-anne').value = s.damatAnne || "Fatma";
+      document.getElementById('edit-damat-baba').value = s.damatBaba || "Ahmet";
+      document.getElementById('edit-music-url').value = s.music && !s.music.startsWith('data:') ? s.music : "";
+      document.getElementById('edit-youtube').value = s.youtube || "";
+      document.getElementById('edit-spotify').value = s.spotify || "";
+
+      document.getElementById('editPanel').classList.remove('hidden');
+    }
+
+    function closeEdit() { document.getElementById('editPanel').classList.add('hidden'); }
+
+    function saveChanges() {
+      const file = document.getElementById('edit-music-upload').files[0];
+      const settings = {
+        gelin: document.getElementById('edit-gelin').value,
+        damat: document.getElementById('edit-damat').value,
+        baslik: document.getElementById('edit-baslik').value,
+        tarih: document.getElementById('edit-tarih').value,
+        bg: document.getElementById('edit-bg').value.trim(),
+        bgcolor: document.getElementById('edit-bgcolor').value,
+        textcolor: document.getElementById('edit-textcolor').value,
+        btncolor: document.getElementById('edit-btncolor').value,
+        btntext: document.getElementById('edit-btntext').value,
+        konumBaslik: document.getElementById('edit-konum-baslik').value,
+        konum: document.getElementById('edit-konum').value,
+        map: document.getElementById('edit-map').value,
+        gelinAnne: document.getElementById('edit-gelin-anne').value,
+        gelinBaba: document.getElementById('edit-gelin-baba').value,
+        damatAnne: document.getElementById('edit-damat-anne').value,
+        damatBaba: document.getElementById('edit-damat-baba').value,
+        music: document.getElementById('edit-music-url').value.trim(),
+        youtube: document.getElementById('edit-youtube').value.trim(),
+        spotify: document.getElementById('edit-spotify').value.trim()
+      };
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          settings.music = e.target.result;
+          localStorage.setItem('davetSettings', JSON.stringify(settings));
+          loadSettings();
+          closeEdit();
+          alert("✅ Kaydedildi!");
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      localStorage.setItem('davetSettings', JSON.stringify(settings));
+      loadSettings();
+      closeEdit();
+      alert("✅ Kaydedildi!");
+    }
+
+    let countdownInterval;
+    function startCountdown(targetTime) {
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const d = targetTime - Date.now();
+        if (d < 0) return;
+        document.getElementById('gun').textContent = Math.floor(d / (1000*60*60*24));
+        document.getElementById('saat').textContent = Math.floor((d % (1000*60*60*24)) / (1000*60*60));
+        document.getElementById('dakika').textContent = Math.floor((d % (1000*60*60)) / (1000*60));
+        document.getElementById('saniye').textContent = Math.floor((d % (1000*60)) / 1000);
+      }, 1000);
+    }
+
+    window.onload = () => {
+      loadSettings();
+      if (window.location.search.includes('edit')) openEdit();
+    };
   </script>
 </body>
 </html>
