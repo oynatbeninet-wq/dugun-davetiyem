@@ -17,7 +17,7 @@
 </head>
 <body class="bg-stone-950 text-white overflow-x-hidden">
 
-  <!-- LANDING EKRANI (ilk açılış) -->
+  <!-- LANDING EKRANI -->
   <div id="landing" class="hero-bg min-h-screen flex items-center justify-center relative">
     <div class="text-center z-10">
       <h1 id="landing-baslik" class="title-font text-6xl md:text-7xl tracking-widest">Düğün Davetiyesi</h1>
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <!-- TAM DAVETİYE (butona basınca açılır) -->
+  <!-- TAM DAVETİYE -->
   <div id="invitation" class="hero-bg min-h-screen hidden">
 
     <div class="text-center pt-12 pb-8">
@@ -64,11 +64,26 @@
       </div>
     </div>
 
-    <div class="text-center py-8">
+    <!-- MÜZİK ALANI (yeni) -->
+    <div class="text-center py-8" id="music-section">
       <p class="text-amber-200 mb-3">Özel şarkımız çalıyor 💕</p>
-      <audio id="musicPlayer" controls class="mx-auto w-80">
-        <source id="musicSource" src="" type="audio/mpeg">
-      </audio>
+      
+      <!-- MP3 Player -->
+      <div id="mp3-player">
+        <audio id="musicPlayer" controls class="mx-auto w-80" loop>
+          <source id="musicSource" src="" type="audio/mpeg">
+        </audio>
+      </div>
+
+      <!-- YouTube Player -->
+      <div id="youtube-player" class="hidden mx-auto max-w-md">
+        <iframe id="youtube-iframe" width="100%" height="200" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <!-- Spotify Player -->
+      <div id="spotify-player" class="hidden mx-auto max-w-md">
+        <iframe id="spotify-iframe" width="100%" height="352" src="" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </div>
 
     <div class="max-w-4xl mx-auto px-6 pb-20">
@@ -87,12 +102,6 @@
     </footer>
   </div>
 
-  <!-- DÜZENLEME BUTONU (sadece ?edit ile açılır) -->
-  <button onclick="openEdit()" 
-          class="fixed bottom-6 right-6 z-50 bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 text-lg hidden">
-    <i class="fas fa-edit"></i> <span>Düzenle</span>
-  </button>
-
   <!-- DÜZENLEME PANELİ -->
   <div id="editPanel" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center overflow-auto">
     <div class="bg-white text-black w-full max-w-2xl mx-4 rounded-3xl p-8 my-8">
@@ -102,17 +111,11 @@
       </h2>
 
       <div class="space-y-6">
+        <!-- İsimler ve başlık -->
         <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium mb-1">Gelin İsmi</label>
-            <input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3">
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-1">Damat İsmi</label>
-            <input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3">
-          </div>
+          <div><label class="block text-sm font-medium mb-1">Gelin İsmi</label><input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+          <div><label class="block text-sm font-medium mb-1">Damat İsmi</label><input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
         </div>
-
         <div>
           <label class="block text-sm font-medium mb-1">Başlık</label>
           <input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Düğün Davetiyesi">
@@ -128,37 +131,36 @@
           <input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3">
         </div>
 
-        <div>
-          <label class="block text-sm font-medium mb-1">Arka Plan Katman Rengi</label>
-          <input id="edit-overlay" type="color" value="#000000" class="w-full h-12 rounded-2xl border-0">
+        <!-- Müzik bölümü (yeni) -->
+        <div class="border-t pt-4">
+          <label class="block text-sm font-medium mb-3">🎵 Müzik (sadece birini doldur)</label>
+          
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">MP3 Dosya Yükle</label>
+            <input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3">
+          </div>
+          
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">veya MP3 URL</label>
+            <input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://example.com/sarkim.mp3">
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">YouTube Video URL</label>
+            <input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://youtu.be/abc123">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1">Spotify Şarkı URL</label>
+            <input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://open.spotify.com/track/abc123">
+          </div>
         </div>
 
-        <div>
-          <label class="block text-sm font-medium mb-1">Yazı Rengi</label>
-          <input id="edit-textcolor" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-1">Buton Rengi</label>
-          <input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-1">Buton Yazısı</label>
-          <input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-1">Müzik Dosyası Yükle (mp3)</label>
-          <input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3">
-          <p class="text-xs text-gray-500 mt-1">Mevcut müzik: <span id="current-music-name" class="font-medium"></span></p>
-        </div>
-
+        <!-- Diğer ayarlar -->
         <div>
           <label class="block text-sm font-medium mb-1">Konum Adresi</label>
           <input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3">
         </div>
-
         <div>
           <label class="block text-sm font-medium mb-1">Google Maps Embed URL</label>
           <input id="edit-map" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://www.google.com/maps/embed?...">
@@ -179,9 +181,15 @@
   <script>
     const EDIT_PASSWORD = "1234";
 
+    function getYouTubeId(url) {
+      const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(reg);
+      return match && match[2].length === 11 ? match[2] : null;
+    }
+
     function loadSettings() {
       const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
-      
+
       // Başlık ve isimler
       document.getElementById('landing-baslik').textContent = saved.baslik || "Düğün Davetiyesi";
       document.getElementById('baslik').textContent = saved.baslik || "Düğün Davetiyesi";
@@ -193,17 +201,6 @@
 
       // Arka plan
       if (saved.bg) document.querySelectorAll('.hero-bg').forEach(el => el.style.backgroundImage = `url('${saved.bg}')`);
-      if (saved.overlay) document.getElementById('landing').style.backgroundColor = saved.overlay;
-
-      // Renkler
-      if (saved.textcolor) {
-        document.documentElement.style.setProperty('--text-color', saved.textcolor);
-        document.querySelectorAll('h1, span, p').forEach(el => el.style.color = saved.textcolor);
-      }
-      if (saved.btncolor) document.getElementById('open-btn').style.backgroundColor = saved.btncolor;
-
-      // Buton yazısı
-      if (saved.btntext) document.getElementById('open-btn').textContent = saved.btntext;
 
       // Tarih
       if (saved.tarih) {
@@ -212,24 +209,51 @@
         startCountdown(date.getTime());
       }
 
-      // Konum
+      // Konum ve harita
       if (saved.konum) document.getElementById('konum-text').textContent = saved.konum;
       if (saved.map) document.getElementById('googleMap').src = saved.map;
 
-      // Müzik
-      if (saved.music) {
+      // Müzik player'ını render et
+      renderMusicPlayer(saved);
+    }
+
+    function renderMusicPlayer(saved) {
+      // Tüm player'ları gizle
+      document.getElementById('mp3-player').classList.add('hidden');
+      document.getElementById('youtube-player').classList.add('hidden');
+      document.getElementById('spotify-player').classList.add('hidden');
+
+      if (saved.youtube) {
+        const id = getYouTubeId(saved.youtube);
+        if (id) {
+          document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}`;
+          document.getElementById('youtube-player').classList.remove('hidden');
+        }
+      } 
+      else if (saved.spotify) {
+        const trackId = saved.spotify.split('/track/')[1]?.split('?')[0] || '';
+        if (trackId) {
+          document.getElementById('spotify-iframe').src = `https://open.spotify.com/embed/track/${trackId}?autoplay=1`;
+          document.getElementById('spotify-player').classList.remove('hidden');
+        }
+      } 
+      else if (saved.music) {
         document.getElementById('musicSource').src = saved.music;
-        document.getElementById('current-music-name').textContent = "Yüklendi ✓";
+        document.getElementById('musicPlayer').load();
+        document.getElementById('mp3-player').classList.remove('hidden');
       }
     }
 
     function openInvitation() {
       document.getElementById('landing').classList.add('hidden');
       document.getElementById('invitation').classList.remove('hidden');
-      
-      // Müzik otomatik çalsın (kullanıcı butona tıkladı = izin var)
+
+      // MP3 varsa otomatik çal
       const audio = document.getElementById('musicPlayer');
-      audio.play().catch(() => {});
+      if (audio.src) {
+        audio.volume = 0.6;
+        audio.play().catch(() => {});
+      }
     }
 
     function openEdit() {
@@ -242,12 +266,11 @@
       document.getElementById('edit-baslik').value = saved.baslik || "Düğün Davetiyesi";
       document.getElementById('edit-tarih').value = saved.tarih || "2026-10-15T16:00";
       document.getElementById('edit-bg').value = saved.bg || "https://picsum.photos/id/1015/2000/1200";
-      document.getElementById('edit-overlay').value = saved.overlay || "#000000";
-      document.getElementById('edit-textcolor').value = saved.textcolor || "#ffffff";
-      document.getElementById('edit-btncolor').value = saved.btncolor || "#e11d48";
-      document.getElementById('edit-btntext').value = saved.btntext || "DAVETİYEYİ AÇ";
       document.getElementById('edit-konum').value = saved.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
       document.getElementById('edit-map').value = saved.map || "";
+      document.getElementById('edit-music-url').value = saved.music && !saved.music.startsWith('data:') ? saved.music : "";
+      document.getElementById('edit-youtube').value = saved.youtube || "";
+      document.getElementById('edit-spotify').value = saved.spotify || "";
 
       document.getElementById('editPanel').classList.remove('hidden');
     }
@@ -264,15 +287,19 @@
         baslik: document.getElementById('edit-baslik').value,
         tarih: document.getElementById('edit-tarih').value,
         bg: document.getElementById('edit-bg').value,
-        overlay: document.getElementById('edit-overlay').value,
-        textcolor: document.getElementById('edit-textcolor').value,
-        btncolor: document.getElementById('edit-btncolor').value,
-        btntext: document.getElementById('edit-btntext').value,
         konum: document.getElementById('edit-konum').value,
-        map: document.getElementById('edit-map').value
+        map: document.getElementById('edit-map').value,
+        music: "",
+        youtube: document.getElementById('edit-youtube').value.trim(),
+        spotify: document.getElementById('edit-spotify').value.trim()
       };
 
-      // Müzik dosyası yüklendiyse base64 olarak kaydet
+      // MP3 URL
+      if (document.getElementById('edit-music-url').value) {
+        settings.music = document.getElementById('edit-music-url').value;
+      }
+
+      // MP3 dosya yükleme (base64)
       if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -283,15 +310,14 @@
           alert("✅ Kaydedildi! Müzik yüklendi.");
         };
         reader.readAsDataURL(fileInput.files[0]);
-      } else {
-        // Müzik yoksa eski müziği koru
-        const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
-        if (saved.music) settings.music = saved.music;
-        localStorage.setItem('davetSettings', JSON.stringify(settings));
-        loadSettings();
-        closeEdit();
-        alert("✅ Kaydedildi!");
+        return;
       }
+
+      // Normal kaydet
+      localStorage.setItem('davetSettings', JSON.stringify(settings));
+      loadSettings();
+      closeEdit();
+      alert("✅ Kaydedildi!");
     }
 
     let countdownInterval;
