@@ -10,19 +10,15 @@
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
     body { font-family: 'Inter', sans-serif; }
     .title-font { font-family: 'Playfair Display', serif; }
-    .hero-bg { 
-      background-size: cover; 
-      background-position: center; 
-      background-attachment: fixed; 
-      transition: all 0.4s;
-    }
+    .hero-bg { background-size: cover; background-position: center; background-attachment: fixed; transition: all 0.4s; }
     .countdown-box { animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    .edit-section { transition: all 0.3s; }
   </style>
 </head>
 <body class="bg-stone-950 text-white overflow-x-hidden">
 
-  <!-- LANDING EKRANI -->
+  <!-- LANDING -->
   <div id="landing" class="hero-bg min-h-screen flex items-center justify-center relative">
     <div class="text-center z-10">
       <h1 id="landing-baslik" class="title-font text-6xl md:text-7xl tracking-widest">Düğün Davetiyesi</h1>
@@ -31,10 +27,7 @@
         <span id="landing-and" class="text-rose-400">&</span>
         <span id="landing-damat">Melih</span>
       </div>
-      
-      <button onclick="openInvitation()" 
-              id="open-btn"
-              class="mt-16 px-12 py-6 text-2xl font-semibold rounded-3xl shadow-2xl transition-all hover:scale-105">
+      <button onclick="openInvitation()" id="open-btn" class="mt-16 px-12 py-6 text-2xl font-semibold rounded-3xl shadow-2xl transition-all hover:scale-105">
         DAVETİYEYİ AÇ
       </button>
     </div>
@@ -42,7 +35,7 @@
 
   <!-- TAM DAVETİYE -->
   <div id="invitation" class="hero-bg min-h-screen hidden">
-
+    <!-- ... (önceki davetiye içeriği aynı kalıyor) ... -->
     <div class="text-center pt-12 pb-8">
       <h1 id="baslik" class="title-font text-6xl md:text-7xl tracking-widest">Düğün Davetiyesi</h1>
       <div class="flex justify-center gap-8 mt-8 text-4xl md:text-5xl title-font">
@@ -69,20 +62,11 @@
       </div>
     </div>
 
-    <!-- MÜZİK -->
     <div class="text-center py-8" id="music-section">
       <p class="text-amber-200 mb-3">Özel şarkımız çalıyor 💕</p>
-      <div id="mp3-player" class="hidden">
-        <audio id="musicPlayer" controls loop class="mx-auto w-80">
-          <source id="musicSource" src="" type="audio/mpeg">
-        </audio>
-      </div>
-      <div id="youtube-player" class="hidden mx-auto max-w-md">
-        <iframe id="youtube-iframe" width="100%" height="200" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-      <div id="spotify-player" class="hidden mx-auto max-w-md">
-        <iframe id="spotify-iframe" width="100%" height="352" src="" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div id="mp3-player" class="hidden"><audio id="musicPlayer" controls loop class="mx-auto w-80"><source id="musicSource" src="" type="audio/mpeg"></audio></div>
+      <div id="youtube-player" class="hidden mx-auto max-w-md"><iframe id="youtube-iframe" width="100%" height="200" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div id="spotify-player" class="hidden mx-auto max-w-md"><iframe id="spotify-iframe" width="100%" height="352" src="" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
     </div>
 
     <div class="max-w-4xl mx-auto px-6 pb-20">
@@ -101,93 +85,105 @@
     </footer>
   </div>
 
-  <!-- DÜZENLEME PANELİ (tam kapsamlı) -->
+  <!-- DÜZENLEME PANELİ (YENİ VE DAHA KULLANIŞLI) -->
   <div id="editPanel" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center overflow-auto">
-    <div class="bg-white text-black w-full max-w-2xl mx-4 rounded-3xl p-8 my-8">
-      <h2 class="text-3xl font-bold mb-6 flex justify-between items-center">
-        <span>✏️ Davetiyeyi Düzenle</span>
-        <button onclick="closeEdit()" class="text-rose-600 text-3xl leading-none">✕</button>
-      </h2>
+    <div class="bg-white text-black w-full max-w-3xl mx-4 rounded-3xl p-8 my-8 max-h-[95vh] overflow-auto">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold">✏️ Davetiyeyi Düzenle</h2>
+        <button onclick="closeEdit()" class="text-rose-600 text-4xl leading-none">✕</button>
+      </div>
 
-      <div class="space-y-6">
+      <!-- 1. Genel Bilgiler -->
+      <div class="edit-section mb-8">
+        <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-info-circle"></i> Genel Bilgiler</h3>
         <div class="grid grid-cols-2 gap-4">
           <div><label class="block text-sm font-medium mb-1">Gelin İsmi</label><input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
           <div><label class="block text-sm font-medium mb-1">Damat İsmi</label><input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
         </div>
-
-        <div>
+        <div class="mt-4">
           <label class="block text-sm font-medium mb-1">Başlık</label>
           <input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Düğün Davetiyesi">
         </div>
-
-        <div>
+        <div class="mt-4">
           <label class="block text-sm font-medium mb-1">Düğün Tarihi ve Saati</label>
           <input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3">
         </div>
+      </div>
 
-        <!-- Arka plan -->
-        <div>
-          <label class="block text-sm font-medium mb-1">Arka Plan Resmi URL (boş bırakırsan resim olmaz)</label>
-          <input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://picsum.photos/id/1015/2000/1200">
+      <!-- 2. Görünüm -->
+      <div class="edit-section mb-8 border-t pt-6">
+        <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-palette"></i> Görünüm</h3>
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium mb-1">Arka Plan Resmi URL</label>
+            <input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://picsum.photos/id/1015/2000/1200">
+            <p class="text-xs text-gray-500 mt-1">Boş bırakırsan sadece renk görünür</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Arka Plan Rengi</label>
+            <input id="edit-bgcolor" type="color" value="#1f2937" class="w-full h-12 rounded-2xl border-0 cursor-pointer">
+          </div>
         </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Arka Plan Rengi</label>
-          <input id="edit-bgcolor" type="color" value="#1f2937" class="w-full h-12 rounded-2xl border-0">
+        <div class="grid grid-cols-2 gap-6 mt-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Yazı Rengi</label>
+            <input id="edit-textcolor" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0 cursor-pointer">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Buton Rengi</label>
+            <input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0 cursor-pointer">
+          </div>
         </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-1">Yazı Rengi (tüm yazılar)</label>
-          <input id="edit-textcolor" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0">
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium mb-1">Buton Rengi</label>
-          <input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0">
-        </div>
-
-        <div>
+        <div class="mt-4">
           <label class="block text-sm font-medium mb-1">Buton Yazısı</label>
           <input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ">
         </div>
+      </div>
 
-        <!-- Müzik -->
-        <div class="border-t pt-4">
-          <label class="block text-sm font-medium mb-3">🎵 Müzik (sadece birini doldur)</label>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">MP3 Dosya Yükle</label>
-            <input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3">
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">veya MP3 URL</label>
-            <input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://example.com/sarkim.mp3">
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">YouTube Video URL</label>
-            <input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://youtu.be/abc123">
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-1">Spotify Şarkı URL</label>
-            <input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://open.spotify.com/track/abc123">
-          </div>
+      <!-- 3. Müzik -->
+      <div class="edit-section mb-8 border-t pt-6">
+        <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-music"></i> Müzik</h3>
+        <p class="text-xs text-gray-500 mb-3">Sadece bir müzik türü seçin</p>
+        
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">MP3 Dosya Yükle</label>
+          <input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3">
+          <p id="current-music-info" class="text-xs text-green-600 mt-1"></p>
+        </div>
+        
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">veya MP3 URL</label>
+          <input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://...">
         </div>
 
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">YouTube Video URL</label>
+          <input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://youtu.be/...">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Spotify Şarkı URL</label>
+          <input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://open.spotify.com/track/...">
+        </div>
+      </div>
+
+      <!-- 4. Konum -->
+      <div class="edit-section border-t pt-6">
+        <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Konum</h3>
         <div>
           <label class="block text-sm font-medium mb-1">Konum Adresi</label>
           <input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3">
         </div>
-        <div>
+        <div class="mt-4">
           <label class="block text-sm font-medium mb-1">Google Maps Embed URL</label>
           <input id="edit-map" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://www.google.com/maps/embed?...">
         </div>
+      </div>
 
-        <div class="flex gap-4 pt-6">
-          <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-4 rounded-3xl text-lg font-semibold hover:bg-rose-700">
-            💾 Kaydet ve Güncelle
-          </button>
-          <button onclick="closeEdit()" class="flex-1 border border-gray-300 py-4 rounded-3xl text-lg">
-            İptal
-          </button>
-        </div>
+      <div class="flex gap-4 pt-8 border-t mt-8">
+        <button onclick="resetToDefaults()" class="flex-1 border border-gray-400 text-gray-700 py-4 rounded-3xl text-lg font-medium">🔄 Varsayılanlara Dön</button>
+        <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-4 rounded-3xl text-lg font-semibold hover:bg-rose-700">💾 Kaydet ve Güncelle</button>
+        <button onclick="closeEdit()" class="flex-1 border border-gray-300 py-4 rounded-3xl text-lg">İptal</button>
       </div>
     </div>
   </div>
@@ -203,8 +199,7 @@
 
     function loadSettings() {
       const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
-
-      // İsimler ve başlık
+      // (Önceki loadSettings fonksiyonu aynı kalıyor - kısalttım)
       const baslik = saved.baslik || "Düğün Davetiyesi";
       document.getElementById('landing-baslik').textContent = baslik;
       document.getElementById('baslik').textContent = baslik;
@@ -214,47 +209,30 @@
       document.getElementById('damat').textContent = saved.damat || "Melih";
       document.getElementById('footer-isim').textContent = (saved.gelin || "Berna") + " & " + (saved.damat || "Melih");
 
-      // Arka plan
       const heroEls = document.querySelectorAll('.hero-bg');
-      if (saved.bg) {
-        heroEls.forEach(el => el.style.backgroundImage = `url('${saved.bg}')`);
-      } else {
-        heroEls.forEach(el => el.style.backgroundImage = 'none');
-      }
+      if (saved.bg) heroEls.forEach(el => el.style.backgroundImage = `url('${saved.bg}')`);
+      else heroEls.forEach(el => el.style.backgroundImage = 'none');
       if (saved.bgcolor) heroEls.forEach(el => el.style.backgroundColor = saved.bgcolor);
+      if (saved.textcolor) document.querySelectorAll('h1, span, p, div').forEach(el => { if (el.id !== 'open-btn') el.style.color = saved.textcolor; });
+      if (saved.btncolor) document.getElementById('open-btn').style.backgroundColor = saved.btncolor;
+      if (saved.btntext) document.getElementById('open-btn').textContent = saved.btntext;
 
-      // Yazı rengi
-      if (saved.textcolor) {
-        document.querySelectorAll('h1, span, p, div').forEach(el => {
-          if (el.id !== 'open-btn') el.style.color = saved.textcolor;
-        });
-      }
-
-      // Buton
-      const btn = document.getElementById('open-btn');
-      if (saved.btncolor) btn.style.backgroundColor = saved.btncolor;
-      if (saved.btntext) btn.textContent = saved.btntext;
-
-      // Tarih + geri sayım
       if (saved.tarih) {
         const date = new Date(saved.tarih);
         document.getElementById('tarih-goster').innerHTML = date.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + date.getHours() + ':' + String(date.getMinutes()).padStart(2,'0');
         startCountdown(date.getTime());
       }
-
-      // Konum ve harita
       if (saved.konum) document.getElementById('konum-text').textContent = saved.konum;
       if (saved.map) document.getElementById('googleMap').src = saved.map;
 
-      // Müzik
       renderMusicPlayer(saved);
     }
 
     function renderMusicPlayer(saved) {
+      // ... (önceki renderMusicPlayer aynı kalıyor)
       document.getElementById('mp3-player').classList.add('hidden');
       document.getElementById('youtube-player').classList.add('hidden');
       document.getElementById('spotify-player').classList.add('hidden');
-
       if (saved.youtube) {
         const id = getYouTubeId(saved.youtube);
         if (id) {
@@ -301,12 +279,15 @@
       document.getElementById('edit-youtube').value = saved.youtube || "";
       document.getElementById('edit-spotify').value = saved.spotify || "";
 
+      // Mevcut müzik bilgisi
+      const info = document.getElementById('current-music-info');
+      if (saved.music) info.textContent = "✅ Mevcut müzik yüklü";
+      else info.textContent = "";
+
       document.getElementById('editPanel').classList.remove('hidden');
     }
 
-    function closeEdit() {
-      document.getElementById('editPanel').classList.add('hidden');
-    }
+    function closeEdit() { document.getElementById('editPanel').classList.add('hidden'); }
 
     function saveChanges() {
       const fileInput = document.getElementById('edit-music-upload');
@@ -344,6 +325,14 @@
       loadSettings();
       closeEdit();
       alert("✅ Kaydedildi!");
+    }
+
+    function resetToDefaults() {
+      if (confirm("Tüm ayarları varsayılan değerlere sıfırlamak istediğinden emin misin?")) {
+        localStorage.removeItem('davetSettings');
+        closeEdit();
+        location.reload();
+      }
     }
 
     let countdownInterval;
