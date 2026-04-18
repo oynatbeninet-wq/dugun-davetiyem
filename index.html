@@ -10,7 +10,12 @@
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
     body { font-family: 'Inter', sans-serif; }
     .title-font { font-family: 'Playfair Display', serif; }
-    .hero-bg { background-size: cover; background-position: center; background-attachment: fixed; }
+    .hero-bg { 
+      background-size: cover; 
+      background-position: center; 
+      background-attachment: fixed; 
+      transition: all 0.4s;
+    }
     .countdown-box { animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
   </style>
@@ -23,7 +28,7 @@
       <h1 id="landing-baslik" class="title-font text-6xl md:text-7xl tracking-widest">Düğün Davetiyesi</h1>
       <div class="flex justify-center gap-6 mt-8 text-5xl md:text-6xl title-font">
         <span id="landing-gelin">Berna</span>
-        <span class="text-rose-400">&</span>
+        <span id="landing-and" class="text-rose-400">&</span>
         <span id="landing-damat">Melih</span>
       </div>
       
@@ -64,23 +69,17 @@
       </div>
     </div>
 
-    <!-- MÜZİK ALANI (yeni) -->
+    <!-- MÜZİK -->
     <div class="text-center py-8" id="music-section">
       <p class="text-amber-200 mb-3">Özel şarkımız çalıyor 💕</p>
-      
-      <!-- MP3 Player -->
-      <div id="mp3-player">
-        <audio id="musicPlayer" controls class="mx-auto w-80" loop>
+      <div id="mp3-player" class="hidden">
+        <audio id="musicPlayer" controls loop class="mx-auto w-80">
           <source id="musicSource" src="" type="audio/mpeg">
         </audio>
       </div>
-
-      <!-- YouTube Player -->
       <div id="youtube-player" class="hidden mx-auto max-w-md">
-        <iframe id="youtube-iframe" width="100%" height="200" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe id="youtube-iframe" width="100%" height="200" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-
-      <!-- Spotify Player -->
       <div id="spotify-player" class="hidden mx-auto max-w-md">
         <iframe id="spotify-iframe" width="100%" height="352" src="" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
       </div>
@@ -102,7 +101,7 @@
     </footer>
   </div>
 
-  <!-- DÜZENLEME PANELİ -->
+  <!-- DÜZENLEME PANELİ (tam kapsamlı) -->
   <div id="editPanel" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center overflow-auto">
     <div class="bg-white text-black w-full max-w-2xl mx-4 rounded-3xl p-8 my-8">
       <h2 class="text-3xl font-bold mb-6 flex justify-between items-center">
@@ -111,11 +110,11 @@
       </h2>
 
       <div class="space-y-6">
-        <!-- İsimler ve başlık -->
         <div class="grid grid-cols-2 gap-4">
           <div><label class="block text-sm font-medium mb-1">Gelin İsmi</label><input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
           <div><label class="block text-sm font-medium mb-1">Damat İsmi</label><input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
         </div>
+
         <div>
           <label class="block text-sm font-medium mb-1">Başlık</label>
           <input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Düğün Davetiyesi">
@@ -126,37 +125,52 @@
           <input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3">
         </div>
 
+        <!-- Arka plan -->
         <div>
-          <label class="block text-sm font-medium mb-1">Arka Plan Resmi URL</label>
-          <input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3">
+          <label class="block text-sm font-medium mb-1">Arka Plan Resmi URL (boş bırakırsan resim olmaz)</label>
+          <input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://picsum.photos/id/1015/2000/1200">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Arka Plan Rengi</label>
+          <input id="edit-bgcolor" type="color" value="#1f2937" class="w-full h-12 rounded-2xl border-0">
         </div>
 
-        <!-- Müzik bölümü (yeni) -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Yazı Rengi (tüm yazılar)</label>
+          <input id="edit-textcolor" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Buton Rengi</label>
+          <input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Buton Yazısı</label>
+          <input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ">
+        </div>
+
+        <!-- Müzik -->
         <div class="border-t pt-4">
           <label class="block text-sm font-medium mb-3">🎵 Müzik (sadece birini doldur)</label>
-          
           <div class="mb-4">
             <label class="block text-sm font-medium mb-1">MP3 Dosya Yükle</label>
             <input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3">
           </div>
-          
           <div class="mb-4">
             <label class="block text-sm font-medium mb-1">veya MP3 URL</label>
             <input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://example.com/sarkim.mp3">
           </div>
-
           <div class="mb-4">
             <label class="block text-sm font-medium mb-1">YouTube Video URL</label>
             <input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://youtu.be/abc123">
           </div>
-
           <div>
             <label class="block text-sm font-medium mb-1">Spotify Şarkı URL</label>
             <input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://open.spotify.com/track/abc123">
           </div>
         </div>
 
-        <!-- Diğer ayarlar -->
         <div>
           <label class="block text-sm font-medium mb-1">Konum Adresi</label>
           <input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3">
@@ -184,15 +198,16 @@
     function getYouTubeId(url) {
       const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
       const match = url.match(reg);
-      return match && match[2].length === 11 ? match[2] : null;
+      return (match && match[2].length === 11) ? match[2] : null;
     }
 
     function loadSettings() {
       const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
 
-      // Başlık ve isimler
-      document.getElementById('landing-baslik').textContent = saved.baslik || "Düğün Davetiyesi";
-      document.getElementById('baslik').textContent = saved.baslik || "Düğün Davetiyesi";
+      // İsimler ve başlık
+      const baslik = saved.baslik || "Düğün Davetiyesi";
+      document.getElementById('landing-baslik').textContent = baslik;
+      document.getElementById('baslik').textContent = baslik;
       document.getElementById('landing-gelin').textContent = saved.gelin || "Berna";
       document.getElementById('gelin').textContent = saved.gelin || "Berna";
       document.getElementById('landing-damat').textContent = saved.damat || "Melih";
@@ -200,9 +215,27 @@
       document.getElementById('footer-isim').textContent = (saved.gelin || "Berna") + " & " + (saved.damat || "Melih");
 
       // Arka plan
-      if (saved.bg) document.querySelectorAll('.hero-bg').forEach(el => el.style.backgroundImage = `url('${saved.bg}')`);
+      const heroEls = document.querySelectorAll('.hero-bg');
+      if (saved.bg) {
+        heroEls.forEach(el => el.style.backgroundImage = `url('${saved.bg}')`);
+      } else {
+        heroEls.forEach(el => el.style.backgroundImage = 'none');
+      }
+      if (saved.bgcolor) heroEls.forEach(el => el.style.backgroundColor = saved.bgcolor);
 
-      // Tarih
+      // Yazı rengi
+      if (saved.textcolor) {
+        document.querySelectorAll('h1, span, p, div').forEach(el => {
+          if (el.id !== 'open-btn') el.style.color = saved.textcolor;
+        });
+      }
+
+      // Buton
+      const btn = document.getElementById('open-btn');
+      if (saved.btncolor) btn.style.backgroundColor = saved.btncolor;
+      if (saved.btntext) btn.textContent = saved.btntext;
+
+      // Tarih + geri sayım
       if (saved.tarih) {
         const date = new Date(saved.tarih);
         document.getElementById('tarih-goster').innerHTML = date.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + date.getHours() + ':' + String(date.getMinutes()).padStart(2,'0');
@@ -213,12 +246,11 @@
       if (saved.konum) document.getElementById('konum-text').textContent = saved.konum;
       if (saved.map) document.getElementById('googleMap').src = saved.map;
 
-      // Müzik player'ını render et
+      // Müzik
       renderMusicPlayer(saved);
     }
 
     function renderMusicPlayer(saved) {
-      // Tüm player'ları gizle
       document.getElementById('mp3-player').classList.add('hidden');
       document.getElementById('youtube-player').classList.add('hidden');
       document.getElementById('spotify-player').classList.add('hidden');
@@ -229,15 +261,13 @@
           document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}`;
           document.getElementById('youtube-player').classList.remove('hidden');
         }
-      } 
-      else if (saved.spotify) {
+      } else if (saved.spotify) {
         const trackId = saved.spotify.split('/track/')[1]?.split('?')[0] || '';
         if (trackId) {
           document.getElementById('spotify-iframe').src = `https://open.spotify.com/embed/track/${trackId}?autoplay=1`;
           document.getElementById('spotify-player').classList.remove('hidden');
         }
-      } 
-      else if (saved.music) {
+      } else if (saved.music) {
         document.getElementById('musicSource').src = saved.music;
         document.getElementById('musicPlayer').load();
         document.getElementById('mp3-player').classList.remove('hidden');
@@ -247,13 +277,8 @@
     function openInvitation() {
       document.getElementById('landing').classList.add('hidden');
       document.getElementById('invitation').classList.remove('hidden');
-
-      // MP3 varsa otomatik çal
       const audio = document.getElementById('musicPlayer');
-      if (audio.src) {
-        audio.volume = 0.6;
-        audio.play().catch(() => {});
-      }
+      if (audio.src) audio.play().catch(() => {});
     }
 
     function openEdit() {
@@ -265,7 +290,11 @@
       document.getElementById('edit-damat').value = saved.damat || "Melih";
       document.getElementById('edit-baslik').value = saved.baslik || "Düğün Davetiyesi";
       document.getElementById('edit-tarih').value = saved.tarih || "2026-10-15T16:00";
-      document.getElementById('edit-bg').value = saved.bg || "https://picsum.photos/id/1015/2000/1200";
+      document.getElementById('edit-bg').value = saved.bg || "";
+      document.getElementById('edit-bgcolor').value = saved.bgcolor || "#1f2937";
+      document.getElementById('edit-textcolor').value = saved.textcolor || "#ffffff";
+      document.getElementById('edit-btncolor').value = saved.btncolor || "#e11d48";
+      document.getElementById('edit-btntext').value = saved.btntext || "DAVETİYEYİ AÇ";
       document.getElementById('edit-konum').value = saved.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
       document.getElementById('edit-map').value = saved.map || "";
       document.getElementById('edit-music-url').value = saved.music && !saved.music.startsWith('data:') ? saved.music : "";
@@ -286,20 +315,18 @@
         damat: document.getElementById('edit-damat').value,
         baslik: document.getElementById('edit-baslik').value,
         tarih: document.getElementById('edit-tarih').value,
-        bg: document.getElementById('edit-bg').value,
+        bg: document.getElementById('edit-bg').value.trim(),
+        bgcolor: document.getElementById('edit-bgcolor').value,
+        textcolor: document.getElementById('edit-textcolor').value,
+        btncolor: document.getElementById('edit-btncolor').value,
+        btntext: document.getElementById('edit-btntext').value,
         konum: document.getElementById('edit-konum').value,
         map: document.getElementById('edit-map').value,
-        music: "",
+        music: document.getElementById('edit-music-url').value.trim(),
         youtube: document.getElementById('edit-youtube').value.trim(),
         spotify: document.getElementById('edit-spotify').value.trim()
       };
 
-      // MP3 URL
-      if (document.getElementById('edit-music-url').value) {
-        settings.music = document.getElementById('edit-music-url').value;
-      }
-
-      // MP3 dosya yükleme (base64)
       if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -307,13 +334,12 @@
           localStorage.setItem('davetSettings', JSON.stringify(settings));
           loadSettings();
           closeEdit();
-          alert("✅ Kaydedildi! Müzik yüklendi.");
+          alert("✅ Kaydedildi!");
         };
         reader.readAsDataURL(fileInput.files[0]);
         return;
       }
 
-      // Normal kaydet
       localStorage.setItem('davetSettings', JSON.stringify(settings));
       loadSettings();
       closeEdit();
