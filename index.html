@@ -85,7 +85,6 @@
       <p id="tarih-label" class="text-xl" style="color:#fde68a">Tarih</p>
       <p id="tarih-goster" class="text-5xl mt-2" style="font-family:'Playfair Display',serif">15 Ekim 2026 • 16:00</p>
     </div>
-
         <!-- BÖLÜM 5: Geri Sayım -->
     <div class="max-w-4xl mx-auto py-12 px-6">
       <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 text-center countdown-box">
@@ -156,13 +155,22 @@
         <h2 id="konum-baslik" class="text-3xl text-center mb-6" style="font-family:'Playfair Display',serif">
           <i id="konum-icon" class="fas fa-map-marker-alt mr-2" style="color:#fb7185"></i>Nerede Buluşuyoruz?
         </h2>
-        <p id="konum-text" class="text-xl text-center mb-8">Marmara Üniversitesi Kongre Merkezi, İstanbul</p>
+        <p id="konum-text" class="text-xl text-center mb-6">Marmara Üniversitesi Kongre Merkezi, İstanbul</p>
+        <!-- Konuma Git Butonu -->
+        <div class="text-center mb-6">
+          <a id="konum-git-btn" href="#" target="_blank"
+            class="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+            style="background:#e11d48;color:#ffffff;text-decoration:none">
+            <i class="fas fa-diamond-turn-right text-lg"></i>
+            <span id="konum-git-text">Konuma Git</span>
+          </a>
+        </div>
         <div id="map-container" class="rounded-2xl overflow-hidden shadow-2xl">
-          <iframe id="googleMap" width="100%" height="400" style="border:0" allowfullscreen></iframe>
+          <iframe id="googleMap" width="100%" height="400" style="border:0" allowfullscreen loading="lazy"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=29.0,41.0,29.1,41.05&layer=mapnik&marker=41.025,29.05"></iframe>
         </div>
       </div>
     </div>
-
 
 
     <!-- BÖLÜM 6: Müzik -->
@@ -520,7 +528,7 @@
             <span class="text-2xl">📍</span>
             <div>
               <h3 class="text-xl font-bold text-gray-900">Bölüm 4 — Konum</h3>
-              <p class="text-sm text-gray-500">Düğün yeri, adres ve harita</p>
+              <p class="text-sm text-gray-500">Düğün yeri, adres, harita ve navigasyon butonu</p>
             </div>
           </div>
 
@@ -531,12 +539,38 @@
               <input id="edit-konum-baslik" type="text" class="edit-input" value="Nerede Buluşuyoruz?">
             </div>
             <div class="mt-4">
-              <p class="field-label">Adres</p>
+              <p class="field-label">Adres (gösterilecek metin)</p>
               <input id="edit-konum" type="text" class="edit-input" value="Marmara Üniversitesi Kongre Merkezi, İstanbul">
             </div>
             <div class="mt-4">
-              <p class="field-label">Google Maps Embed URL</p>
-              <input id="edit-map" type="text" class="edit-input" placeholder="https://maps.google.com/embed?...">
+              <p class="field-label">Harita Arama Terimi</p>
+              <input id="edit-map-query" type="text" class="edit-input" placeholder="örn: Marmara Üniversitesi Kongre Merkezi İstanbul">
+              <p class="text-xs text-gray-400 mt-1">Haritada aranacak yer adı. Boş bırakırsan adres metni kullanılır.</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🧭 "Konuma Git" Butonu</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Buton Yazısı</p>
+                <input id="edit-konum-git-text" type="text" class="edit-input" value="Konuma Git">
+              </div>
+              <div>
+                <p class="field-label">Navigasyon Linki (opsiyonel)</p>
+                <input id="edit-konum-git-url" type="text" class="edit-input" placeholder="https://maps.google.com/?q=...">
+              </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">Link boş bırakılırsa adres metninden otomatik Google Maps linki oluşturulur.</p>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div>
+                <p class="field-label">Buton Rengi</p>
+                <input id="edit-konum-btn-renk" type="color" value="#e11d48" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Buton Yazı Rengi</p>
+                <input id="edit-konum-btn-text-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
             </div>
           </div>
 
@@ -964,7 +998,25 @@
 
       document.getElementById('konum-text').textContent = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
       document.getElementById('konum-text').style.color = s.konumAdresRenk || "#ffffff";
-      if (s.map) document.getElementById('googleMap').src = s.map;
+
+      // Harita — OpenStreetMap embed (engellenmez)
+      const mapQuery = s.mapQuery || s.konum || "Marmara Üniversitesi Kongre Merkezi İstanbul";
+      const encodedQuery = encodeURIComponent(mapQuery);
+      document.getElementById('googleMap').src = `https://www.openstreetmap.org/export/embed.html?bbox=&layer=mapnik&marker=&query=${encodedQuery}`;
+      // Daha güvenilir: nominatim tabanlı embed
+      document.getElementById('googleMap').src = `https://maps.google.com/maps?q=${encodedQuery}&output=embed&hl=tr`;
+
+      // "Konuma Git" butonu
+      const konumGitBtn = document.getElementById('konum-git-btn');
+      const konumGitText = s.konumGitText || "Konuma Git";
+      document.getElementById('konum-git-text').textContent = konumGitText;
+      konumGitBtn.style.backgroundColor = s.konumBtnRenk || "#e11d48";
+      konumGitBtn.style.color = s.konumBtnTextRenk || "#ffffff";
+      if (s.konumGitUrl) {
+        konumGitBtn.href = s.konumGitUrl;
+      } else {
+        konumGitBtn.href = `https://www.google.com/maps/search/?api=1&query=${encodedQuery}`;
+      }
 
       // Bölüm 5: Geri Sayım
       const countdownLabelEl = document.getElementById('countdown-label');
@@ -1091,7 +1143,11 @@
       // Fill Bölüm 4
       document.getElementById('edit-konum-baslik').value = s.konumBaslik || "Nerede Buluşuyoruz?";
       document.getElementById('edit-konum').value = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
-      document.getElementById('edit-map').value = s.map || "";
+      document.getElementById('edit-map-query').value = s.mapQuery || "";
+      document.getElementById('edit-konum-git-text').value = s.konumGitText || "Konuma Git";
+      document.getElementById('edit-konum-git-url').value = s.konumGitUrl || "";
+      document.getElementById('edit-konum-btn-renk').value = s.konumBtnRenk || "#e11d48";
+      document.getElementById('edit-konum-btn-text-renk').value = s.konumBtnTextRenk || "#ffffff";
       document.getElementById('edit-konum-icon-renk').value = s.konumIconRenk || "#fb7185";
       document.getElementById('edit-konum-baslik-renk').value = s.konumBaslikRenk || "#ffffff";
       document.getElementById('edit-konum-adres-renk').value = s.konumAdresRenk || "#ffffff";
@@ -1193,7 +1249,11 @@
         // Bölüm 4
         konumBaslik: document.getElementById('edit-konum-baslik').value,
         konum: document.getElementById('edit-konum').value,
-        map: document.getElementById('edit-map').value,
+        mapQuery: document.getElementById('edit-map-query').value.trim(),
+        konumGitText: document.getElementById('edit-konum-git-text').value,
+        konumGitUrl: document.getElementById('edit-konum-git-url').value.trim(),
+        konumBtnRenk: document.getElementById('edit-konum-btn-renk').value,
+        konumBtnTextRenk: document.getElementById('edit-konum-btn-text-renk').value,
         konumIcon: document.getElementById('edit-konum-icon').value,
         konumIconRenk: document.getElementById('edit-konum-icon-renk').value,
         konumBaslikRenk: document.getElementById('edit-konum-baslik-renk').value,
