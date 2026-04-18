@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Düğün Davetiyesi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .title-font { font-family: 'Playfair Display', serif; }
+    .hero-bg { background-size: cover; background-position: center; background-attachment: fixed; }
+    .countdown-box { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  </style>
+</head>
+<body class="bg-stone-950 text-white overflow-x-hidden">
+
+  <!-- DAVETİYE SAYFASI (temiz) -->
+  <div id="invitation" class="hero-bg min-h-screen" style="background-image: url('https://picsum.photos/id/1015/2000/1200')">
+
+    <div class="text-center pt-12 pb-8">
+      <h1 id="baslik" class="title-font text-6xl md:text-7xl tracking-widest text-amber-100">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-8 mt-8 text-4xl md:text-5xl title-font">
+        <span id="gelin">Berna</span>
+        <span class="text-rose-400">&</span>
+        <span id="damat">Melih</span>
+      </div>
+    </div>
+
+    <div class="text-center py-12 bg-black/40 backdrop-blur-md">
+      <p class="text-amber-200 text-xl">Tarih</p>
+      <p id="tarih-goster" class="text-5xl title-font mt-2">15 Ekim 2026 • 16:00</p>
+    </div>
+
+    <div class="max-w-4xl mx-auto py-12 px-6">
+      <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 text-center countdown-box">
+        <p class="text-amber-200 mb-6 text-lg">Büyük güne kalan süre</p>
+        <div class="grid grid-cols-4 gap-4 text-center">
+          <div><span id="gun" class="text-6xl font-bold">124</span><br><span class="text-sm">GÜN</span></div>
+          <div><span id="saat" class="text-6xl font-bold">14</span><br><span class="text-sm">SAAT</span></div>
+          <div><span id="dakika" class="text-6xl font-bold">32</span><br><span class="text-sm">DAKİKA</span></div>
+          <div><span id="saniye" class="text-6xl font-bold">09</span><br><span class="text-sm">SANİYE</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center py-8">
+      <p class="text-amber-200 mb-3">Özel şarkımız çalıyor 💕</p>
+      <audio id="musicPlayer" controls class="mx-auto w-80">
+        <source id="musicSource" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 pb-20">
+      <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
+        <h2 class="text-3xl title-font text-center mb-6">Nerede Buluşuyoruz?</h2>
+        <p id="konum-text" class="text-xl text-center mb-8">Marmara Üniversitesi Kongre Merkezi, İstanbul</p>
+        <div id="map-container" class="rounded-2xl overflow-hidden shadow-2xl">
+          <iframe id="googleMap" width="100%" height="400" style="border:0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-center py-12 text-amber-200/60 text-sm">
+      Seni aramızda görmek isteriz ❤️<br>
+      <span id="footer-isim">Berna & Melih</span>
+    </footer>
+  </div>
+
+  <!-- DÜZENLEME PANELİ -->
+  <div id="editPanel" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center overflow-auto">
+    <div class="bg-white text-black w-full max-w-2xl mx-4 rounded-3xl p-8 my-8">
+      <h2 class="text-3xl font-bold mb-6 flex justify-between items-center">
+        <span>✏️ Davetiyeyi Düzenle</span>
+        <button onclick="closeEdit()" class="text-rose-600 text-3xl leading-none">✕</button>
+      </h2>
+
+      <div class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium mb-1">Gelin İsmi</label>
+          <input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Damat İsmi</label>
+          <input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Başlık</label>
+          <input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Düğün Tarihi ve Saati</label>
+          <input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Arka Plan Resmi URL</label>
+          <input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Müzik URL (mp3)</label>
+          <input id="edit-music" type="text" class="w-full border rounded-2xl px-4 py-3">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Konum Adresi</label>
+          <input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Google Maps Embed URL (sadece src kısmı)</label>
+          <input id="edit-map" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="https://www.google.com/maps/embed?...">
+        </div>
+
+        <div class="flex gap-4 pt-6">
+          <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-4 rounded-3xl text-lg font-semibold hover:bg-rose-700">
+            💾 Kaydet ve Güncelle
+          </button>
+          <button onclick="closeEdit()" class="flex-1 border border-gray-300 py-4 rounded-3xl text-lg">
+            İptal
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const EDIT_PASSWORD = "1234";
+
+    function loadSettings() {
+      const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      if (saved.gelin) document.getElementById('gelin').textContent = saved.gelin;
+      if (saved.damat) document.getElementById('damat').textContent = saved.damat;
+      if (saved.baslik) document.getElementById('baslik').textContent = saved.baslik;
+      if (saved.tarih) {
+        const date = new Date(saved.tarih);
+        document.getElementById('tarih-goster').innerHTML = date.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + date.getHours() + ':' + String(date.getMinutes()).padStart(2,'0');
+        startCountdown(date.getTime());
+      }
+      if (saved.bg) document.querySelector('.hero-bg').style.backgroundImage = `url('${saved.bg}')`;
+      if (saved.music) {
+        document.getElementById('musicSource').src = saved.music;
+        document.getElementById('musicPlayer').load();
+      }
+      if (saved.konum) document.getElementById('konum-text').textContent = saved.konum;
+      if (saved.map) document.getElementById('googleMap').src = saved.map;
+      if (saved.gelin && saved.damat) document.getElementById('footer-isim').textContent = saved.gelin + " & " + saved.damat;
+    }
+
+    function openEdit() {
+      const pw = prompt("Düzenleme paneli için şifreyi girin:");
+      if (pw !== EDIT_PASSWORD) { alert("❌ Yanlış şifre!"); return; }
+      const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      document.getElementById('edit-gelin').value = saved.gelin || document.getElementById('gelin').textContent;
+      document.getElementById('edit-damat').value = saved.damat || document.getElementById('damat').textContent;
+      document.getElementById('edit-baslik').value = saved.baslik || document.getElementById('baslik').textContent;
+      document.getElementById('edit-konum').value = saved.konum || document.getElementById('konum-text').textContent;
+      document.getElementById('edit-music').value = saved.music || document.getElementById('musicSource').src;
+      document.getElementById('edit-bg').value = saved.bg || document.querySelector('.hero-bg').style.backgroundImage.slice(5, -2);
+      document.getElementById('edit-map').value = saved.map || document.getElementById('googleMap').src;
+      document.getElementById('edit-tarih').value = saved.tarih || "2026-10-15T16:00";
+      document.getElementById('editPanel').classList.remove('hidden');
+    }
+
+    function closeEdit() { document.getElementById('editPanel').classList.add('hidden'); }
+
+    function saveChanges() {
+      const settings = {
+        gelin: document.getElementById('edit-gelin').value,
+        damat: document.getElementById('edit-damat').value,
+        baslik: document.getElementById('edit-baslik').value,
+        tarih: document.getElementById('edit-tarih').value,
+        bg: document.getElementById('edit-bg').value,
+        music: document.getElementById('edit-music').value,
+        konum: document.getElementById('edit-konum').value,
+        map: document.getElementById('edit-map').value
+      };
+      localStorage.setItem('davetSettings', JSON.stringify(settings));
+      loadSettings();
+      closeEdit();
+      alert("✅ Kaydedildi!");
+    }
+
+    let countdownInterval;
+    function startCountdown(targetTime) {
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const distance = targetTime - Date.now();
+        if (distance < 0) return;
+        document.getElementById('gun').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
+        document.getElementById('saat').textContent = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById('dakika').textContent = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('saniye').textContent = Math.floor((distance % (1000 * 60)) / 1000);
+      }, 1000);
+    }
+
+    window.onload = () => {
+      loadSettings();
+      if (window.location.search.includes('edit')) openEdit();
+    };
+  </script>
+</body>
+</html>
