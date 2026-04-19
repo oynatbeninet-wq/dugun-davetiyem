@@ -3,110 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Davetiye Düzenle</title>
+  <title>Admin - Tam Düzenleme Paneli</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
+  </style>
 </head>
 <body class="bg-stone-950 text-white min-h-screen p-8">
 
-<div class="max-w-5xl mx-auto bg-white text-black rounded-3xl p-10 shadow-2xl">
-  <h1 class="text-4xl font-bold text-center mb-10">🔐 Admin Paneli - Tam Düzenleme</h1>
+<div class="max-w-5xl mx-auto bg-white text-black rounded-3xl p-10">
+  <h1 class="text-4xl font-bold text-center mb-10">🔐 Tam Ayrıntılı Admin Paneli</h1>
 
-  <!-- Bölüm 1: Başlık ve Buton -->
+  <!-- Bölüm 1: Ana Başlık ve İsimler -->
   <div class="mb-12 border-b pb-8">
-    <h3 class="text-xl font-semibold mb-6">1. Başlık ve Buton Alanı</h3>
-    <div class="grid grid-cols-2 gap-6">
+    <h3 class="text-2xl font-semibold mb-6">1. Ana Başlık ve İsimler</h3>
+    <div class="grid grid-cols-3 gap-6">
       <div>
-        <label class="block text-sm mb-1">Başlık Yazısı</label>
+        <label class="block text-sm mb-1">Başlık Metni</label>
         <input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Düğün Davetiyesi">
       </div>
       <div>
-        <label class="block text-sm mb-1">Başlık Boyutu (px)</label>
-        <input id="edit-baslik-size" type="number" value="60" class="w-full border rounded-2xl px-4 py-3">
+        <label class="block text-sm mb-1">Boyut (px)</label>
+        <input id="edit-baslik-size" type="number" value="72" class="w-full border rounded-2xl px-4 py-3">
       </div>
       <div>
-        <label class="block text-sm mb-1">Başlık Rengi</label>
+        <label class="block text-sm mb-1">Renk</label>
         <input id="edit-baslik-color" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0">
-      </div>
-      <div>
-        <label class="block text-sm mb-1">Buton Yazısı</label>
-        <input id="edit-btntext" type="text" value="DAVETİYEYİ AÇ" class="w-full border rounded-2xl px-4 py-3">
-      </div>
-      <div>
-        <label class="block text-sm mb-1">Buton Rengi</label>
-        <input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0">
       </div>
     </div>
   </div>
 
   <!-- Bölüm 2: Tarih -->
   <div class="mb-12 border-b pb-8">
-    <h3 class="text-xl font-semibold mb-6">2. Tarih Alanı</h3>
+    <h3 class="text-2xl font-semibold mb-6">2. Tarih Alanı</h3>
     <div class="grid grid-cols-3 gap-6">
-      <div><label class="block text-sm mb-1">Tarih Yazısı</label><input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3"></div>
-      <div><label class="block text-sm mb-1">Yazı Boyutu (px)</label><input id="edit-tarih-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div><label class="block text-sm mb-1">Tarih Metni</label><input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div><label class="block text-sm mb-1">Boyut (px)</label><input id="edit-tarih-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
       <div><label class="block text-sm mb-1">Renk</label><input id="edit-tarih-color" type="color" value="#fcd34d" class="w-full h-12 rounded-2xl border-0"></div>
     </div>
   </div>
 
   <!-- Bölüm 3: Aile Bilgileri -->
   <div class="mb-12 border-b pb-8">
-    <h3 class="text-xl font-semibold mb-6">3. Aile Bilgileri</h3>
+    <h3 class="text-2xl font-semibold mb-6">3. Aile Bilgileri</h3>
     <div class="grid grid-cols-2 gap-8">
+      <!-- Gelin Tarafı -->
       <div>
-        <p class="font-medium mb-4">Gelin Tarafı</p>
-        <input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
-        <input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
+        <label class="block text-sm mb-2">Gelin Tarafı - Anne</label>
+        <input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-4">
+        <label class="block text-sm mb-2">Gelin Tarafı - Baba</label>
+        <input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3">
       </div>
+      <!-- Damat Tarafı -->
       <div>
-        <p class="font-medium mb-4">Damat Tarafı</p>
-        <input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
-        <input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
+        <label class="block text-sm mb-2">Damat Tarafı - Anne</label>
+        <input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-4">
+        <label class="block text-sm mb-2">Damat Tarafı - Baba</label>
+        <input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3">
       </div>
-    </div>
-    <div class="mt-6">
-      <label class="block text-sm mb-2">Aile Alanı Başlık Rengi</label>
-      <input id="edit-aile-color" type="color" value="#ec4899" class="w-full h-12 rounded-2xl border-0">
     </div>
   </div>
 
   <!-- Bölüm 4: Konum -->
   <div class="mb-12 border-b pb-8">
-    <h3 class="text-xl font-semibold mb-6">4. Konum Alanı</h3>
+    <h3 class="text-2xl font-semibold mb-6">4. Konum Alanı</h3>
     <div class="grid grid-cols-2 gap-6">
       <div><label class="block text-sm mb-1">Konum Başlığı</label><input id="edit-konum-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Nerede Buluşuyoruz?"></div>
       <div><label class="block text-sm mb-1">Konum Adresi</label><input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-    </div>
-    <div class="mt-6 grid grid-cols-2 gap-6">
-      <div><label class="block text-sm mb-1">Başlık Rengi</label><input id="edit-konum-baslik-color" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
-      <div><label class="block text-sm mb-1">Adres Rengi</label><input id="edit-konum-color" type="color" value="#fcd34d" class="w-full h-12 rounded-2xl border-0"></div>
     </div>
   </div>
 
   <!-- Bölüm 5: Geri Sayım -->
   <div class="mb-12 border-b pb-8">
-    <h3 class="text-xl font-semibold mb-6">5. Geri Sayım Alanı</h3>
+    <h3 class="text-2xl font-semibold mb-6">5. Geri Sayım Alanı</h3>
     <div class="grid grid-cols-2 gap-6">
-      <div><label class="block text-sm mb-1">Başlık Yazısı</label><input id="edit-countdown-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Büyük güne kalan süre"></div>
+      <div><label class="block text-sm mb-1">Başlık Metni</label><input id="edit-countdown-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Büyük güne kalan süre"></div>
       <div><label class="block text-sm mb-1">Renk</label><input id="edit-countdown-color" type="color" value="#fcd34d" class="w-full h-12 rounded-2xl border-0"></div>
     </div>
   </div>
 
-  <!-- Müzik ve Arka Plan -->
-  <div class="mb-12 border-b pb-8">
-    <h3 class="text-xl font-semibold mb-6">Müzik ve Arka Plan</h3>
+  <!-- Müzik ve Genel Ayarlar -->
+  <div>
+    <h3 class="text-2xl font-semibold mb-6">Müzik ve Arka Plan</h3>
     <div class="grid grid-cols-2 gap-6">
       <div><label class="block text-sm mb-1">Arka Plan Resmi URL</label><input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
       <div><label class="block text-sm mb-1">Arka Plan Rengi</label><input id="edit-bgcolor" type="color" value="#1f2937" class="w-full h-12 rounded-2xl border-0"></div>
     </div>
-    <!-- Müzik alanları (eski hali) -->
     <div class="mt-6">
-      <label class="block text-sm mb-1">Müzik (MP3, YouTube veya Spotify URL)</label>
-      <input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="MP3 veya YouTube / Spotify linki">
+      <label class="block text-sm mb-1">Müzik (MP3 URL veya YouTube/Spotify linki)</label>
+      <input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3">
     </div>
   </div>
 
-  <div class="flex gap-4">
+  <div class="flex gap-4 mt-12">
     <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-5 rounded-3xl text-xl font-semibold">💾 KAYDET VE GÜNCELLE</button>
     <button onclick="window.location.href='/'" class="flex-1 border border-gray-400 py-5 rounded-3xl text-xl">İptal</button>
   </div>
@@ -117,13 +107,19 @@
 
   function loadSettings() {
     const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
-    // Tüm inputları doldur (kodu kısalttım ama mantık aynı)
+    // Tüm alanları doldur
     document.getElementById('edit-baslik').value = saved.baslik || "Düğün Davetiyesi";
     document.getElementById('edit-btntext').value = saved.btntext || "DAVETİYEYİ AÇ";
     document.getElementById('edit-tarih').value = saved.tarih || "2026-10-15T16:00";
     document.getElementById('edit-konum-baslik').value = saved.konumBaslik || "Nerede Buluşuyoruz?";
     document.getElementById('edit-konum').value = saved.konum || "AE Bilişim, Hamitler, Osmangazi, Bursa";
-    // ... diğer tüm alanlar da aynı şekilde dolduruluyor
+    document.getElementById('edit-gelin-anne').value = saved.gelinAnne || "Ayşe";
+    document.getElementById('edit-gelin-baba').value = saved.gelinBaba || "Mehmet";
+    document.getElementById('edit-damat-anne').value = saved.damatAnne || "Fatma";
+    document.getElementById('edit-damat-baba').value = saved.damatBaba || "Ahmet";
+    document.getElementById('edit-countdown-baslik').value = saved.countdownBaslik || "Büyük güne kalan süre";
+    document.getElementById('edit-bg').value = saved.bg || "";
+    document.getElementById('edit-music-url').value = saved.music || "";
   }
 
   function saveChanges() {
@@ -133,18 +129,22 @@
       tarih: document.getElementById('edit-tarih').value,
       konumBaslik: document.getElementById('edit-konum-baslik').value,
       konum: document.getElementById('edit-konum').value,
+      gelinAnne: document.getElementById('edit-gelin-anne').value,
+      gelinBaba: document.getElementById('edit-gelin-baba').value,
+      damatAnne: document.getElementById('edit-damat-anne').value,
+      damatBaba: document.getElementById('edit-damat-baba').value,
+      countdownBaslik: document.getElementById('edit-countdown-baslik').value,
       bg: document.getElementById('edit-bg').value,
-      bgcolor: document.getElementById('edit-bgcolor').value,
-      // ... diğer tüm değerler
+      music: document.getElementById('edit-music-url').value
     };
     localStorage.setItem('davetSettings', JSON.stringify(settings));
-    alert("✅ Kaydedildi! Ana sayfayı yenileyin.");
+    alert("✅ Tüm değişiklikler kaydedildi! Ana sayfayı yenileyin.");
   }
 
   window.onload = () => {
-    const pw = prompt("Admin şifresi:");
+    const pw = prompt("Admin paneli şifresi:");
     if (pw !== EDIT_PASSWORD) {
-      alert("Yanlış şifre!");
+      alert("❌ Yanlış şifre!");
       window.location.href = "/";
     } else {
       loadSettings();
