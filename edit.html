@@ -8,83 +8,82 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
-    body { font-family: 'Inter', sans-serif; }
-    .title-font { font-family: 'Playfair Display', serif; }
   </style>
 </head>
-<body class="bg-stone-950 text-white min-h-screen">
+<body class="bg-stone-950 text-white min-h-screen p-6">
 
-<div class="max-w-3xl mx-auto p-8">
-  <div class="flex justify-between items-center mb-8">
-    <h1 class="text-4xl font-bold">🔐 Admin Paneli</h1>
-    <a href="/" class="text-rose-400 hover:text-rose-300 flex items-center gap-2">
-      <i class="fas fa-home"></i> Ana Sayfaya Dön
-    </a>
-  </div>
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-4xl font-bold text-center mb-8">🔐 Admin Paneli - Davetiye Düzenle</h1>
 
   <div class="bg-white text-black rounded-3xl p-8">
-    <h2 class="text-3xl font-bold mb-8 text-center">✏️ Davetiyeyi Düzenle</h2>
 
-    <!-- Genel Bilgiler -->
-    <div class="mb-8">
-      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-info-circle"></i> Genel Bilgiler</h3>
+    <!-- Bölüm 1: Başlık ve Buton -->
+    <div class="mb-10">
+      <h3 class="font-semibold text-lg mb-4">Bölüm 1 - Başlık ve Buton</h3>
       <div class="grid grid-cols-2 gap-4">
-        <div><label class="block text-sm mb-1">Gelin İsmi</label><input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-sm mb-1">Damat İsmi</label><input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div><label class="block text-sm mb-1">Başlık</label><input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Düğün Davetiyesi"></div>
+        <div><label class="block text-sm mb-1">Buton Yazısı</label><input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ"></div>
       </div>
-      <div class="mt-4"><label class="block text-sm mb-1">Başlık</label><input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-      <div class="mt-4"><label class="block text-sm mb-1">Tarih ve Saat</label><input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div class="mt-4"><label class="block text-sm mb-1">Buton Rengi</label><input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0"></div>
     </div>
 
-    <!-- Görünüm -->
-    <div class="mb-8 border-t pt-6">
-      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-palette"></i> Görünüm</h3>
-      <div class="grid grid-cols-2 gap-6">
-        <div><label class="block text-sm mb-1">Arka Plan Resmi URL</label><input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-sm mb-1">Arka Plan Rengi</label><input id="edit-bgcolor" type="color" value="#1f2937" class="w-full h-12 rounded-2xl border-0"></div>
-      </div>
-      <div class="grid grid-cols-2 gap-6 mt-4">
-        <div><label class="block text-sm mb-1">Yazı Rengi</label><input id="edit-textcolor" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
-        <div><label class="block text-sm mb-1">Buton Rengi</label><input id="edit-btncolor" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0"></div>
-      </div>
-      <div class="mt-4"><label class="block text-sm mb-1">Buton Yazısı</label><input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ"></div>
+    <!-- Bölüm 2: Tarih -->
+    <div class="mb-10 border-t pt-6">
+      <h3 class="font-semibold text-lg mb-4">Bölüm 2 - Tarih</h3>
+      <input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3">
     </div>
 
-    <!-- Aile Bilgileri -->
-    <div class="mb-8 border-t pt-6">
-      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-users"></i> Aile Bilgileri</h3>
+    <!-- Bölüm 3: Aile Bilgileri -->
+    <div class="mb-10 border-t pt-6">
+      <h3 class="font-semibold text-lg mb-4">Bölüm 3 - Aile Bilgileri</h3>
       <div class="grid grid-cols-2 gap-6">
         <div>
-          <p class="font-medium mb-2 text-pink-600">Gelin Tarafı</p>
+          <p class="font-medium mb-3 text-pink-600">Gelin Tarafı</p>
           <input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
           <input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
         </div>
         <div>
-          <p class="font-medium mb-2 text-blue-600">Damat Tarafı</p>
+          <p class="font-medium mb-3 text-blue-600">Damat Tarafı</p>
           <input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
           <input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
         </div>
       </div>
     </div>
 
-    <!-- Konum -->
-    <div class="mb-8 border-t pt-6">
-      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Konum</h3>
+    <!-- Bölüm 4: Konum -->
+    <div class="mb-10 border-t pt-6">
+      <h3 class="font-semibold text-lg mb-4">Bölüm 4 - Konum</h3>
       <div><label class="block text-sm mb-1">Konum Başlığı</label><input id="edit-konum-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Nerede Buluşuyoruz?"></div>
       <div class="mt-4"><label class="block text-sm mb-1">Konum Adresi</label><input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
       <div class="mt-4"><label class="block text-sm mb-1">Google Maps Embed URL</label><input id="edit-map" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
     </div>
 
-    <!-- Müzik -->
-    <div class="border-t pt-6">
-      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-music"></i> Müzik</h3>
-      <div class="mb-4"><label class="block text-sm mb-1">MP3 Dosya Yükle</label><input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3"></div>
-      <div class="mb-4"><label class="block text-sm mb-1">veya MP3 URL</label><input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-      <div class="mb-4"><label class="block text-sm mb-1">YouTube Video URL</label><input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
-      <div><label class="block text-sm mb-1">Spotify Şarkı URL</label><input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+    <!-- Bölüm 5: Geri Sayım -->
+    <div class="mb-10 border-t pt-6">
+      <h3 class="font-semibold text-lg mb-4">Bölüm 5 - Geri Sayım</h3>
+      <p class="text-sm text-gray-500">Geri sayım otomatik çalışır. Sadece tarih ayarlanır.</p>
     </div>
 
-    <div class="flex gap-4 pt-8 border-t mt-8">
+    <!-- Müzik -->
+    <div class="mb-10 border-t pt-6">
+      <h3 class="font-semibold text-lg mb-4">Müzik</h3>
+      <div class="mb-4"><label class="block text-sm mb-1">MP3 Dosya Yükle</label><input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div class="mb-4"><label class="block text-sm mb-1">veya MP3 URL</label><input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div class="mb-4"><label class="block text-sm mb-1">YouTube URL</label><input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div><label class="block text-sm mb-1">Spotify URL</label><input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+    </div>
+
+    <!-- Genel Ayarlar -->
+    <div class="border-t pt-6">
+      <h3 class="font-semibold text-lg mb-4">Genel Ayarlar</h3>
+      <div class="grid grid-cols-2 gap-6">
+        <div><label class="block text-sm mb-1">Arka Plan Resmi URL</label><input id="edit-bg" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div><label class="block text-sm mb-1">Arka Plan Rengi</label><input id="edit-bgcolor" type="color" value="#1f2937" class="w-full h-12 rounded-2xl border-0"></div>
+        <div><label class="block text-sm mb-1">Yazı Rengi</label><input id="edit-textcolor" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
+      </div>
+    </div>
+
+    <div class="flex gap-4 mt-10">
       <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-4 rounded-3xl text-lg font-semibold">💾 Kaydet ve Güncelle</button>
       <button onclick="window.location.href='/'" class="flex-1 border border-gray-300 py-4 rounded-3xl text-lg">İptal</button>
     </div>
@@ -92,13 +91,7 @@
 </div>
 
 <script>
-  const EDIT_PASSWORD = "1234";   // ← Şifreyi buradan değiştirebilirsin
-
-  function getYouTubeId(url) {
-    const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(reg);
-    return (match && match[2].length === 11) ? match[2] : null;
-  }
+  const EDIT_PASSWORD = "1234";
 
   function loadSettings() {
     const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
@@ -149,7 +142,7 @@
 
     if (fileInput.files && fileInput.files[0]) {
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = e => {
         settings.music = e.target.result;
         localStorage.setItem('davetSettings', JSON.stringify(settings));
         alert("✅ Kaydedildi! Ana sayfayı yenileyin.");
