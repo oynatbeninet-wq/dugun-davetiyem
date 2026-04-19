@@ -55,4 +55,122 @@
       <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-users"></i> Aile Bilgileri</h3>
       <div class="grid grid-cols-2 gap-6">
         <div>
-         
+          <p class="font-medium mb-2 text-pink-600">Gelin Tarafı</p>
+          <input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
+          <input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
+        </div>
+        <div>
+          <p class="font-medium mb-2 text-blue-600">Damat Tarafı</p>
+          <input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" placeholder="Anne Adı">
+          <input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3" placeholder="Baba Adı">
+        </div>
+      </div>
+    </div>
+
+    <!-- Konum -->
+    <div class="mb-8 border-t pt-6">
+      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-map-marker-alt"></i> Konum</h3>
+      <div><label class="block text-sm mb-1">Konum Başlığı</label><input id="edit-konum-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Nerede Buluşuyoruz?"></div>
+      <div class="mt-4"><label class="block text-sm mb-1">Konum Adresi</label><input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div class="mt-4"><label class="block text-sm mb-1">Google Maps Embed URL</label><input id="edit-map" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+    </div>
+
+    <!-- Müzik -->
+    <div class="border-t pt-6">
+      <h3 class="font-semibold text-lg mb-4 flex items-center gap-2"><i class="fas fa-music"></i> Müzik</h3>
+      <div class="mb-4"><label class="block text-sm mb-1">MP3 Dosya Yükle</label><input id="edit-music-upload" type="file" accept="audio/mpeg" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div class="mb-4"><label class="block text-sm mb-1">veya MP3 URL</label><input id="edit-music-url" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div class="mb-4"><label class="block text-sm mb-1">YouTube Video URL</label><input id="edit-youtube" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+      <div><label class="block text-sm mb-1">Spotify Şarkı URL</label><input id="edit-spotify" type="text" class="w-full border rounded-2xl px-4 py-3"></div>
+    </div>
+
+    <div class="flex gap-4 pt-8 border-t mt-8">
+      <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-4 rounded-3xl text-lg font-semibold">💾 Kaydet ve Güncelle</button>
+      <button onclick="window.location.href='/'" class="flex-1 border border-gray-300 py-4 rounded-3xl text-lg">İptal</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const EDIT_PASSWORD = "1234";   // ← Şifreyi buradan değiştirebilirsin
+
+  function getYouTubeId(url) {
+    const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(reg);
+    return (match && match[2].length === 11) ? match[2] : null;
+  }
+
+  function loadSettings() {
+    const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
+    document.getElementById('edit-gelin').value = saved.gelin || "Berna";
+    document.getElementById('edit-damat').value = saved.damat || "Melih";
+    document.getElementById('edit-baslik').value = saved.baslik || "Düğün Davetiyesi";
+    document.getElementById('edit-tarih').value = saved.tarih || "2026-10-15T16:00";
+    document.getElementById('edit-bg').value = saved.bg || "";
+    document.getElementById('edit-bgcolor').value = saved.bgcolor || "#1f2937";
+    document.getElementById('edit-textcolor').value = saved.textcolor || "#ffffff";
+    document.getElementById('edit-btncolor').value = saved.btncolor || "#e11d48";
+    document.getElementById('edit-btntext').value = saved.btntext || "DAVETİYEYİ AÇ";
+    document.getElementById('edit-konum-baslik').value = saved.konumBaslik || "Nerede Buluşuyoruz?";
+    document.getElementById('edit-konum').value = saved.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
+    document.getElementById('edit-map').value = saved.map || "";
+    document.getElementById('edit-gelin-anne').value = saved.gelinAnne || "Ayşe";
+    document.getElementById('edit-gelin-baba').value = saved.gelinBaba || "Mehmet";
+    document.getElementById('edit-damat-anne').value = saved.damatAnne || "Fatma";
+    document.getElementById('edit-damat-baba').value = saved.damatBaba || "Ahmet";
+    document.getElementById('edit-music-url').value = saved.music && !saved.music.startsWith('data:') ? saved.music : "";
+    document.getElementById('edit-youtube').value = saved.youtube || "";
+    document.getElementById('edit-spotify').value = saved.spotify || "";
+  }
+
+  function saveChanges() {
+    const fileInput = document.getElementById('edit-music-upload');
+    const settings = {
+      gelin: document.getElementById('edit-gelin').value,
+      damat: document.getElementById('edit-damat').value,
+      baslik: document.getElementById('edit-baslik').value,
+      tarih: document.getElementById('edit-tarih').value,
+      bg: document.getElementById('edit-bg').value.trim(),
+      bgcolor: document.getElementById('edit-bgcolor').value,
+      textcolor: document.getElementById('edit-textcolor').value,
+      btncolor: document.getElementById('edit-btncolor').value,
+      btntext: document.getElementById('edit-btntext').value,
+      konumBaslik: document.getElementById('edit-konum-baslik').value,
+      konum: document.getElementById('edit-konum').value,
+      map: document.getElementById('edit-map').value,
+      gelinAnne: document.getElementById('edit-gelin-anne').value,
+      gelinBaba: document.getElementById('edit-gelin-baba').value,
+      damatAnne: document.getElementById('edit-damat-anne').value,
+      damatBaba: document.getElementById('edit-damat-baba').value,
+      music: document.getElementById('edit-music-url').value.trim(),
+      youtube: document.getElementById('edit-youtube').value.trim(),
+      spotify: document.getElementById('edit-spotify').value.trim()
+    };
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        settings.music = e.target.result;
+        localStorage.setItem('davetSettings', JSON.stringify(settings));
+        alert("✅ Kaydedildi! Ana sayfayı yenileyin.");
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+      return;
+    }
+
+    localStorage.setItem('davetSettings', JSON.stringify(settings));
+    alert("✅ Kaydedildi! Ana sayfayı yenileyin.");
+  }
+
+  window.onload = () => {
+    const pw = prompt("Admin paneli için şifreyi girin:");
+    if (pw !== EDIT_PASSWORD) {
+      alert("❌ Yanlış şifre!");
+      window.location.href = "/";
+    } else {
+      loadSettings();
+    }
+  };
+</script>
+</body>
+</html>
