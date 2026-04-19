@@ -3,50 +3,200 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Davetiye Düzenle</title>
+  <title>Düğün Davetiyesi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .title-font { font-family: 'Playfair Display', serif; }
+    .hero-bg { background-size: cover; background-position: center; background-attachment: fixed; transition: all 0.4s; }
+    .countdown-box { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
   </style>
 </head>
-<body class="bg-stone-950 text-white min-h-screen">
+<body class="bg-stone-950 text-white overflow-x-hidden">
 
-  <div class="max-w-3xl mx-auto p-8">
-    <h1 class="text-4xl font-bold text-center mb-10">🔐 Admin Paneli</h1>
-
-    <div id="editPanel" class="bg-white text-black rounded-3xl p-8">
-      <h2 class="text-3xl font-bold mb-8 text-center">Davetiyeyi Düzenle</h2>
-
-      <!-- Buraya önceki edit panelindeki tüm alanlar aynı şekilde gelecek -->
-      <!-- (Kodu çok uzun olmasın diye burada özetliyorum. Tam hali önceki mesajdaki edit paneli ile aynı.) -->
-
-      <!-- Genel, Görünüm, Aile, Konum, Müzik alanları buraya gelecek -->
-      <!-- İstersen tam hali istersen söyle, hemen veririm. -->
-
-      <div class="flex gap-4 pt-8">
-        <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-4 rounded-3xl text-lg font-semibold">💾 Kaydet ve Güncelle</button>
-        <button onclick="window.location.href='/'" class="flex-1 border border-gray-300 py-4 rounded-3xl text-lg">Ana Sayfaya Dön</button>
+  <!-- LANDING -->
+  <div id="landing" class="hero-bg min-h-screen flex items-center justify-center relative">
+    <div class="text-center z-10">
+      <h1 id="landing-baslik" class="title-font text-6xl md:text-7xl tracking-widest">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-6 mt-8 text-5xl md:text-6xl title-font">
+        <span id="landing-gelin">Berna</span>
+        <span id="landing-and" class="text-rose-400">&</span>
+        <span id="landing-damat">Melih</span>
       </div>
+      <button onclick="openInvitation()" id="open-btn" class="mt-16 px-12 py-6 text-2xl font-semibold rounded-3xl shadow-2xl transition-all hover:scale-105">
+        DAVETİYEYİ AÇ
+      </button>
     </div>
   </div>
 
+  <!-- TAM DAVETİYE -->
+  <div id="invitation" class="hero-bg min-h-screen hidden">
+    <!-- (Tüm içerik aynı kalıyor: başlık, tarih, aile, konum, geri sayım, müzik) -->
+    <div class="text-center pt-12 pb-8">
+      <h1 id="baslik" class="title-font text-6xl md:text-7xl tracking-widest">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-8 mt-8 text-4xl md:text-5xl title-font">
+        <span id="gelin">Berna</span>
+        <span class="text-rose-400">&</span>
+        <span id="damat">Melih</span>
+      </div>
+    </div>
+
+    <div class="text-center py-12 bg-black/40 backdrop-blur-md">
+      <p class="text-amber-200 text-xl">Tarih</p>
+      <p id="tarih-goster" class="text-5xl title-font mt-2">15 Ekim 2026 • 16:00</p>
+    </div>
+
+    <div class="max-w-4xl mx-auto py-8 px-6">
+      <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
+        <h2 id="aile-baslik" class="text-3xl title-font text-center mb-8 flex items-center justify-center gap-3">
+          <i class="fas fa-heart text-rose-400"></i> Ailelerimiz <i class="fas fa-heart text-rose-400"></i>
+        </h2>
+        <div class="grid md:grid-cols-2 gap-10">
+          <div class="text-center border-r border-white/20 md:border-r">
+            <h3 class="text-xl font-semibold mb-6 text-pink-300">Gelin Tarafı</h3>
+            <div class="space-y-6">
+              <div><p class="text-sm text-pink-200">Anne</p><p id="gelin-anne" class="text-2xl font-medium">Ayşe</p></div>
+              <div><p class="text-sm text-pink-200">Baba</p><p id="gelin-baba" class="text-2xl font-medium">Mehmet</p></div>
+            </div>
+          </div>
+          <div class="text-center">
+            <h3 class="text-xl font-semibold mb-6 text-blue-300">Damat Tarafı</h3>
+            <div class="space-y-6">
+              <div><p class="text-sm text-blue-200">Anne</p><p id="damat-anne" class="text-2xl font-medium">Fatma</p></div>
+              <div><p class="text-sm text-blue-200">Baba</p><p id="damat-baba" class="text-2xl font-medium">Ahmet</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-6 pb-12">
+      <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
+        <h2 id="konum-baslik" class="text-3xl title-font text-center mb-6">Nerede Buluşuyoruz?</h2>
+        <p id="konum-text" class="text-xl text-center mb-8">Marmara Üniversitesi Kongre Merkezi, İstanbul</p>
+        <div id="map-container" class="rounded-2xl overflow-hidden shadow-2xl">
+          <iframe id="googleMap" width="100%" height="400" style="border:0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto py-12 px-6">
+      <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 text-center countdown-box">
+        <p class="text-amber-200 mb-6 text-lg">Büyük güne kalan süre</p>
+        <div class="grid grid-cols-4 gap-4 text-center">
+          <div><span id="gun" class="text-6xl font-bold">124</span><br><span class="text-sm">GÜN</span></div>
+          <div><span id="saat" class="text-6xl font-bold">14</span><br><span class="text-sm">SAAT</span></div>
+          <div><span id="dakika" class="text-6xl font-bold">32</span><br><span class="text-sm">DAKİKA</span></div>
+          <div><span id="saniye" class="text-6xl font-bold">09</span><br><span class="text-sm">SANİYE</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center py-8" id="music-section">
+      <p class="text-amber-200 mb-3">Özel şarkımız çalıyor 💕</p>
+      <div id="mp3-player" class="hidden"><audio id="musicPlayer" controls loop class="mx-auto w-80"><source id="musicSource" src="" type="audio/mpeg"></audio></div>
+      <div id="youtube-player" class="hidden mx-auto max-w-md"><iframe id="youtube-iframe" width="100%" height="200" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div id="spotify-player" class="hidden mx-auto max-w-md"><iframe id="spotify-iframe" width="100%" height="352" src="" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+    </div>
+
+    <footer class="text-center py-12 text-amber-200/60 text-sm">
+      Seni aramızda görmek isteriz ❤️<br>
+      <span id="footer-isim">Berna & Melih</span>
+    </footer>
+  </div>
+
   <script>
-    const EDIT_PASSWORD = "1234";   // ← Şifreyi buradan değiştirebilirsin
+    function openInvitation() {
+      document.getElementById('landing').classList.add('hidden');
+      document.getElementById('invitation').classList.remove('hidden');
+      const audio = document.getElementById('musicPlayer');
+      if (audio.src) audio.play().catch(() => {});
+    }
 
-    // Buraya loadSettings, saveChanges, renderMusicPlayer gibi fonksiyonların tamamı gelecek
-    // (Önceki mesajlardaki script'in tamamı)
+    // Veriler localStorage'dan yükleniyor
+    function loadSettings() {
+      const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      document.getElementById('landing-baslik').textContent = saved.baslik || "Düğün Davetiyesi";
+      document.getElementById('baslik').textContent = saved.baslik || "Düğün Davetiyesi";
+      document.getElementById('landing-gelin').textContent = saved.gelin || "Berna";
+      document.getElementById('gelin').textContent = saved.gelin || "Berna";
+      document.getElementById('landing-damat').textContent = saved.damat || "Melih";
+      document.getElementById('damat').textContent = saved.damat || "Melih";
+      document.getElementById('footer-isim').textContent = (saved.gelin || "Berna") + " & " + (saved.damat || "Melih");
 
-    // Şifre kontrolü
-    window.onload = () => {
-      const pw = prompt("Admin paneli için şifreyi girin:");
-      if (pw !== EDIT_PASSWORD) {
-        alert("❌ Yanlış şifre! Ana sayfaya yönlendiriliyorsunuz.");
-        window.location.href = "/";
-      } else {
-        // Şifre doğruysa edit panelini yükle
-        loadSettings();
+      const heroes = document.querySelectorAll('.hero-bg');
+      if (saved.bg) heroes.forEach(el => el.style.backgroundImage = `url('${saved.bg}')`);
+      else heroes.forEach(el => el.style.backgroundImage = 'none');
+      if (saved.bgcolor) heroes.forEach(el => el.style.backgroundColor = saved.bgcolor);
+      if (saved.textcolor) document.querySelectorAll('h1, span, p, div').forEach(el => { if (el.id !== 'open-btn') el.style.color = saved.textcolor; });
+      if (saved.btncolor) document.getElementById('open-btn').style.backgroundColor = saved.btncolor;
+      if (saved.btntext) document.getElementById('open-btn').textContent = saved.btntext;
+
+      if (saved.tarih) {
+        const d = new Date(saved.tarih);
+        document.getElementById('tarih-goster').innerHTML = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+        startCountdown(d.getTime());
       }
+
+      document.getElementById('gelin-anne').textContent = saved.gelinAnne || "Ayşe";
+      document.getElementById('gelin-baba').textContent = saved.gelinBaba || "Mehmet";
+      document.getElementById('damat-anne').textContent = saved.damatAnne || "Fatma";
+      document.getElementById('damat-baba').textContent = saved.damatBaba || "Ahmet";
+
+      document.getElementById('konum-baslik').textContent = saved.konumBaslik || "Nerede Buluşuyoruz?";
+      document.getElementById('konum-text').textContent = saved.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
+      if (saved.map) document.getElementById('googleMap').src = saved.map;
+
+      renderMusicPlayer(saved);
+    }
+
+    function renderMusicPlayer(saved) {
+      document.getElementById('mp3-player').classList.add('hidden');
+      document.getElementById('youtube-player').classList.add('hidden');
+      document.getElementById('spotify-player').classList.add('hidden');
+      if (saved.youtube) {
+        const id = getYouTubeId(saved.youtube);
+        if (id) {
+          document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}`;
+          document.getElementById('youtube-player').classList.remove('hidden');
+        }
+      } else if (saved.spotify) {
+        const id = saved.spotify.split('/track/')[1]?.split('?')[0] || '';
+        if (id) {
+          document.getElementById('spotify-iframe').src = `https://open.spotify.com/embed/track/${id}?autoplay=1`;
+          document.getElementById('spotify-player').classList.remove('hidden');
+        }
+      } else if (saved.music) {
+        document.getElementById('musicSource').src = saved.music;
+        document.getElementById('musicPlayer').load();
+        document.getElementById('mp3-player').classList.remove('hidden');
+      }
+    }
+
+    function getYouTubeId(url) {
+      const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(reg);
+      return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    let countdownInterval;
+    function startCountdown(targetTime) {
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const d = targetTime - Date.now();
+        if (d < 0) return;
+        document.getElementById('gun').textContent = Math.floor(d / (1000*60*60*24));
+        document.getElementById('saat').textContent = Math.floor((d % (1000*60*60*24)) / (1000*60*60));
+        document.getElementById('dakika').textContent = Math.floor((d % (1000*60*60)) / (1000*60));
+        document.getElementById('saniye').textContent = Math.floor((d % (1000*60)) / 1000);
+      }, 1000);
+    }
+
+    window.onload = () => {
+      loadSettings();
     };
   </script>
 </body>
