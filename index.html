@@ -12,45 +12,36 @@
 <div class="max-w-6xl mx-auto bg-white text-black rounded-3xl p-10">
   <h1 class="text-4xl font-bold text-center mb-10">🔐 Tam Ayrıntılı Admin Paneli</h1>
 
-  <div class="flex border-b mb-8 text-sm font-medium">
-    <button onclick="switchTab(1)" class="tab-btn active px-6 py-3">Bölüm 1</button>
-    <button onclick="switchTab(2)" class="tab-btn px-6 py-3">Bölüm 2</button>
-    <button onclick="switchTab(3)" class="tab-btn px-6 py-3">Bölüm 3</button>
-    <button onclick="switchTab(4)" class="tab-btn px-6 py-3">Bölüm 4</button>
-    <button onclick="switchTab(5)" class="tab-btn px-6 py-3">Bölüm 5</button>
-    <button onclick="switchTab(7)" class="tab-btn px-6 py-3">Bölüm 7</button>
+  <div class="flex border-b mb-8 text-sm">
+    <button onclick="switchTab(1)" class="tab-btn active px-6 py-4">Bölüm 1</button>
+    <button onclick="switchTab(2)" class="tab-btn px-6 py-4">Bölüm 2</button>
+    <button onclick="switchTab(3)" class="tab-btn px-6 py-4">Bölüm 3</button>
+    <button onclick="switchTab(4)" class="tab-btn px-6 py-4">Bölüm 4</button>
+    <button onclick="switchTab(5)" class="tab-btn px-6 py-4">Bölüm 5</button>
+    <button onclick="switchTab(7)" class="tab-btn px-6 py-4">Bölüm 7</button>
   </div>
 
   <!-- BÖLÜM 1 -->
   <div id="tab1" class="tab-content">
     <h3 class="text-xl font-bold mb-6">Bölüm 1 - Başlık ve İsimler</h3>
     <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm mb-1">Ana Başlık</label>
-        <input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Düğün Davetiyesi">
-      </div>
+      <div><label class="block text-sm mb-1">Ana Başlık</label><input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Düğün Davetiyesi"></div>
       <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut (px)</label><input id="edit-baslik-size" type="number" value="72" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-baslik-size" type="number" value="72" class="w-full border rounded-2xl px-4 py-3"></div>
         <div><label class="block text-xs mb-1">Renk</label><input id="edit-baslik-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
       </div>
     </div>
     <div class="grid grid-cols-2 gap-6 mt-6">
-      <div>
-        <label class="block text-sm mb-1">Gelin İsmi</label>
-        <input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3" value="Berna">
-      </div>
+      <div><label class="block text-sm mb-1">Gelin İsmi</label><input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3" value="Berna"></div>
       <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut (px)</label><input id="edit-gelin-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-gelin-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
         <div><label class="block text-xs mb-1">Renk</label><input id="edit-gelin-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
       </div>
     </div>
     <div class="grid grid-cols-2 gap-6 mt-6">
-      <div>
-        <label class="block text-sm mb-1">Damat İsmi</label>
-        <input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3" value="Melih">
-      </div>
+      <div><label class="block text-sm mb-1">Damat İsmi</label><input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3" value="Melih"></div>
       <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut (px)</label><input id="edit-damat-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-damat-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
         <div><label class="block text-xs mb-1">Renk</label><input id="edit-damat-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
       </div>
     </div>
@@ -58,28 +49,26 @@
       <label class="block text-sm mb-1">Buton Yazısı</label>
       <input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ">
     </div>
+    <div class="grid grid-cols-2 gap-6 mt-6">
+      <div><label class="block text-sm mb-1">Buton Rengi</label><input id="edit-btn-renk" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0"></div>
+      <div><label class="block text-sm mb-1">Buton Yazı Rengi</label><input id="edit-btn-text-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
+    </div>
   </div>
 
   <!-- BÖLÜM 2 -->
   <div id="tab2" class="tab-content hidden">
     <h3 class="text-xl font-bold mb-6">Bölüm 2 - Tarih</h3>
     <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm mb-1">"Tarih" Etiketi</label>
-        <input id="edit-tarih-label" type="text" class="w-full border rounded-2xl px-4 py-3" value="Tarih">
-      </div>
+      <div><label class="block text-sm mb-1">"Tarih" Etiketi</label><input id="edit-tarih-etiket" type="text" class="w-full border rounded-2xl px-4 py-3" value="Tarih"></div>
       <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut (px)</label><input id="edit-tarih-label-size" type="number" value="20" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-xs mb-1">Renk</label><input id="edit-tarih-label-renk" type="color" value="#fde68a" class="w-full h-12 rounded-2xl border-0"></div>
+        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-tarih-etiket-size" type="number" value="20" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div><label class="block text-xs mb-1">Renk</label><input id="edit-tarih-etiket-renk" type="color" value="#fde68a" class="w-full h-12 rounded-2xl border-0"></div>
       </div>
     </div>
     <div class="grid grid-cols-2 gap-6 mt-6">
-      <div>
-        <label class="block text-sm mb-1">Tarih ve Saat Metni</label>
-        <input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3">
-      </div>
+      <div><label class="block text-sm mb-1">Tarih ve Saat Metni</label><input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3"></div>
       <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut (px)</label><input id="edit-tarih-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
+        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-tarih-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
         <div><label class="block text-xs mb-1">Renk</label><input id="edit-tarih-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
       </div>
     </div>
@@ -94,34 +83,16 @@
     </div>
     <div class="grid grid-cols-2 gap-8">
       <div>
-        <label class="block text-sm mb-2">Gelin Tarafı Başlığı</label>
-        <input id="edit-gelin-taraf" type="text" class="w-full border rounded-2xl px-4 py-3" value="Gelin Tarafı">
+        <p class="font-medium mb-3">Gelin Tarafı</p>
+        <input id="edit-gelin-taraf" type="text" class="w-full border rounded-2xl px-4 py-3 mb-4" value="Gelin Tarafı">
+        <input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" value="Ayşe">
+        <input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3" value="Mehmet">
       </div>
       <div>
-        <label class="block text-sm mb-2">Damat Tarafı Başlığı</label>
-        <input id="edit-damat-taraf" type="text" class="w-full border rounded-2xl px-4 py-3" value="Damat Tarafı">
-      </div>
-    </div>
-    <!-- Gelin Tarafı -->
-    <div class="mt-8 grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm mb-1">Anne Etiketi</label><input id="edit-gelin-anne-label" type="text" class="w-full border rounded-2xl px-4 py-3" value="Anne">
-        <label class="block text-sm mb-1 mt-4">Anne Adı</label><input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3" value="Ayşe">
-      </div>
-      <div>
-        <label class="block text-sm mb-1">Baba Etiketi</label><input id="edit-gelin-baba-label" type="text" class="w-full border rounded-2xl px-4 py-3" value="Baba">
-        <label class="block text-sm mb-1 mt-4">Baba Adı</label><input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3" value="Mehmet">
-      </div>
-    </div>
-    <!-- Damat Tarafı -->
-    <div class="mt-8 grid grid-cols-2 gap-6">
-      <div>
-        <label class="block text-sm mb-1">Anne Etiketi</label><input id="edit-damat-anne-label" type="text" class="w-full border rounded-2xl px-4 py-3" value="Anne">
-        <label class="block text-sm mb-1 mt-4">Anne Adı</label><input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3" value="Fatma">
-      </div>
-      <div>
-        <label class="block text-sm mb-1">Baba Etiketi</label><input id="edit-damat-baba-label" type="text" class="w-full border rounded-2xl px-4 py-3" value="Baba">
-        <label class="block text-sm mb-1 mt-4">Baba Adı</label><input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3" value="Ahmet">
+        <p class="font-medium mb-3">Damat Tarafı</p>
+        <input id="edit-damat-taraf" type="text" class="w-full border rounded-2xl px-4 py-3 mb-4" value="Damat Tarafı">
+        <input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" value="Fatma">
+        <input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3" value="Ahmet">
       </div>
     </div>
   </div>
@@ -138,10 +109,7 @@
   <!-- BÖLÜM 5 -->
   <div id="tab5" class="tab-content hidden">
     <h3 class="text-xl font-bold mb-6">Bölüm 5 - Geri Sayım</h3>
-    <div class="grid grid-cols-2 gap-6">
-      <div><label class="block text-sm mb-1">Üst Başlık</label><input id="edit-countdown-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Büyük güne kalan süre"></div>
-      <div><label class="block text-sm mb-1">Renk</label><input id="edit-countdown-renk" type="color" value="#fcd34d" class="w-full h-12 rounded-2xl border-0"></div>
-    </div>
+    <div><label class="block text-sm mb-1">Üst Başlık</label><input id="edit-countdown-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Büyük güne kalan süre"></div>
   </div>
 
   <!-- BÖLÜM 7 -->
@@ -152,7 +120,7 @@
       <input id="edit-footer-mesaj" type="text" class="w-full border rounded-2xl px-4 py-3" value="Seni aramızda görmek isteriz ❤️">
     </div>
     <div class="mt-6">
-      <label class="block text-sm mb-1">Alt İsimler</label>
+      <label class="block text-sm mb-1">Alt İsimler (Berna & Melih)</label>
       <input id="edit-footer-isim" type="text" class="w-full border rounded-2xl px-4 py-3" value="Berna & Melih">
     </div>
   </div>
