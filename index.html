@@ -3,196 +3,1800 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Tam Ayrıntılı Düzenleme</title>
+  <title>Düğün Davetiyesi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-</head>
-<body class="bg-stone-950 text-white min-h-screen p-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Cinzel:wght@400;600&family=Lora:wght@400;600&family=Montserrat:wght@300;400;600&family=Raleway:wght@300;400;600&family=Inter:wght@300;400;600&display=swap');
 
-<div class="max-w-6xl mx-auto bg-white text-black rounded-3xl p-10">
-  <h1 class="text-4xl font-bold text-center mb-10">🔐 Tam Ayrıntılı Admin Paneli</h1>
+    body { font-family: 'Inter', sans-serif; }
+    .hero-bg { background-size: cover; background-position: center; background-attachment: fixed; transition: all 0.4s; }
+    .countdown-box { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-  <div class="flex border-b mb-8 text-sm">
-    <button onclick="switchTab(1)" class="tab-btn active px-6 py-4">Bölüm 1</button>
-    <button onclick="switchTab(2)" class="tab-btn px-6 py-4">Bölüm 2</button>
-    <button onclick="switchTab(3)" class="tab-btn px-6 py-4">Bölüm 3</button>
-    <button onclick="switchTab(4)" class="tab-btn px-6 py-4">Bölüm 4</button>
-    <button onclick="switchTab(5)" class="tab-btn px-6 py-4">Bölüm 5</button>
-    <button onclick="switchTab(7)" class="tab-btn px-6 py-4">Bölüm 7</button>
-  </div>
+    /* Edit Panel Tabs */
+    .tab-btn { transition: all 0.2s; }
+    .tab-btn.active { background: #e11d48; color: white; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-  <!-- BÖLÜM 1 -->
-  <div id="tab1" class="tab-content">
-    <h3 class="text-xl font-bold mb-6">Bölüm 1 - Başlık ve İsimler</h3>
-    <div class="grid grid-cols-2 gap-6">
-      <div><label class="block text-sm mb-1">Ana Başlık</label><input id="edit-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Düğün Davetiyesi"></div>
-      <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-baslik-size" type="number" value="72" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-xs mb-1">Renk</label><input id="edit-baslik-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
-      </div>
-    </div>
-    <div class="grid grid-cols-2 gap-6 mt-6">
-      <div><label class="block text-sm mb-1">Gelin İsmi</label><input id="edit-gelin" type="text" class="w-full border rounded-2xl px-4 py-3" value="Berna"></div>
-      <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-gelin-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-xs mb-1">Renk</label><input id="edit-gelin-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
-      </div>
-    </div>
-    <div class="grid grid-cols-2 gap-6 mt-6">
-      <div><label class="block text-sm mb-1">Damat İsmi</label><input id="edit-damat" type="text" class="w-full border rounded-2xl px-4 py-3" value="Melih"></div>
-      <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-damat-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-xs mb-1">Renk</label><input id="edit-damat-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
-      </div>
-    </div>
-    <div class="mt-6">
-      <label class="block text-sm mb-1">Buton Yazısı</label>
-      <input id="edit-btntext" type="text" class="w-full border rounded-2xl px-4 py-3" value="DAVETİYEYİ AÇ">
-    </div>
-    <div class="grid grid-cols-2 gap-6 mt-6">
-      <div><label class="block text-sm mb-1">Buton Rengi</label><input id="edit-btn-renk" type="color" value="#e11d48" class="w-full h-12 rounded-2xl border-0"></div>
-      <div><label class="block text-sm mb-1">Buton Yazı Rengi</label><input id="edit-btn-text-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
-    </div>
-  </div>
+    /* Section Cards in Edit */
+    .section-card { border: 2px solid #f3f4f6; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+    .section-card:hover { border-color: #e11d48; }
+    .field-label { font-size: 12px; font-weight: 600; color: #6b7280; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .edit-input { width: 100%; border: 1.5px solid #e5e7eb; border-radius: 12px; padding: 10px 14px; font-size: 14px; transition: border 0.2s; }
+    .edit-input:focus { outline: none; border-color: #e11d48; }
+    .color-input { height: 48px; border-radius: 12px; border: 1.5px solid #e5e7eb; cursor: pointer; }
+    .section-header { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 16px; display: flex; align-items: center; gap-8px; }
+    .badge { background: #fff1f2; color: #e11d48; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; border: 1px solid #fecdd3; }
 
-  <!-- BÖLÜM 2 -->
-  <div id="tab2" class="tab-content hidden">
-    <h3 class="text-xl font-bold mb-6">Bölüm 2 - Tarih</h3>
-    <div class="grid grid-cols-2 gap-6">
-      <div><label class="block text-sm mb-1">"Tarih" Etiketi</label><input id="edit-tarih-etiket" type="text" class="w-full border rounded-2xl px-4 py-3" value="Tarih"></div>
-      <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-tarih-etiket-size" type="number" value="20" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-xs mb-1">Renk</label><input id="edit-tarih-etiket-renk" type="color" value="#fde68a" class="w-full h-12 rounded-2xl border-0"></div>
-      </div>
-    </div>
-    <div class="grid grid-cols-2 gap-6 mt-6">
-      <div><label class="block text-sm mb-1">Tarih ve Saat Metni</label><input id="edit-tarih" type="datetime-local" class="w-full border rounded-2xl px-4 py-3"></div>
-      <div class="grid grid-cols-2 gap-3">
-        <div><label class="block text-xs mb-1">Boyut</label><input id="edit-tarih-size" type="number" value="48" class="w-full border rounded-2xl px-4 py-3"></div>
-        <div><label class="block text-xs mb-1">Renk</label><input id="edit-tarih-renk" type="color" value="#ffffff" class="w-full h-12 rounded-2xl border-0"></div>
-      </div>
-    </div>
-  </div>
+    /* Icon picker */
+    .icon-option { cursor: pointer; padding: 8px; border-radius: 8px; border: 2px solid transparent; text-align: center; font-size: 18px; }
+    .icon-option:hover, .icon-option.selected { border-color: #e11d48; background: #fff1f2; }
 
-  <!-- BÖLÜM 3 -->
-  <div id="tab3" class="tab-content hidden">
-    <h3 class="text-xl font-bold mb-6">Bölüm 3 - Aile Bilgileri</h3>
-    <div class="mb-6">
-      <label class="block text-sm mb-1">"Ailelerimiz" Başlığı</label>
-      <input id="edit-aile-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Ailelerimiz">
-    </div>
-    <div class="grid grid-cols-2 gap-8">
-      <div>
-        <p class="font-medium mb-3">Gelin Tarafı</p>
-        <input id="edit-gelin-taraf" type="text" class="w-full border rounded-2xl px-4 py-3 mb-4" value="Gelin Tarafı">
-        <input id="edit-gelin-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" value="Ayşe">
-        <input id="edit-gelin-baba" type="text" class="w-full border rounded-2xl px-4 py-3" value="Mehmet">
-      </div>
-      <div>
-        <p class="font-medium mb-3">Damat Tarafı</p>
-        <input id="edit-damat-taraf" type="text" class="w-full border rounded-2xl px-4 py-3 mb-4" value="Damat Tarafı">
-        <input id="edit-damat-anne" type="text" class="w-full border rounded-2xl px-4 py-3 mb-3" value="Fatma">
-        <input id="edit-damat-baba" type="text" class="w-full border rounded-2xl px-4 py-3" value="Ahmet">
-      </div>
-    </div>
-  </div>
+    /* Font size slider */
+    input[type=range] { accent-color: #e11d48; }
 
-  <!-- BÖLÜM 4 -->
-  <div id="tab4" class="tab-content hidden">
-    <h3 class="text-xl font-bold mb-6">Bölüm 4 - Konum</h3>
-    <div class="grid grid-cols-2 gap-6">
-      <div><label class="block text-sm mb-1">Başlık</label><input id="edit-konum-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Nerede Buluşuyoruz?"></div>
-      <div><label class="block text-sm mb-1">Adres</label><input id="edit-konum" type="text" class="w-full border rounded-2xl px-4 py-3" value="AE Bilişim, Hamitler, Osmangazi, Bursa"></div>
-    </div>
-  </div>
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f9fafb; }
+    ::-webkit-scrollbar-thumb { background: #e11d48; border-radius: 10px; }
 
-  <!-- BÖLÜM 5 -->
-  <div id="tab5" class="tab-content hidden">
-    <h3 class="text-xl font-bold mb-6">Bölüm 5 - Geri Sayım</h3>
-    <div><label class="block text-sm mb-1">Üst Başlık</label><input id="edit-countdown-baslik" type="text" class="w-full border rounded-2xl px-4 py-3" value="Büyük güne kalan süre"></div>
-  </div>
+    /* Edit toggle button */
+    #editToggleBtn { position: fixed; bottom: 24px; right: 24px; z-index: 9998; background: #e11d48; color: white; width: 60px; height: 60px; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(225,29,72,0.4); cursor: pointer; transition: transform 0.2s; }
+    #editToggleBtn:hover { transform: scale(1.1); }
 
-  <!-- BÖLÜM 7 -->
-  <div id="tab7" class="tab-content hidden">
-    <h3 class="text-xl font-bold mb-6">Bölüm 7 - Footer</h3>
-    <div>
-      <label class="block text-sm mb-1">"Seni aramızda görmek isteriz ❤️" Mesajı</label>
-      <input id="edit-footer-mesaj" type="text" class="w-full border rounded-2xl px-4 py-3" value="Seni aramızda görmek isteriz ❤️">
-    </div>
-    <div class="mt-6">
-      <label class="block text-sm mb-1">Alt İsimler (Berna & Melih)</label>
-      <input id="edit-footer-isim" type="text" class="w-full border rounded-2xl px-4 py-3" value="Berna & Melih">
-    </div>
-  </div>
+    .font-option { padding: 6px 12px; border: 2px solid #e5e7eb; border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+    .font-option:hover, .font-option.selected { border-color: #e11d48; background: #fff1f2; }
 
-  <div class="flex gap-4 mt-12">
-    <button onclick="saveChanges()" class="flex-1 bg-rose-600 text-white py-5 rounded-3xl text-xl font-semibold">💾 KAYDET VE GÜNCELLE</button>
-    <button onclick="window.location.href='/'" class="flex-1 border border-gray-400 py-5 rounded-3xl text-xl">İptal</button>
-  </div>
-</div>
-
-<script>
-  const EDIT_PASSWORD = "1234";
-
-  function switchTab(n) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-    document.getElementById('tab' + n).classList.remove('hidden');
-  }
-
-  function loadSettings() {
-    const saved = JSON.parse(localStorage.getItem('davetSettings')) || {};
-    document.getElementById('edit-baslik').value = saved.baslik || "Düğün Davetiyesi";
-    document.getElementById('edit-gelin').value = saved.gelin || "Berna";
-    document.getElementById('edit-damat').value = saved.damat || "Melih";
-    document.getElementById('edit-btntext').value = saved.btntext || "DAVETİYEYİ AÇ";
-    document.getElementById('edit-tarih').value = saved.tarih || "2026-10-15T16:00";
-    document.getElementById('edit-aile-baslik').value = saved.aileBaslik || "Ailelerimiz";
-    document.getElementById('edit-gelin-taraf').value = saved.gelinTaraf || "Gelin Tarafı";
-    document.getElementById('edit-damat-taraf').value = saved.damatTaraf || "Damat Tarafı";
-    document.getElementById('edit-gelin-anne').value = saved.gelinAnne || "Ayşe";
-    document.getElementById('edit-gelin-baba').value = saved.gelinBaba || "Mehmet";
-    document.getElementById('edit-damat-anne').value = saved.damatAnne || "Fatma";
-    document.getElementById('edit-damat-baba').value = saved.damatBaba || "Ahmet";
-    document.getElementById('edit-konum-baslik').value = saved.konumBaslik || "Nerede Buluşuyoruz?";
-    document.getElementById('edit-konum').value = saved.konum || "AE Bilişim, Hamitler, Osmangazi, Bursa";
-    document.getElementById('edit-countdown-baslik').value = saved.countdownBaslik || "Büyük güne kalan süre";
-    document.getElementById('edit-footer-mesaj').value = saved.footerMesaj || "Seni aramızda görmek isteriz ❤️";
-    document.getElementById('edit-footer-isim').value = saved.footerIsim || "Berna & Melih";
-  }
-
-  function saveChanges() {
-    const settings = {
-      baslik: document.getElementById('edit-baslik').value,
-      gelin: document.getElementById('edit-gelin').value,
-      damat: document.getElementById('edit-damat').value,
-      btntext: document.getElementById('edit-btntext').value,
-      tarih: document.getElementById('edit-tarih').value,
-      aileBaslik: document.getElementById('edit-aile-baslik').value,
-      gelinTaraf: document.getElementById('edit-gelin-taraf').value,
-      damatTaraf: document.getElementById('edit-damat-taraf').value,
-      gelinAnne: document.getElementById('edit-gelin-anne').value,
-      gelinBaba: document.getElementById('edit-gelin-baba').value,
-      damatAnne: document.getElementById('edit-damat-anne').value,
-      damatBaba: document.getElementById('edit-damat-baba').value,
-      konumBaslik: document.getElementById('edit-konum-baslik').value,
-      konum: document.getElementById('edit-konum').value,
-      countdownBaslik: document.getElementById('edit-countdown-baslik').value,
-      footerMesaj: document.getElementById('edit-footer-mesaj').value,
-      footerIsim: document.getElementById('edit-footer-isim').value
-    };
-    localStorage.setItem('davetSettings', JSON.stringify(settings));
-    alert("✅ Tüm ayarlar kaydedildi! Ana sayfayı yenileyin.");
-  }
-
-  window.onload = () => {
-    const pw = prompt("Admin paneli şifresi:");
-    if (pw !== EDIT_PASSWORD) {
-      alert("❌ Yanlış şifre!");
-      window.location.href = "/";
-    } else {
-      loadSettings();
+    /* Template Cards */
+    .template-card {
+      border: 3px solid transparent;
+      border-radius: 20px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.25s;
+      position: relative;
     }
-  };
-</script>
+    .template-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
+    .template-card.selected-tpl { border-color: #7c3aed; box-shadow: 0 0 0 4px rgba(124,58,237,0.2); }
+    .template-card .tpl-preview {
+      height: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      gap: 4px;
+    }
+    .template-card .tpl-title { font-size: 11px; font-weight: 700; color: #374151; padding: 8px 12px; background: #f9fafb; text-align: center; }
+    .template-card .tpl-badge {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,0.5); color: white;
+      font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .apply-btn {
+      width: 100%; padding: 10px; font-size: 13px; font-weight: 700;
+      background: linear-gradient(135deg,#7c3aed,#db2777);
+      color: white; border: none; border-radius: 0 0 16px 16px; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .apply-btn:hover { opacity: 0.9; }
+  </style>
+</head>
+<body class="bg-stone-950 text-white overflow-x-hidden">
+
+  <!-- LANDING -->
+  <div id="landing" class="hero-bg min-h-screen flex items-center justify-center relative">
+    <div class="text-center z-10">
+      <h1 id="landing-baslik" class="title-font text-6xl md:text-7xl tracking-widest" style="font-family:'Playfair Display',serif">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-6 mt-8 text-5xl md:text-6xl" style="font-family:'Playfair Display',serif">
+        <span id="landing-gelin">Berna</span>
+        <span id="landing-and" style="color:#fb7185">&</span>
+        <span id="landing-damat">Melih</span>
+      </div>
+      <button onclick="openInvitation()" id="open-btn" class="mt-16 px-12 py-6 text-2xl font-semibold rounded-3xl shadow-2xl transition-all hover:scale-105" style="background:#e11d48;color:white">
+        DAVETİYEYİ AÇ
+      </button>
+    </div>
+  </div>
+
+  <!-- TAM DAVETİYE -->
+  <div id="invitation" class="hero-bg min-h-screen hidden">
+
+    <!-- BÖLÜM 1: Başlık -->
+    <div class="text-center pt-12 pb-8">
+      <h1 id="baslik" class="text-6xl md:text-7xl tracking-widest" style="font-family:'Playfair Display',serif">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-8 mt-8 text-4xl md:text-5xl" id="isimler-wrap" style="font-family:'Playfair Display',serif">
+        <span id="gelin">Berna</span>
+        <span id="and-symbol" style="color:#fb7185">&</span>
+        <span id="damat">Melih</span>
+      </div>
+    </div>
+
+    <!-- BÖLÜM 3: Tarih -->
+    <div class="text-center py-12 bg-black/40 backdrop-blur-md">
+      <p id="tarih-label" class="text-xl" style="color:#fde68a">Tarih</p>
+      <p id="tarih-goster" class="text-5xl mt-2" style="font-family:'Playfair Display',serif">15 Ekim 2026 • 16:00</p>
+    </div>
+
+    <!-- BÖLÜM 2: Aile -->
+    <div class="max-w-4xl mx-auto py-8 px-6">
+      <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
+        <h2 id="aile-baslik" class="text-3xl text-center mb-8 flex items-center justify-center gap-3" style="font-family:'Playfair Display',serif">
+          <i id="aile-icon-left" class="fas fa-heart" style="color:#fb7185"></i>
+          <span id="aile-baslik-text">Ailelerimiz</span>
+          <i id="aile-icon-right" class="fas fa-heart" style="color:#fb7185"></i>
+        </h2>
+        <div class="grid md:grid-cols-2 gap-10">
+          <div class="text-center border-r border-white/20">
+            <h3 id="gelin-taraf-baslik" class="text-xl font-semibold mb-6" style="color:#f9a8d4">Gelin Tarafı</h3>
+            <div class="space-y-6">
+              <div>
+                <p id="gelin-anne-label" class="text-sm" style="color:#f9a8d4">Anne</p>
+                <p id="gelin-anne" class="text-2xl font-medium">Ayşe</p>
+              </div>
+              <div>
+                <p id="gelin-baba-label" class="text-sm" style="color:#f9a8d4">Baba</p>
+                <p id="gelin-baba" class="text-2xl font-medium">Mehmet</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <h3 id="damat-taraf-baslik" class="text-xl font-semibold mb-6" style="color:#93c5fd">Damat Tarafı</h3>
+            <div class="space-y-6">
+              <div>
+                <p id="damat-anne-label" class="text-sm" style="color:#93c5fd">Anne</p>
+                <p id="damat-anne" class="text-2xl font-medium">Fatma</p>
+              </div>
+              <div>
+                <p id="damat-baba-label" class="text-sm" style="color:#93c5fd">Baba</p>
+                <p id="damat-baba" class="text-2xl font-medium">Ahmet</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BÖLÜM 4: Konum -->
+    <div class="max-w-4xl mx-auto px-6 pb-12">
+      <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
+        <h2 id="konum-baslik" class="text-3xl text-center mb-6" style="font-family:'Playfair Display',serif">
+          <i id="konum-icon" class="fas fa-map-marker-alt mr-2" style="color:#fb7185"></i>Nerede Buluşuyoruz?
+        </h2>
+        <p id="konum-text" class="text-xl text-center mb-6">Marmara Üniversitesi Kongre Merkezi, İstanbul</p>
+        <!-- Konuma Git Butonu -->
+        <div class="text-center mb-6">
+          <a id="konum-git-btn" href="#" target="_blank"
+            class="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-base font-semibold shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+            style="background:#e11d48;color:#ffffff;text-decoration:none">
+            <i class="fas fa-diamond-turn-right text-lg"></i>
+            <span id="konum-git-text">Konuma Git</span>
+          </a>
+        </div>
+        <div id="map-container" class="rounded-2xl overflow-hidden shadow-2xl">
+          <iframe id="googleMap" width="100%" height="400" style="border:0" allowfullscreen loading="lazy"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=29.0,41.0,29.1,41.05&layer=mapnik&marker=41.025,29.05"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- BÖLÜM 5: Geri Sayım -->
+    <div class="max-w-4xl mx-auto py-12 px-6">
+      <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 text-center countdown-box">
+        <p id="countdown-label" class="mb-6 text-lg" style="color:#fde68a">Büyük güne kalan süre</p>
+        <div class="grid grid-cols-4 gap-4 text-center">
+          <div>
+            <span id="gun" class="text-6xl font-bold">124</span><br>
+            <span id="gun-label" class="text-sm">GÜN</span>
+          </div>
+          <div>
+            <span id="saat" class="text-6xl font-bold">14</span><br>
+            <span id="saat-label" class="text-sm">SAAT</span>
+          </div>
+          <div>
+            <span id="dakika" class="text-6xl font-bold">32</span><br>
+            <span id="dakika-label" class="text-sm">DAKİKA</span>
+          </div>
+          <div>
+            <span id="saniye" class="text-6xl font-bold">09</span><br>
+            <span id="saniye-label" class="text-sm">SANİYE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BÖLÜM 6: Müzik -->
+    <div class="text-center py-8" id="music-section">
+      <p id="muzik-label" class="mb-3" style="color:#fde68a">Özel şarkımız çalıyor 💕</p>
+      <div id="mp3-player" class="hidden"><audio id="musicPlayer" controls loop class="mx-auto w-80"><source id="musicSource" src="" type="audio/mpeg"></audio></div>
+      <div id="youtube-player" class="hidden mx-auto max-w-md"><iframe id="youtube-iframe" width="100%" height="200" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+      <div id="spotify-player" class="hidden mx-auto max-w-md"><iframe id="spotify-iframe" width="100%" height="352" src="" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+    </div>
+
+    <!-- BÖLÜM 7: Footer -->
+    <footer class="text-center py-12 text-sm">
+      <p id="footer-mesaj" style="color:rgba(253,230,138,0.6)">Seni aramızda görmek isteriz ❤️</p>
+      <p id="footer-isim" class="mt-1" style="color:rgba(253,230,138,0.6)">Berna & Melih</p>
+    </footer>
+  </div>
+
+  <!-- EDIT TOGGLE BUTTON -->
+  <div id="editToggleBtn" onclick="openEdit()" title="Düzenle">
+    <i class="fas fa-pen"></i>
+  </div>
+
+  <!-- DÜZENLEME PANELİ -->
+  <div id="editPanel" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center overflow-auto p-4">
+    <div class="bg-white text-black w-full max-w-3xl rounded-3xl shadow-2xl my-4" style="max-height:95vh;overflow:hidden;display:flex;flex-direction:column">
+      
+      <!-- Panel Header -->
+      <div class="flex justify-between items-center px-8 py-6 border-b bg-gray-50 rounded-t-3xl flex-shrink-0">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-900">✏️ Davetiyeyi Düzenle</h2>
+          <p class="text-sm text-gray-500 mt-0.5">Bölüme tıklayarak düzenle</p>
+        </div>
+        <button onclick="closeEdit()" class="text-gray-400 hover:text-red-500 text-3xl leading-none transition-colors">✕</button>
+      </div>
+
+      <!-- TAB BAR -->
+      <div class="flex gap-2 px-8 py-4 border-b overflow-x-auto flex-shrink-0 bg-white">
+        <button class="tab-btn active px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab1',this)">
+          📋 Bölüm 1<br><span class="text-xs font-normal opacity-70">Başlık</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab2',this)">
+          👨‍👩‍👧 Bölüm 2<br><span class="text-xs font-normal opacity-70">Aileler</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab3',this)">
+          📅 Bölüm 3<br><span class="text-xs font-normal opacity-70">Tarih</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab4',this)">
+          📍 Bölüm 4<br><span class="text-xs font-normal opacity-70">Konum</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab5',this)">
+          ⏳ Bölüm 5<br><span class="text-xs font-normal opacity-70">Geri Sayım</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab6',this)">
+          🎵 Bölüm 6<br><span class="text-xs font-normal opacity-70">Müzik</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab7',this)">
+          🌿 Bölüm 7<br><span class="text-xs font-normal opacity-70">Footer</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" onclick="switchTab('tab8',this)">
+          🎨 Genel<br><span class="text-xs font-normal opacity-70">Arka Plan</span>
+        </button>
+        <button class="tab-btn px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap" style="background:linear-gradient(135deg,#7c3aed,#db2777);color:white" onclick="switchTab('tab9',this)">
+          ✨ Şablonlar<br><span class="text-xs font-normal opacity-80">Hazır Temalar</span>
+        </button>
+      </div>
+
+      <!-- TAB CONTENTS -->
+      <div class="overflow-y-auto flex-1 px-8 py-6">
+
+        <!-- ===== BÖLÜM 1: BAŞLIK ===== -->
+        <div id="tab1" class="tab-content active">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📋</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 1 — Başlık ve İsimler</h3>
+              <p class="text-sm text-gray-500">Ana başlık, gelin & damat isimleri, buton</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📝 Yazı İçerikleri</p>
+            <div class="grid grid-cols-1 gap-4">
+              <div>
+                <p class="field-label">Ana Başlık</p>
+                <input id="edit-baslik" type="text" class="edit-input" value="Düğün Davetiyesi">
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="field-label">Gelin İsmi</p>
+                  <input id="edit-gelin" type="text" class="edit-input" value="Berna">
+                </div>
+                <div>
+                  <p class="field-label">Damat İsmi</p>
+                  <input id="edit-damat" type="text" class="edit-input" value="Melih">
+                </div>
+              </div>
+              <div>
+                <p class="field-label">Buton Yazısı</p>
+                <input id="edit-btntext" type="text" class="edit-input" value="DAVETİYEYİ AÇ">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Başlık Rengi</p>
+                <input id="edit-baslik-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Gelin Adı Rengi</p>
+                <input id="edit-gelin-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">"&" Sembol Rengi</p>
+                <input id="edit-and-renk" type="color" value="#fb7185" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Damat Adı Rengi</p>
+                <input id="edit-damat-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Buton Rengi</p>
+                <input id="edit-btncolor" type="color" value="#e11d48" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Buton Yazı Rengi</p>
+                <input id="edit-btn-textcolor" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🔤 Yazı Karakteri</p>
+            <div>
+              <p class="field-label mb-2">Başlık & İsimler Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2" id="font-picker-sec1">
+                <button class="font-option selected" onclick="selectFont('sec1','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec1','Great Vibes')" style="font-family:'Great Vibes'">Great Vibes</button>
+                <button class="font-option" onclick="selectFont('sec1','Dancing Script')" style="font-family:'Dancing Script'">Dancing Script</button>
+                <button class="font-option" onclick="selectFont('sec1','Cinzel')" style="font-family:'Cinzel'">Cinzel</button>
+                <button class="font-option" onclick="selectFont('sec1','Cormorant Garamond')" style="font-family:'Cormorant Garamond'">Cormorant</button>
+                <button class="font-option" onclick="selectFont('sec1','Lora')" style="font-family:'Lora'">Lora</button>
+                <button class="font-option" onclick="selectFont('sec1','Montserrat')" style="font-family:'Montserrat'">Montserrat</button>
+                <button class="font-option" onclick="selectFont('sec1','Raleway')" style="font-family:'Raleway'">Raleway</button>
+              </div>
+              <input type="hidden" id="edit-sec1-font" value="Playfair Display">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Başlık Büyüklüğü: <span id="baslik-size-val">72</span>px</p>
+              <input type="range" min="32" max="120" value="72" class="w-full mt-1" id="edit-baslik-size" oninput="document.getElementById('baslik-size-val').textContent=this.value">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">İsim Büyüklüğü: <span id="isim-size-val">48</span>px</p>
+              <input type="range" min="24" max="96" value="48" class="w-full mt-1" id="edit-isim-size" oninput="document.getElementById('isim-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 2: AİLE ===== -->
+        <div id="tab2" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">👨‍👩‍👧</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 2 — Ailelerimiz</h3>
+              <p class="text-sm text-gray-500">Gelin & damat tarafı aile bilgileri, simgeler, renkler</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📝 Başlık</p>
+            <div>
+              <p class="field-label">Bölüm Başlığı</p>
+              <input id="edit-aile-baslik" type="text" class="edit-input" value="Ailelerimiz">
+            </div>
+            <div class="mt-4">
+              <p class="field-label mb-2">Başlık Yanı Simge</p>
+              <div class="flex flex-wrap gap-2" id="aile-icon-picker">
+                <button class="icon-option selected" onclick="selectAileIcon('fa-heart')"><i class="fas fa-heart"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-rings-wedding')"><i class="fas fa-rings-wedding"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-dove')"><i class="fas fa-dove"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-star')"><i class="fas fa-star"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-gem')"><i class="fas fa-gem"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-crown')"><i class="fas fa-crown"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-flower')"><i class="fas fa-seedling"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('fa-infinity')"><i class="fas fa-infinity"></i></button>
+                <button class="icon-option" onclick="selectAileIcon('')">—</button>
+              </div>
+              <input type="hidden" id="edit-aile-icon" value="fa-heart">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Simge Rengi</p>
+              <input id="edit-aile-icon-renk" type="color" value="#fb7185" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">💒 Gelin Tarafı</p>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <p class="field-label">Bölüm Başlığı</p>
+                <input id="edit-gelin-taraf-baslik" type="text" class="edit-input" value="Gelin Tarafı">
+              </div>
+              <div>
+                <p class="field-label">Başlık Rengi</p>
+                <input id="edit-gelin-taraf-renk" type="color" value="#f9a8d4" class="color-input w-full">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-3">
+              <div>
+                <p class="field-label">Anne Etiketi</p>
+                <input id="edit-gelin-anne-label" type="text" class="edit-input" value="Anne">
+              </div>
+              <div>
+                <p class="field-label">Anne Adı</p>
+                <input id="edit-gelin-anne" type="text" class="edit-input" value="Ayşe">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Baba Etiketi</p>
+                <input id="edit-gelin-baba-label" type="text" class="edit-input" value="Baba">
+              </div>
+              <div>
+                <p class="field-label">Baba Adı</p>
+                <input id="edit-gelin-baba" type="text" class="edit-input" value="Mehmet">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Etiket Rengi (Anne/Baba)</p>
+              <input id="edit-gelin-etiket-renk" type="color" value="#f9a8d4" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-blue-600 mb-4 uppercase tracking-wide">🤵 Damat Tarafı</p>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <p class="field-label">Bölüm Başlığı</p>
+                <input id="edit-damat-taraf-baslik" type="text" class="edit-input" value="Damat Tarafı">
+              </div>
+              <div>
+                <p class="field-label">Başlık Rengi</p>
+                <input id="edit-damat-taraf-renk" type="color" value="#93c5fd" class="color-input w-full">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-3">
+              <div>
+                <p class="field-label">Anne Etiketi</p>
+                <input id="edit-damat-anne-label" type="text" class="edit-input" value="Anne">
+              </div>
+              <div>
+                <p class="field-label">Anne Adı</p>
+                <input id="edit-damat-anne" type="text" class="edit-input" value="Fatma">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Baba Etiketi</p>
+                <input id="edit-damat-baba-label" type="text" class="edit-input" value="Baba">
+              </div>
+              <div>
+                <p class="field-label">Baba Adı</p>
+                <input id="edit-damat-baba" type="text" class="edit-input" value="Ahmet">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Etiket Rengi (Anne/Baba)</p>
+              <input id="edit-damat-etiket-renk" type="color" value="#93c5fd" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🔤 Yazı Tipi & Boyutu</p>
+            <div>
+              <p class="field-label mb-2">Başlık Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="font-option selected" onclick="selectFont('sec2','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec2','Great Vibes')" style="font-family:'Great Vibes'">Great Vibes</button>
+                <button class="font-option" onclick="selectFont('sec2','Dancing Script')" style="font-family:'Dancing Script'">Dancing Script</button>
+                <button class="font-option" onclick="selectFont('sec2','Cinzel')" style="font-family:'Cinzel'">Cinzel</button>
+                <button class="font-option" onclick="selectFont('sec2','Lora')" style="font-family:'Lora'">Lora</button>
+                <button class="font-option" onclick="selectFont('sec2','Montserrat')" style="font-family:'Montserrat'">Montserrat</button>
+              </div>
+              <input type="hidden" id="edit-sec2-font" value="Playfair Display">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Bölüm Başlık Büyüklüğü: <span id="aile-baslik-size-val">30</span>px</p>
+              <input type="range" min="16" max="60" value="30" class="w-full mt-1" id="edit-aile-baslik-size" oninput="document.getElementById('aile-baslik-size-val').textContent=this.value">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">İsim Büyüklüğü: <span id="aile-isim-size-val">24</span>px</p>
+              <input type="range" min="12" max="48" value="24" class="w-full mt-1" id="edit-aile-isim-size" oninput="document.getElementById('aile-isim-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 3: TARİH ===== -->
+        <div id="tab3" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📅</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 3 — Tarih & Saat</h3>
+              <p class="text-sm text-gray-500">Düğün tarihi, saati ve görünümü</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📅 Tarih Bilgisi</p>
+            <div>
+              <p class="field-label">Tarih ve Saat</p>
+              <input id="edit-tarih" type="datetime-local" class="edit-input" value="2026-10-15T16:00">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Tarih Etiketi ("Tarih" yazısı)</p>
+              <input id="edit-tarih-label" type="text" class="edit-input" value="Tarih">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Etiket Rengi</p>
+                <input id="edit-tarih-label-renk" type="color" value="#fde68a" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Tarih Yazı Rengi</p>
+                <input id="edit-tarih-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🔤 Yazı Tipi & Boyutu</p>
+            <div>
+              <p class="field-label mb-2">Tarih Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="font-option selected" onclick="selectFont('sec3','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec3','Great Vibes')" style="font-family:'Great Vibes'">Great Vibes</button>
+                <button class="font-option" onclick="selectFont('sec3','Cinzel')" style="font-family:'Cinzel'">Cinzel</button>
+                <button class="font-option" onclick="selectFont('sec3','Lora')" style="font-family:'Lora'">Lora</button>
+                <button class="font-option" onclick="selectFont('sec3','Montserrat')" style="font-family:'Montserrat'">Montserrat</button>
+              </div>
+              <input type="hidden" id="edit-sec3-font" value="Playfair Display">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Tarih Yazı Büyüklüğü: <span id="tarih-size-val">48</span>px</p>
+              <input type="range" min="20" max="80" value="48" class="w-full mt-1" id="edit-tarih-size" oninput="document.getElementById('tarih-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 4: KONUM ===== -->
+        <div id="tab4" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📍</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 4 — Konum</h3>
+              <p class="text-sm text-gray-500">Düğün yeri, adres, harita ve navigasyon butonu</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📍 Konum Bilgileri</p>
+            <div>
+              <p class="field-label">Bölüm Başlığı</p>
+              <input id="edit-konum-baslik" type="text" class="edit-input" value="Nerede Buluşuyoruz?">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Adres (gösterilecek metin)</p>
+              <input id="edit-konum" type="text" class="edit-input" value="Marmara Üniversitesi Kongre Merkezi, İstanbul">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Harita Arama Terimi</p>
+              <input id="edit-map-query" type="text" class="edit-input" placeholder="örn: Marmara Üniversitesi Kongre Merkezi İstanbul">
+              <p class="text-xs text-gray-400 mt-1">Haritada aranacak yer adı. Boş bırakırsan adres metni kullanılır.</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🧭 "Konuma Git" Butonu</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Buton Yazısı</p>
+                <input id="edit-konum-git-text" type="text" class="edit-input" value="Konuma Git">
+              </div>
+              <div>
+                <p class="field-label">Navigasyon Linki (opsiyonel)</p>
+                <input id="edit-konum-git-url" type="text" class="edit-input" placeholder="https://maps.google.com/?q=...">
+              </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">Link boş bırakılırsa adres metninden otomatik Google Maps linki oluşturulur.</p>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div>
+                <p class="field-label">Buton Rengi</p>
+                <input id="edit-konum-btn-renk" type="color" value="#e11d48" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Buton Yazı Rengi</p>
+                <input id="edit-konum-btn-text-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🗺️ Konum Simgesi</p>
+            <div class="flex flex-wrap gap-2">
+              <button class="icon-option selected" onclick="selectKonumIcon('fa-map-marker-alt')"><i class="fas fa-map-marker-alt"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('fa-location-dot')"><i class="fas fa-location-dot"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('fa-church')"><i class="fas fa-church"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('fa-building')"><i class="fas fa-building"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('fa-map')"><i class="fas fa-map"></i></button>
+              <button class="icon-option" onclick="selectKonumIcon('')">—</button>
+            </div>
+            <input type="hidden" id="edit-konum-icon" value="fa-map-marker-alt">
+            <div class="mt-4">
+              <p class="field-label">Simge Rengi</p>
+              <input id="edit-konum-icon-renk" type="color" value="#fb7185" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler & Yazı</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Başlık Rengi</p>
+                <input id="edit-konum-baslik-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Adres Rengi</p>
+                <input id="edit-konum-adres-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label mb-2">Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="font-option selected" onclick="selectFont('sec4','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec4','Cinzel')" style="font-family:'Cinzel'">Cinzel</button>
+                <button class="font-option" onclick="selectFont('sec4','Lora')" style="font-family:'Lora'">Lora</button>
+                <button class="font-option" onclick="selectFont('sec4','Montserrat')" style="font-family:'Montserrat'">Montserrat</button>
+              </div>
+              <input type="hidden" id="edit-sec4-font" value="Playfair Display">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Başlık Büyüklüğü: <span id="konum-size-val">30</span>px</p>
+              <input type="range" min="16" max="56" value="30" class="w-full mt-1" id="edit-konum-size" oninput="document.getElementById('konum-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 5: GERİ SAYIM ===== -->
+        <div id="tab5" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">⏳</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 5 — Geri Sayım</h3>
+              <p class="text-sm text-gray-500">Sayaç etiketi ve görünümü</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">⏳ Etiket Metinleri</p>
+            <div>
+              <p class="field-label">Üst Yazı</p>
+              <input id="edit-countdown-label" type="text" class="edit-input" value="Büyük güne kalan süre">
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div>
+                <p class="field-label">Gün Etiketi</p>
+                <input id="edit-gun-label" type="text" class="edit-input" value="GÜN">
+              </div>
+              <div>
+                <p class="field-label">Saat Etiketi</p>
+                <input id="edit-saat-label" type="text" class="edit-input" value="SAAT">
+              </div>
+              <div>
+                <p class="field-label">Dakika Etiketi</p>
+                <input id="edit-dakika-label" type="text" class="edit-input" value="DAKİKA">
+              </div>
+              <div>
+                <p class="field-label">Saniye Etiketi</p>
+                <input id="edit-saniye-label" type="text" class="edit-input" value="SANİYE">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler & Boyut</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Üst Yazı Rengi</p>
+                <input id="edit-countdown-label-renk" type="color" value="#fde68a" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">Sayı Rengi</p>
+                <input id="edit-countdown-sayi-renk" type="color" value="#ffffff" class="color-input w-full">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Sayı Büyüklüğü: <span id="countdown-size-val">60</span>px</p>
+              <input type="range" min="32" max="96" value="60" class="w-full mt-1" id="edit-countdown-size" oninput="document.getElementById('countdown-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 6: MÜZİK ===== -->
+        <div id="tab6" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">🎵</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 6 — Müzik</h3>
+              <p class="text-sm text-gray-500">Özel şarkı ve müzik kaynağı</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎵 Müzik Etiketi</p>
+            <div>
+              <p class="field-label">Üst Yazı</p>
+              <input id="edit-muzik-label" type="text" class="edit-input" value="Özel şarkımız çalıyor 💕">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Etiket Rengi</p>
+              <input id="edit-muzik-label-renk" type="color" value="#fde68a" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎶 Müzik Kaynağı (birini seç)</p>
+            <div class="mb-4">
+              <p class="field-label">MP3 Dosya Yükle</p>
+              <input id="edit-music-upload" type="file" accept="audio/mpeg" class="edit-input py-2">
+            </div>
+            <div class="mb-4">
+              <p class="field-label">veya MP3 URL</p>
+              <input id="edit-music-url" type="text" class="edit-input" placeholder="https://...mp3">
+            </div>
+            <div class="mb-4">
+              <p class="field-label">YouTube URL</p>
+              <input id="edit-youtube" type="text" class="edit-input" placeholder="https://youtube.com/watch?v=...">
+            </div>
+            <div>
+              <p class="field-label">Spotify URL</p>
+              <input id="edit-spotify" type="text" class="edit-input" placeholder="https://open.spotify.com/track/...">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== BÖLÜM 7: FOOTER ===== -->
+        <div id="tab7" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">🌿</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Bölüm 7 — Alt Kısım (Footer)</h3>
+              <p class="text-sm text-gray-500">Davetiye kapanış mesajı ve isimler</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">📝 Metinler</p>
+            <div>
+              <p class="field-label">Kapanış Mesajı</p>
+              <input id="edit-footer-mesaj" type="text" class="edit-input" value="Seni aramızda görmek isteriz ❤️">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Alt İsimler (otomatik dolar, veya özelleştir)</p>
+              <input id="edit-footer-isim" type="text" class="edit-input" value="Berna & Melih">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🎨 Renkler & Yazı</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="field-label">Mesaj Rengi</p>
+                <input id="edit-footer-renk" type="color" value="#fde68a" class="color-input w-full">
+              </div>
+              <div>
+                <p class="field-label">İsim Rengi</p>
+                <input id="edit-footer-isim-renk" type="color" value="#fde68a" class="color-input w-full">
+              </div>
+            </div>
+            <div class="mt-4">
+              <p class="field-label mb-2">Yazı Tipi</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="font-option selected" onclick="selectFont('sec7','Inter')" style="font-family:'Inter'">Inter</button>
+                <button class="font-option" onclick="selectFont('sec7','Playfair Display')" style="font-family:'Playfair Display'">Playfair Display</button>
+                <button class="font-option" onclick="selectFont('sec7','Great Vibes')" style="font-family:'Great Vibes'">Great Vibes</button>
+                <button class="font-option" onclick="selectFont('sec7','Lora')" style="font-family:'Lora'">Lora</button>
+              </div>
+              <input type="hidden" id="edit-sec7-font" value="Inter">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">Yazı Büyüklüğü: <span id="footer-size-val">14</span>px</p>
+              <input type="range" min="10" max="32" value="14" class="w-full mt-1" id="edit-footer-size" oninput="document.getElementById('footer-size-val').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== GENEL / ARKA PLAN ===== -->
+        <div id="tab8" class="tab-content">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">🎨</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Genel Ayarlar — Arka Plan</h3>
+              <p class="text-sm text-gray-500">Davetiyenin genel görünümü ve arka planı</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🖼️ Arka Plan</p>
+            <div>
+              <p class="field-label">Arka Plan Resmi URL</p>
+              <input id="edit-bg" type="text" class="edit-input" placeholder="https://... (resim URL)">
+            </div>
+            <div class="mt-4">
+              <p class="field-label">veya Arka Plan Rengi</p>
+              <input id="edit-bgcolor" type="color" value="#1c1917" class="color-input w-full">
+            </div>
+          </div>
+
+          <div class="section-card">
+            <p class="text-sm font-bold text-rose-600 mb-4 uppercase tracking-wide">🔒 Şifre</p>
+            <div>
+              <p class="field-label">Düzenleme Şifresi</p>
+              <input id="edit-password" type="text" class="edit-input" placeholder="Yeni şifre (boş bırakırsan değişmez)">
+              <p class="text-xs text-gray-400 mt-1">Mevcut şifre: <strong>1234</strong></p>
+            </div>
+          </div>
+        </div><!-- end tab8 -->
+
+        <!-- ===== ŞABLONLAR ===== -->
+        <div id="tab9" class="tab-content">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-2xl">✨</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900">Hazır Şablonlar</h3>
+              <p class="text-sm text-gray-500">Bir temaya tıkla, ardından "Uygula" butonuna bas</p>
+            </div>
+          </div>
+          <p class="text-xs text-purple-600 bg-purple-50 rounded-xl px-4 py-2 mb-5">⚠️ Şablon uygulandığında tüm renk, yazı tipi ve boyut ayarları değişir. İsimler, tarih ve konum korunur.</p>
+
+          <div id="template-grid" class="grid grid-cols-2 gap-4">
+            <!-- Kartlar JS ile oluşturulur -->
+          </div>
+        </div>
+
+      </div><!-- end scroll area -->
+      <div class="px-8 py-5 border-t bg-gray-50 rounded-b-3xl flex gap-3 flex-shrink-0">
+        <button onclick="saveChanges()" class="flex-1 text-white py-4 rounded-2xl text-base font-semibold transition-all hover:opacity-90" style="background:#e11d48">
+          💾 Kaydet ve Güncelle
+        </button>
+        <button onclick="closeEdit()" class="flex-1 border-2 border-gray-200 py-4 rounded-2xl text-base font-semibold hover:bg-gray-100 transition-all">
+          İptal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let EDIT_PASSWORD = "1234";
+
+    // ---- TAB SWITCHING ----
+    function switchTab(id, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        // Restore template button gradient if it's not the active one
+        if (b.id === 'tab9-btn') b.style.background = 'linear-gradient(135deg,#7c3aed,#db2777)';
+      });
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+      // Template button gets special active state
+      if (id === 'tab9') btn.style.background = 'linear-gradient(135deg,#5b21b6,#be185d)';
+    }
+
+    // ---- TEMPLATES ----
+    const TEMPLATES = [
+
+      // ==================== KLASİK & ZARİF ====================
+      {
+        id:1, name:"Altın Çerçeve", badge:"Klasik", tarz:"Klasik & Zarif",
+        bgcolor:"#0c0900", baslikRenk:"#d4af37", gelinRenk:"#f5e6c8", damatRenk:"#f5e6c8",
+        andRenk:"#d4af37", btncolor:"#7c5c1e", btnTextColor:"#f5e6c8",
+        sec1Font:"Cinzel", baslikSize:62, isimSize:46,
+        aileIconRenk:"#d4af37", gelinTarafRenk:"#d4af37", damatTarafRenk:"#d4af37",
+        gelinEtiketRenk:"#c9a227", damatEtiketRenk:"#c9a227",
+        sec2Font:"Cormorant Garamond", aileBaslikSize:28, aileIsimSize:22,
+        tarihLabelRenk:"#d4af37", tarihRenk:"#f5e6c8", sec3Font:"Cinzel", tarihSize:42,
+        konumBaslikRenk:"#d4af37", konumAdresRenk:"#f5e6c8", konumIconRenk:"#d4af37",
+        konumBtnRenk:"#7c5c1e", konumBtnTextRenk:"#f5e6c8", sec4Font:"Cinzel", konumSize:28,
+        countdownLabelRenk:"#d4af37", countdownSayiRenk:"#f5e6c8", countdownSize:58,
+        muzikLabelRenk:"#d4af37", footerRenk:"#c9a227", footerIsimRenk:"#d4af37",
+        sec7Font:"Cinzel", footerSize:13,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#0c0900"/><rect x="8" y="8" width="204" height="144" fill="none" stroke="#d4af37" stroke-width="1.5"/><rect x="13" y="13" width="194" height="134" fill="none" stroke="#d4af37" stroke-width="0.5" stroke-dasharray="3,3"/><g stroke="#d4af37" stroke-width="1" fill="none"><path d="M8,8 L28,8 M8,8 L8,28"/><path d="M212,8 L192,8 M212,8 L212,28"/><path d="M8,152 L28,152 M8,152 L8,132"/><path d="M212,152 L192,152 M212,152 L212,132"/></g><polygon points="8,8 16,8 8,16" fill="#d4af37"/><polygon points="212,8 204,8 212,16" fill="#d4af37"/><polygon points="8,152 16,152 8,144" fill="#d4af37"/><polygon points="212,152 204,152 212,144" fill="#d4af37"/><line x1="50" y1="78" x2="170" y2="78" stroke="#d4af37" stroke-width="0.5"/><circle cx="110" cy="78" r="3" fill="#d4af37"/><circle cx="95" cy="78" r="1.5" fill="#d4af37"/><circle cx="125" cy="78" r="1.5" fill="#d4af37"/><text x="110" y="42" text-anchor="middle" font-family="serif" font-size="7" fill="#c9a227" letter-spacing="3">DÜĞÜN DAVETİYESİ</text><text x="110" y="65" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#d4af37" font-style="italic">Berna</text><text x="110" y="77" text-anchor="middle" font-family="serif" font-size="9" fill="#c9a227">&amp;</text><text x="110" y="95" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#d4af37" font-style="italic">Melih</text><text x="110" y="118" text-anchor="middle" font-family="serif" font-size="7" fill="#c9a227" letter-spacing="2">15 EKİM 2026</text><path d="M80,130 Q110,125 140,130" stroke="#d4af37" stroke-width="0.8" fill="none"/></svg>'
+      },
+      {
+        id:2, name:"İnci Beyazı", badge:"Klasik", tarz:"Klasik & Zarif",
+        bgcolor:"#fafaf8", baslikRenk:"#2c2c2c", gelinRenk:"#1a1a1a", damatRenk:"#1a1a1a",
+        andRenk:"#8b7355", btncolor:"#2c2c2c", btnTextColor:"#fafaf8",
+        sec1Font:"Cormorant Garamond", baslikSize:58, isimSize:44,
+        aileIconRenk:"#8b7355", gelinTarafRenk:"#2c2c2c", damatTarafRenk:"#2c2c2c",
+        gelinEtiketRenk:"#8b7355", damatEtiketRenk:"#8b7355",
+        sec2Font:"Cormorant Garamond", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#8b7355", tarihRenk:"#2c2c2c", sec3Font:"Cormorant Garamond", tarihSize:40,
+        konumBaslikRenk:"#2c2c2c", konumAdresRenk:"#444", konumIconRenk:"#8b7355",
+        konumBtnRenk:"#2c2c2c", konumBtnTextRenk:"#fafaf8", sec4Font:"Cormorant Garamond", konumSize:26,
+        countdownLabelRenk:"#8b7355", countdownSayiRenk:"#2c2c2c", countdownSize:54,
+        muzikLabelRenk:"#8b7355", footerRenk:"#8b7355", footerIsimRenk:"#2c2c2c",
+        sec7Font:"Cormorant Garamond", footerSize:14,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#fafaf8"/><rect x="6" y="6" width="208" height="148" fill="none" stroke="#8b7355" stroke-width="0.8"/><rect x="10" y="10" width="200" height="140" fill="none" stroke="#c8b89a" stroke-width="0.3"/><line x1="30" y1="35" x2="190" y2="35" stroke="#c8b89a" stroke-width="0.5"/><line x1="30" y1="123" x2="190" y2="123" stroke="#c8b89a" stroke-width="0.5"/><text x="110" y="52" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" fill="#8b7355" letter-spacing="4">DÜĞÜN DAVETİYESİ</text><text x="110" y="74" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#1a1a1a" font-style="italic">Berna &amp; Melih</text><text x="110" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#8b7355" letter-spacing="2">— ❦ —</text><text x="110" y="110" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#444" letter-spacing="1">15 Ekim 2026  •  16:00</text><text x="110" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="6" fill="#8b7355" letter-spacing="2">SİZİ ARAMIZDA GÖRMEK İSTERİZ</text></svg>'
+      },
+      {
+        id:3, name:"Krem Dantel", badge:"Klasik", tarz:"Klasik & Zarif",
+        bgcolor:"#f9f3e8", baslikRenk:"#5c3d2e", gelinRenk:"#3d2314", damatRenk:"#3d2314",
+        andRenk:"#a07850", btncolor:"#5c3d2e", btnTextColor:"#f9f3e8",
+        sec1Font:"Playfair Display", baslikSize:58, isimSize:44,
+        aileIconRenk:"#a07850", gelinTarafRenk:"#5c3d2e", damatTarafRenk:"#5c3d2e",
+        gelinEtiketRenk:"#a07850", damatEtiketRenk:"#a07850",
+        sec2Font:"Playfair Display", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#a07850", tarihRenk:"#3d2314", sec3Font:"Playfair Display", tarihSize:40,
+        konumBaslikRenk:"#5c3d2e", konumAdresRenk:"#3d2314", konumIconRenk:"#a07850",
+        konumBtnRenk:"#5c3d2e", konumBtnTextRenk:"#f9f3e8", sec4Font:"Playfair Display", konumSize:26,
+        countdownLabelRenk:"#a07850", countdownSayiRenk:"#3d2314", countdownSize:54,
+        muzikLabelRenk:"#a07850", footerRenk:"#a07850", footerIsimRenk:"#5c3d2e",
+        sec7Font:"Playfair Display", footerSize:13,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#f9f3e8"/><rect x="5" y="5" width="210" height="150" fill="none" stroke="#c4a882" stroke-width="1"/><rect x="14" y="14" width="192" height="132" fill="none" stroke="#c4a882" stroke-width="0.4" stroke-dasharray="4,3"/><path d="M45,42 Q80,36 110,42 Q140,36 175,42" stroke="#a07850" stroke-width="0.8" fill="none" opacity="0.6"/><text x="110" y="60" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#a07850" letter-spacing="3">DÜĞÜN DAVETİYESİ</text><text x="110" y="82" text-anchor="middle" font-family="Georgia,serif" font-size="19" fill="#3d2314" font-style="italic">Berna &amp; Melih</text><text x="110" y="96" text-anchor="middle" font-family="serif" font-size="9" fill="#a07850">✦ ✦ ✦</text><text x="110" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#5c3d2e" letter-spacing="1">15 Ekim 2026  •  16:00</text><path d="M45,124 Q80,118 110,124 Q140,118 175,124" stroke="#a07850" stroke-width="0.8" fill="none" opacity="0.6"/><text x="110" y="142" text-anchor="middle" font-family="Georgia,serif" font-size="6" fill="#a07850" letter-spacing="1.5">Sizi Aramızda Görmek İsteriz</text></svg>'
+      },
+      {
+        id:4, name:"Gümüş Zarafet", badge:"Klasik", tarz:"Klasik & Zarif",
+        bgcolor:"#0d0d10", baslikRenk:"#c0c8d8", gelinRenk:"#e8edf5", damatRenk:"#e8edf5",
+        andRenk:"#8090a8", btncolor:"#2a3040", btnTextColor:"#e8edf5",
+        sec1Font:"Cinzel", baslikSize:60, isimSize:44,
+        aileIconRenk:"#8090a8", gelinTarafRenk:"#c0c8d8", damatTarafRenk:"#c0c8d8",
+        gelinEtiketRenk:"#8090a8", damatEtiketRenk:"#8090a8",
+        sec2Font:"Cormorant Garamond", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#8090a8", tarihRenk:"#e8edf5", sec3Font:"Cinzel", tarihSize:40,
+        konumBaslikRenk:"#c0c8d8", konumAdresRenk:"#e8edf5", konumIconRenk:"#8090a8",
+        konumBtnRenk:"#2a3040", konumBtnTextRenk:"#e8edf5", sec4Font:"Cinzel", konumSize:26,
+        countdownLabelRenk:"#8090a8", countdownSayiRenk:"#e8edf5", countdownSize:54,
+        muzikLabelRenk:"#8090a8", footerRenk:"#8090a8", footerIsimRenk:"#c0c8d8",
+        sec7Font:"Cinzel", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0d0d10"/><stop offset="100%" style="stop-color:#1a1e28"/></linearGradient></defs><rect width="220" height="160" fill="url(#sg1)"/><rect x="6" y="6" width="208" height="148" fill="none" stroke="#4a5568" stroke-width="1"/><rect x="9" y="9" width="202" height="142" fill="none" stroke="#8090a8" stroke-width="0.4"/><rect x="6" y="6" width="18" height="18" fill="none" stroke="#c0c8d8" stroke-width="0.8"/><rect x="196" y="6" width="18" height="18" fill="none" stroke="#c0c8d8" stroke-width="0.8"/><rect x="6" y="136" width="18" height="18" fill="none" stroke="#c0c8d8" stroke-width="0.8"/><rect x="196" y="136" width="18" height="18" fill="none" stroke="#c0c8d8" stroke-width="0.8"/><rect x="11" y="11" width="8" height="8" fill="#c0c8d8"/><rect x="201" y="11" width="8" height="8" fill="#c0c8d8"/><rect x="11" y="141" width="8" height="8" fill="#c0c8d8"/><rect x="201" y="141" width="8" height="8" fill="#c0c8d8"/><line x1="30" y1="40" x2="190" y2="40" stroke="#4a5568" stroke-width="0.6"/><line x1="30" y1="120" x2="190" y2="120" stroke="#4a5568" stroke-width="0.6"/><text x="110" y="56" text-anchor="middle" font-family="serif" font-size="6" fill="#8090a8" letter-spacing="4">DÜĞÜN DAVETİYESİ</text><text x="110" y="78" text-anchor="middle" font-family="Georgia,serif" font-size="19" fill="#c0c8d8" font-style="italic">Berna &amp; Melih</text><text x="110" y="90" text-anchor="middle" font-family="serif" font-size="8" fill="#4a5568">— ✦ —</text><text x="110" y="106" text-anchor="middle" font-family="serif" font-size="7" fill="#8090a8" letter-spacing="2">15 EKİM 2026</text><text x="110" y="138" text-anchor="middle" font-family="serif" font-size="6" fill="#8090a8" letter-spacing="1.5">Sizi Aramızda Görmek İsteriz</text></svg>'
+      },
+
+      // ==================== BOHO & ÇİÇEKLİ ====================
+      {
+        id:5, name:"Suluboya Çiçek", badge:"Boho", tarz:"Boho & Çiçekli",
+        bgcolor:"#fef9f0", baslikRenk:"#6b4c3b", gelinRenk:"#3d2010", damatRenk:"#3d2010",
+        andRenk:"#c17f5a", btncolor:"#8b5e52", btnTextColor:"#fef9f0",
+        sec1Font:"Dancing Script", baslikSize:72, isimSize:54,
+        aileIconRenk:"#c17f5a", gelinTarafRenk:"#8b5e52", damatTarafRenk:"#6b7f5a",
+        gelinEtiketRenk:"#c17f5a", damatEtiketRenk:"#7a9c6a",
+        sec2Font:"Lora", aileBaslikSize:28, aileIsimSize:22,
+        tarihLabelRenk:"#c17f5a", tarihRenk:"#3d2010", sec3Font:"Dancing Script", tarihSize:46,
+        konumBaslikRenk:"#6b4c3b", konumAdresRenk:"#3d2010", konumIconRenk:"#c17f5a",
+        konumBtnRenk:"#8b5e52", konumBtnTextRenk:"#fef9f0", sec4Font:"Lora", konumSize:26,
+        countdownLabelRenk:"#c17f5a", countdownSayiRenk:"#3d2010", countdownSize:56,
+        muzikLabelRenk:"#c17f5a", footerRenk:"#c17f5a", footerIsimRenk:"#6b4c3b",
+        sec7Font:"Dancing Script", footerSize:16,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#fef9f0"/><ellipse cx="30" cy="30" rx="35" ry="28" fill="#f4a8a8" opacity="0.22"/><ellipse cx="190" cy="25" rx="30" ry="25" fill="#a8c4a8" opacity="0.22"/><ellipse cx="25" cy="135" rx="28" ry="22" fill="#a8b8e8" opacity="0.18"/><ellipse cx="195" cy="138" rx="32" ry="24" fill="#f4c8a0" opacity="0.22"/><circle cx="18" cy="18" r="4" fill="#e8758a" opacity="0.65"/><circle cx="26" cy="14" r="3.5" fill="#f4a0b0" opacity="0.55"/><circle cx="22" cy="25" r="3" fill="#e05a7a" opacity="0.55"/><circle cx="10" cy="22" r="3.5" fill="#f4b0c0" opacity="0.55"/><circle cx="18" cy="18" r="2" fill="#fff" opacity="0.75"/><path d="M30,8 Q40,18 30,28" fill="#7ab87a" opacity="0.45" stroke="none"/><circle cx="195" cy="18" r="4" fill="#d4a0d4" opacity="0.65"/><circle cx="187" cy="14" r="3.5" fill="#e0b8e0" opacity="0.55"/><circle cx="191" cy="25" r="3" fill="#c890c8" opacity="0.55"/><circle cx="203" cy="22" r="3.5" fill="#e8c8e8" opacity="0.55"/><circle cx="195" cy="18" r="2" fill="#fff" opacity="0.75"/><circle cx="20" cy="140" r="3.5" fill="#f4a860" opacity="0.65"/><circle cx="28" cy="137" r="3" fill="#f8c080" opacity="0.55"/><circle cx="24" cy="147" r="2.5" fill="#e89040" opacity="0.55"/><circle cx="12" cy="144" r="3" fill="#fad0a0" opacity="0.55"/><circle cx="20" cy="140" r="1.8" fill="#fff" opacity="0.75"/><text x="110" y="50" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" fill="#c17f5a" letter-spacing="2">düğün davetiyesi</text><text x="110" y="80" text-anchor="middle" font-family="cursive" font-size="22" fill="#6b4c3b">Berna &amp; Melih</text><path d="M65,90 Q110,85 155,90" stroke="#c17f5a" stroke-width="0.8" fill="none" opacity="0.6"/><text x="110" y="108" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#6b4c3b">15 Ekim 2026  •  16:00</text></svg>'
+      },
+      {
+        id:6, name:"Botanik Yeşil", badge:"Boho", tarz:"Boho & Çiçekli",
+        bgcolor:"#f2f7ef", baslikRenk:"#2d5a27", gelinRenk:"#1a3d14", damatRenk:"#1a3d14",
+        andRenk:"#5a8c50", btncolor:"#2d5a27", btnTextColor:"#f2f7ef",
+        sec1Font:"Great Vibes", baslikSize:72, isimSize:54,
+        aileIconRenk:"#5a8c50", gelinTarafRenk:"#2d5a27", damatTarafRenk:"#2d5a27",
+        gelinEtiketRenk:"#5a8c50", damatEtiketRenk:"#5a8c50",
+        sec2Font:"Lora", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#5a8c50", tarihRenk:"#1a3d14", sec3Font:"Great Vibes", tarihSize:44,
+        konumBaslikRenk:"#2d5a27", konumAdresRenk:"#1a3d14", konumIconRenk:"#5a8c50",
+        konumBtnRenk:"#2d5a27", konumBtnTextRenk:"#f2f7ef", sec4Font:"Lora", konumSize:24,
+        countdownLabelRenk:"#5a8c50", countdownSayiRenk:"#1a3d14", countdownSize:52,
+        muzikLabelRenk:"#5a8c50", footerRenk:"#5a8c50", footerIsimRenk:"#2d5a27",
+        sec7Font:"Great Vibes", footerSize:16,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#f2f7ef"/><ellipse cx="12" cy="30" rx="8" ry="14" transform="rotate(-20,12,30)" fill="#7ab87a" opacity="0.45"/><ellipse cx="8" cy="55" rx="7" ry="12" transform="rotate(-30,8,55)" fill="#7ab87a" opacity="0.4"/><ellipse cx="14" cy="78" rx="8" ry="13" transform="rotate(-15,14,78)" fill="#7ab87a" opacity="0.45"/><ellipse cx="8" cy="102" rx="7" ry="12" transform="rotate(-25,8,102)" fill="#7ab87a" opacity="0.4"/><ellipse cx="13" cy="126" rx="8" ry="13" transform="rotate(-10,13,126)" fill="#7ab87a" opacity="0.45"/><ellipse cx="208" cy="30" rx="8" ry="14" transform="rotate(20,208,30)" fill="#7ab87a" opacity="0.45"/><ellipse cx="212" cy="55" rx="7" ry="12" transform="rotate(30,212,55)" fill="#7ab87a" opacity="0.4"/><ellipse cx="206" cy="78" rx="8" ry="13" transform="rotate(15,206,78)" fill="#7ab87a" opacity="0.45"/><ellipse cx="213" cy="102" rx="7" ry="12" transform="rotate(25,213,102)" fill="#7ab87a" opacity="0.4"/><path d="M35,22 Q60,12 85,20 Q110,10 135,20 Q160,12 185,22" stroke="#5a8c50" stroke-width="1" fill="none"/><circle cx="60" cy="14" r="3" fill="#e87878" opacity="0.65"/><circle cx="110" cy="12" r="3.5" fill="#e87878" opacity="0.65"/><circle cx="160" cy="14" r="3" fill="#e87878" opacity="0.65"/><text x="110" y="50" text-anchor="middle" font-family="serif" font-size="6" fill="#5a8c50" letter-spacing="2">DÜĞÜN DAVETİYESİ</text><text x="110" y="80" text-anchor="middle" font-family="cursive" font-size="22" fill="#2d5a27">Berna &amp; Melih</text><line x1="60" y1="88" x2="160" y2="88" stroke="#5a8c50" stroke-width="0.6"/><text x="110" y="106" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#2d5a27">15 Ekim 2026  •  16:00</text><path d="M35,138 Q60,128 85,136 Q110,126 135,136 Q160,128 185,138" stroke="#5a8c50" stroke-width="1" fill="none"/></svg>'
+      },
+      {
+        id:7, name:"Gül & Ökaliptüs", badge:"Boho", tarz:"Boho & Çiçekli",
+        bgcolor:"#f8f4f0", baslikRenk:"#8c4a6e", gelinRenk:"#5c2848", damatRenk:"#5c2848",
+        andRenk:"#c4789a", btncolor:"#8c4a6e", btnTextColor:"#f8f4f0",
+        sec1Font:"Great Vibes", baslikSize:70, isimSize:52,
+        aileIconRenk:"#c4789a", gelinTarafRenk:"#8c4a6e", damatTarafRenk:"#6a8c5a",
+        gelinEtiketRenk:"#c4789a", damatEtiketRenk:"#7a9c6a",
+        sec2Font:"Lora", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#c4789a", tarihRenk:"#5c2848", sec3Font:"Great Vibes", tarihSize:44,
+        konumBaslikRenk:"#8c4a6e", konumAdresRenk:"#5c2848", konumIconRenk:"#c4789a",
+        konumBtnRenk:"#8c4a6e", konumBtnTextRenk:"#f8f4f0", sec4Font:"Lora", konumSize:24,
+        countdownLabelRenk:"#c4789a", countdownSayiRenk:"#5c2848", countdownSize:52,
+        muzikLabelRenk:"#c4789a", footerRenk:"#c4789a", footerIsimRenk:"#8c4a6e",
+        sec7Font:"Great Vibes", footerSize:16,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#f8f4f0"/><path d="M5,5 Q30,20 20,45" stroke="#7a9c6a" stroke-width="1.5" fill="none" opacity="0.55"/><ellipse cx="15" cy="18" rx="10" ry="6" transform="rotate(-40,15,18)" fill="#8aaa7a" opacity="0.5"/><ellipse cx="25" cy="30" rx="9" ry="5" transform="rotate(-20,25,30)" fill="#7a9c6a" opacity="0.45"/><ellipse cx="18" cy="44" rx="8" ry="5" transform="rotate(-50,18,44)" fill="#6a8c5a" opacity="0.5"/><path d="M215,5 Q190,20 200,45" stroke="#7a9c6a" stroke-width="1.5" fill="none" opacity="0.55"/><ellipse cx="205" cy="18" rx="10" ry="6" transform="rotate(40,205,18)" fill="#8aaa7a" opacity="0.5"/><ellipse cx="195" cy="30" rx="9" ry="5" transform="rotate(20,195,30)" fill="#7a9c6a" opacity="0.45"/><ellipse cx="202" cy="44" rx="8" ry="5" transform="rotate(50,202,44)" fill="#6a8c5a" opacity="0.5"/><circle cx="22" cy="25" r="8" fill="#e8a0b8" opacity="0.35"/><path d="M22,18 Q27,22 24,28 Q22,30 20,28 Q17,22 22,18Z" fill="#d4789a" opacity="0.65"/><circle cx="22" cy="25" r="3" fill="#b85878" opacity="0.75"/><circle cx="198" cy="28" r="7" fill="#e8b0c8" opacity="0.35"/><path d="M198,22 Q202,25 200,30 Q198,32 196,30 Q193,25 198,22Z" fill="#d4789a" opacity="0.65"/><circle cx="198" cy="28" r="2.5" fill="#b85878" opacity="0.75"/><path d="M5,155 Q30,140 22,115" stroke="#7a9c6a" stroke-width="1.5" fill="none" opacity="0.45"/><ellipse cx="15" cy="140" rx="9" ry="5" transform="rotate(40,15,140)" fill="#8aaa7a" opacity="0.5"/><path d="M215,155 Q190,140 198,115" stroke="#7a9c6a" stroke-width="1.5" fill="none" opacity="0.45"/><ellipse cx="205" cy="140" rx="9" ry="5" transform="rotate(-40,205,140)" fill="#8aaa7a" opacity="0.5"/><text x="110" y="56" text-anchor="middle" font-family="serif" font-size="6" fill="#c4789a" letter-spacing="2">düğün davetiyesi</text><text x="110" y="82" text-anchor="middle" font-family="cursive" font-size="21" fill="#8c4a6e">Berna &amp; Melih</text><path d="M70,90 Q110,86 150,90" stroke="#c4789a" stroke-width="0.8" fill="none"/><text x="110" y="108" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#5c2848">15 Ekim 2026  •  16:00</text></svg>'
+      },
+      {
+        id:8, name:"Kır Çiçeği", badge:"Boho", tarz:"Boho & Çiçekli",
+        bgcolor:"#fffaf5", baslikRenk:"#7c4f2a", gelinRenk:"#4a2810", damatRenk:"#4a2810",
+        andRenk:"#d4956a", btncolor:"#9c6040", btnTextColor:"#fffaf5",
+        sec1Font:"Dancing Script", baslikSize:68, isimSize:52,
+        aileIconRenk:"#d4956a", gelinTarafRenk:"#c47a5a", damatTarafRenk:"#7a9c6a",
+        gelinEtiketRenk:"#d4956a", damatEtiketRenk:"#7a9c6a",
+        sec2Font:"Lora", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#d4956a", tarihRenk:"#4a2810", sec3Font:"Dancing Script", tarihSize:44,
+        konumBaslikRenk:"#7c4f2a", konumAdresRenk:"#4a2810", konumIconRenk:"#d4956a",
+        konumBtnRenk:"#9c6040", konumBtnTextRenk:"#fffaf5", sec4Font:"Lora", konumSize:24,
+        countdownLabelRenk:"#d4956a", countdownSayiRenk:"#4a2810", countdownSize:52,
+        muzikLabelRenk:"#d4956a", footerRenk:"#d4956a", footerIsimRenk:"#7c4f2a",
+        sec7Font:"Dancing Script", footerSize:16,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#fffaf5"/><g fill="#f4c830" opacity="0.75"><ellipse cx="22" cy="15" rx="7" ry="2" transform="rotate(0,22,15)"/><ellipse cx="29" cy="22" rx="7" ry="2" transform="rotate(45,29,22)"/><ellipse cx="22" cy="29" rx="7" ry="2" transform="rotate(90,22,29)"/><ellipse cx="15" cy="22" rx="7" ry="2" transform="rotate(135,15,22)"/></g><circle cx="22" cy="22" r="5" fill="#8b5e20"/><g fill="#f4c830" opacity="0.65"><ellipse cx="198" cy="20" rx="6" ry="2" transform="rotate(0,198,20)"/><ellipse cx="204" cy="26" rx="6" ry="2" transform="rotate(45,204,26)"/><ellipse cx="198" cy="32" rx="6" ry="2" transform="rotate(90,198,32)"/><ellipse cx="192" cy="26" rx="6" ry="2" transform="rotate(135,192,26)"/></g><circle cx="198" cy="26" r="4" fill="#7a5010"/><g fill="#ffffff" stroke="#d4d4c0" stroke-width="0.3"><ellipse cx="25" cy="135" rx="5" ry="1.5" transform="rotate(0,25,135)"/><ellipse cx="30" cy="140" rx="5" ry="1.5" transform="rotate(45,30,140)"/><ellipse cx="25" cy="145" rx="5" ry="1.5" transform="rotate(90,25,145)"/><ellipse cx="20" cy="140" rx="5" ry="1.5" transform="rotate(135,20,140)"/></g><circle cx="25" cy="140" r="3" fill="#f4d030"/><line x1="22" y1="32" x2="28" y2="58" stroke="#5a8c50" stroke-width="0.8" opacity="0.55"/><ellipse cx="32" cy="48" rx="6" ry="10" transform="rotate(30,32,48)" fill="#5a8c50" opacity="0.35"/><rect x="30" y="8" width="160" height="144" fill="none" stroke="#d4956a" stroke-width="0.6" stroke-dasharray="5,4"/><text x="110" y="46" text-anchor="middle" font-family="serif" font-size="6" fill="#d4956a" letter-spacing="2">kır düğünü davetiyesi</text><text x="110" y="76" text-anchor="middle" font-family="cursive" font-size="20" fill="#7c4f2a">Berna &amp; Melih</text><text x="110" y="90" text-anchor="middle" font-size="10" fill="#d4956a">~ ~ ~</text><text x="110" y="108" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#4a2810">15 Ekim 2026  •  16:00</text></svg>'
+      },
+
+      // ==================== MODERN & MİNİMAL ====================
+      {
+        id:9, name:"Saf Beyaz", badge:"Minimal", tarz:"Modern & Minimal",
+        bgcolor:"#ffffff", baslikRenk:"#111111", gelinRenk:"#111111", damatRenk:"#111111",
+        andRenk:"#999999", btncolor:"#111111", btnTextColor:"#ffffff",
+        sec1Font:"Raleway", baslikSize:52, isimSize:40,
+        aileIconRenk:"#999999", gelinTarafRenk:"#333333", damatTarafRenk:"#333333",
+        gelinEtiketRenk:"#999999", damatEtiketRenk:"#999999",
+        sec2Font:"Raleway", aileBaslikSize:24, aileIsimSize:18,
+        tarihLabelRenk:"#999999", tarihRenk:"#111111", sec3Font:"Raleway", tarihSize:36,
+        konumBaslikRenk:"#111111", konumAdresRenk:"#333333", konumIconRenk:"#999999",
+        konumBtnRenk:"#111111", konumBtnTextRenk:"#ffffff", sec4Font:"Raleway", konumSize:22,
+        countdownLabelRenk:"#999999", countdownSayiRenk:"#111111", countdownSize:48,
+        muzikLabelRenk:"#999999", footerRenk:"#999999", footerIsimRenk:"#333333",
+        sec7Font:"Raleway", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#ffffff"/><line x1="20" y1="20" x2="200" y2="20" stroke="#e0e0e0" stroke-width="1"/><line x1="20" y1="140" x2="200" y2="140" stroke="#e0e0e0" stroke-width="1"/><line x1="20" y1="20" x2="20" y2="140" stroke="#e0e0e0" stroke-width="1"/><rect x="85" y="28" width="50" height="22" fill="#111111"/><text x="110" y="43" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="#ffffff" font-weight="bold" letter-spacing="1">15.10.26</text><text x="110" y="82" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#111111" font-weight="300" letter-spacing="4">BERNA &amp; MELİH</text><line x1="60" y1="92" x2="160" y2="92" stroke="#cccccc" stroke-width="0.5"/><text x="110" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#999999" letter-spacing="3">DÜĞÜN DAVETİYESİ</text><text x="110" y="124" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#999999" letter-spacing="2">16:00 · İSTANBUL</text><circle cx="110" cy="137" r="2" fill="#111111"/></svg>'
+      },
+      {
+        id:10, name:"Siyah & Beyaz", badge:"Minimal", tarz:"Modern & Minimal",
+        bgcolor:"#0a0a0a", baslikRenk:"#ffffff", gelinRenk:"#ffffff", damatRenk:"#ffffff",
+        andRenk:"#888888", btncolor:"#333333", btnTextColor:"#ffffff",
+        sec1Font:"Montserrat", baslikSize:52, isimSize:40,
+        aileIconRenk:"#666666", gelinTarafRenk:"#cccccc", damatTarafRenk:"#cccccc",
+        gelinEtiketRenk:"#666666", damatEtiketRenk:"#666666",
+        sec2Font:"Montserrat", aileBaslikSize:24, aileIsimSize:18,
+        tarihLabelRenk:"#666666", tarihRenk:"#ffffff", sec3Font:"Montserrat", tarihSize:36,
+        konumBaslikRenk:"#ffffff", konumAdresRenk:"#cccccc", konumIconRenk:"#666666",
+        konumBtnRenk:"#333333", konumBtnTextRenk:"#ffffff", sec4Font:"Montserrat", konumSize:22,
+        countdownLabelRenk:"#666666", countdownSayiRenk:"#ffffff", countdownSize:48,
+        muzikLabelRenk:"#666666", footerRenk:"#666666", footerIsimRenk:"#cccccc",
+        sec7Font:"Montserrat", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#0a0a0a"/><rect x="10" y="10" width="200" height="140" fill="none" stroke="#333" stroke-width="1"/><rect x="10" y="10" width="200" height="3" fill="#ffffff"/><rect x="10" y="147" width="200" height="3" fill="#ffffff"/><line x1="10" y1="13" x2="35" y2="38" stroke="#333" stroke-width="0.5"/><line x1="210" y1="13" x2="185" y2="38" stroke="#333" stroke-width="0.5"/><line x1="10" y1="147" x2="35" y2="122" stroke="#333" stroke-width="0.5"/><line x1="210" y1="147" x2="185" y2="122" stroke="#333" stroke-width="0.5"/><text x="110" y="52" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" fill="#555" letter-spacing="4">DÜĞÜN DAVETİYESİ</text><text x="110" y="76" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#ffffff" font-weight="300" letter-spacing="5">BERNA &amp; MELİH</text><line x1="50" y1="84" x2="170" y2="84" stroke="#333" stroke-width="0.8"/><text x="110" y="100" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#666" letter-spacing="2">15 EKİM 2026</text><text x="110" y="114" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#555" letter-spacing="1">16:00 · İSTANBUL</text><circle cx="110" cy="130" r="4" fill="none" stroke="#444" stroke-width="1"/><circle cx="110" cy="130" r="1.5" fill="#666"/></svg>'
+      },
+      {
+        id:11, name:"Terracotta Modern", badge:"Minimal", tarz:"Modern & Minimal",
+        bgcolor:"#f5ebe0", baslikRenk:"#6b3a2a", gelinRenk:"#4a2218", damatRenk:"#4a2218",
+        andRenk:"#c4745a", btncolor:"#8b4a3a", btnTextColor:"#f5ebe0",
+        sec1Font:"Montserrat", baslikSize:52, isimSize:40,
+        aileIconRenk:"#c4745a", gelinTarafRenk:"#6b3a2a", damatTarafRenk:"#6b3a2a",
+        gelinEtiketRenk:"#c4745a", damatEtiketRenk:"#c4745a",
+        sec2Font:"Raleway", aileBaslikSize:24, aileIsimSize:18,
+        tarihLabelRenk:"#c4745a", tarihRenk:"#4a2218", sec3Font:"Montserrat", tarihSize:36,
+        konumBaslikRenk:"#6b3a2a", konumAdresRenk:"#4a2218", konumIconRenk:"#c4745a",
+        konumBtnRenk:"#8b4a3a", konumBtnTextRenk:"#f5ebe0", sec4Font:"Raleway", konumSize:22,
+        countdownLabelRenk:"#c4745a", countdownSayiRenk:"#4a2218", countdownSize:48,
+        muzikLabelRenk:"#c4745a", footerRenk:"#c4745a", footerIsimRenk:"#6b3a2a",
+        sec7Font:"Raleway", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#f5ebe0"/><rect x="0" y="0" width="8" height="160" fill="#c4745a"/><rect x="212" y="0" width="8" height="160" fill="#c4745a"/><line x1="16" y1="18" x2="204" y2="18" stroke="#c4745a" stroke-width="0.5" opacity="0.5"/><line x1="16" y1="142" x2="204" y2="142" stroke="#c4745a" stroke-width="0.5" opacity="0.5"/><circle cx="110" cy="56" r="28" fill="none" stroke="#d4a090" stroke-width="0.6" opacity="0.5"/><path d="M82,56 A28,28 0 0,1 138,56" fill="#e8c8b8" opacity="0.28"/><text x="110" y="38" text-anchor="middle" font-family="Arial,sans-serif" font-size="5.5" fill="#c4745a" letter-spacing="3">DÜĞÜN DAVETİYESİ</text><text x="110" y="60" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" fill="#6b3a2a" font-weight="400" letter-spacing="3">BERNA &amp; MELİH</text><text x="110" y="74" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#c4745a">—  ✦  —</text><text x="110" y="92" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#4a2218" letter-spacing="1">15 Ekim 2026  •  16:00</text><text x="110" y="110" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" fill="#c4745a" letter-spacing="1.5">Marmara Kongre Merkezi</text></svg>'
+      },
+      {
+        id:12, name:"İnce Çizgi", badge:"Minimal", tarz:"Modern & Minimal",
+        bgcolor:"#f8f6f3", baslikRenk:"#1c1c1c", gelinRenk:"#1c1c1c", damatRenk:"#1c1c1c",
+        andRenk:"#b09070", btncolor:"#2c2c2c", btnTextColor:"#f8f6f3",
+        sec1Font:"Raleway", baslikSize:50, isimSize:38,
+        aileIconRenk:"#b09070", gelinTarafRenk:"#1c1c1c", damatTarafRenk:"#1c1c1c",
+        gelinEtiketRenk:"#b09070", damatEtiketRenk:"#b09070",
+        sec2Font:"Raleway", aileBaslikSize:22, aileIsimSize:18,
+        tarihLabelRenk:"#b09070", tarihRenk:"#1c1c1c", sec3Font:"Raleway", tarihSize:36,
+        konumBaslikRenk:"#1c1c1c", konumAdresRenk:"#444444", konumIconRenk:"#b09070",
+        konumBtnRenk:"#2c2c2c", konumBtnTextRenk:"#f8f6f3", sec4Font:"Raleway", konumSize:22,
+        countdownLabelRenk:"#b09070", countdownSayiRenk:"#1c1c1c", countdownSize:48,
+        muzikLabelRenk:"#b09070", footerRenk:"#b09070", footerIsimRenk:"#1c1c1c",
+        sec7Font:"Raleway", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#f8f6f3"/><line x1="20" y1="0" x2="20" y2="160" stroke="#e0dbd3" stroke-width="1"/><line x1="20" y1="55" x2="200" y2="55" stroke="#e0dbd3" stroke-width="1"/><line x1="20" y1="115" x2="200" y2="115" stroke="#e0dbd3" stroke-width="1"/><line x1="20" y1="55" x2="20" y2="115" stroke="#b09070" stroke-width="2"/><rect x="25" y="60" width="5" height="5" fill="#b09070"/><rect x="25" y="72" width="5" height="5" fill="#b09070" opacity="0.6"/><rect x="25" y="84" width="5" height="5" fill="#b09070" opacity="0.3"/><text x="120" y="28" text-anchor="middle" font-family="Arial,sans-serif" font-size="5.5" fill="#b09070" letter-spacing="3">DÜĞÜN</text><text x="120" y="40" text-anchor="middle" font-family="Arial,sans-serif" font-size="5.5" fill="#b09070" letter-spacing="3">DAVETİYESİ</text><text x="120" y="80" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#1c1c1c" font-weight="300" letter-spacing="2">BERNA &amp; MELİH</text><text x="120" y="96" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#b09070" letter-spacing="1">15 Ekim 2026</text><text x="120" y="108" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" fill="#777" letter-spacing="1">16:00 · İstanbul</text><text x="120" y="135" text-anchor="middle" font-family="Arial,sans-serif" font-size="6" fill="#b09070" letter-spacing="2">SİZİ BEKLİYORUZ</text></svg>'
+      },
+
+      // ==================== ROMANTİK & VİNTAGE ====================
+      {
+        id:13, name:"Romantik Pembe", badge:"Romantik", tarz:"Romantik & Vintage",
+        bgcolor:"#fdf0f5", baslikRenk:"#8b2252", gelinRenk:"#5c1438", damatRenk:"#5c1438",
+        andRenk:"#d4609a", btncolor:"#a33060", btnTextColor:"#fdf0f5",
+        sec1Font:"Dancing Script", baslikSize:70, isimSize:52,
+        aileIconRenk:"#d4609a", gelinTarafRenk:"#8b2252", damatTarafRenk:"#8b2252",
+        gelinEtiketRenk:"#d4609a", damatEtiketRenk:"#d4609a",
+        sec2Font:"Lora", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#d4609a", tarihRenk:"#5c1438", sec3Font:"Dancing Script", tarihSize:44,
+        konumBaslikRenk:"#8b2252", konumAdresRenk:"#5c1438", konumIconRenk:"#d4609a",
+        konumBtnRenk:"#a33060", konumBtnTextRenk:"#fdf0f5", sec4Font:"Lora", konumSize:24,
+        countdownLabelRenk:"#d4609a", countdownSayiRenk:"#5c1438", countdownSize:52,
+        muzikLabelRenk:"#d4609a", footerRenk:"#d4609a", footerIsimRenk:"#8b2252",
+        sec7Font:"Dancing Script", footerSize:16,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#fdf0f5"/><circle cx="110" cy="80" r="65" fill="#fce4ef" opacity="0.38"/><circle cx="110" cy="80" r="50" fill="none" stroke="#f0b8d4" stroke-width="0.5"/><text x="18" y="30" font-size="14" fill="#f4b0cc" opacity="0.45">♥</text><text x="192" y="30" font-size="12" fill="#f4b0cc" opacity="0.45">♥</text><text x="10" y="80" font-size="10" fill="#f4b0cc" opacity="0.38">♥</text><text x="200" y="85" font-size="10" fill="#f4b0cc" opacity="0.38">♥</text><text x="20" y="140" font-size="12" fill="#f4b0cc" opacity="0.45">♥</text><text x="193" y="145" font-size="12" fill="#f4b0cc" opacity="0.45">♥</text><path d="M55,28 Q75,18 95,26 Q110,20 125,26 Q145,18 165,28" stroke="#e090b8" stroke-width="0.8" fill="none"/><text x="110" y="48" text-anchor="middle" font-family="serif" font-size="6" fill="#d4609a" letter-spacing="2">düğün davetiyesi</text><text x="110" y="78" text-anchor="middle" font-family="cursive" font-size="22" fill="#8b2252">Berna &amp; Melih</text><text x="110" y="90" text-anchor="middle" font-size="11" fill="#e090b8">❤ ❤ ❤</text><text x="110" y="108" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#5c1438">15 Ekim 2026  •  16:00</text><path d="M55,130 Q75,122 95,128 Q110,120 125,128 Q145,122 165,130" stroke="#e090b8" stroke-width="0.8" fill="none"/><text x="110" y="148" text-anchor="middle" font-family="serif" font-size="6" fill="#d4609a" letter-spacing="1">Sizinle Kutlamak İsteriz</text></svg>'
+      },
+      {
+        id:14, name:"Vintage Siyah", badge:"Vintage", tarz:"Romantik & Vintage",
+        bgcolor:"#12100c", baslikRenk:"#e8d5a0", gelinRenk:"#f0e8c8", damatRenk:"#f0e8c8",
+        andRenk:"#b8985a", btncolor:"#3a2c10", btnTextColor:"#e8d5a0",
+        sec1Font:"Playfair Display", baslikSize:62, isimSize:46,
+        aileIconRenk:"#b8985a", gelinTarafRenk:"#d4b870", damatTarafRenk:"#d4b870",
+        gelinEtiketRenk:"#b8985a", damatEtiketRenk:"#b8985a",
+        sec2Font:"Playfair Display", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#b8985a", tarihRenk:"#f0e8c8", sec3Font:"Playfair Display", tarihSize:40,
+        konumBaslikRenk:"#e8d5a0", konumAdresRenk:"#f0e8c8", konumIconRenk:"#b8985a",
+        konumBtnRenk:"#3a2c10", konumBtnTextRenk:"#e8d5a0", sec4Font:"Playfair Display", konumSize:24,
+        countdownLabelRenk:"#b8985a", countdownSayiRenk:"#f0e8c8", countdownSize:52,
+        muzikLabelRenk:"#b8985a", footerRenk:"#b8985a", footerIsimRenk:"#e8d5a0",
+        sec7Font:"Playfair Display", footerSize:13,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#12100c"/><rect x="8" y="8" width="204" height="144" fill="none" stroke="#5a4820" stroke-width="1.5"/><rect x="12" y="12" width="196" height="136" fill="none" stroke="#8a6830" stroke-width="0.5"/><text x="10" y="26" font-size="16" fill="#b8985a" font-family="serif">⚜</text><text x="196" y="26" font-size="16" fill="#b8985a" font-family="serif">⚜</text><path d="M50,58 L50,72 Q110,68 170,72 L170,58 Q110,62 50,58Z" fill="#2a2010" stroke="#8a6830" stroke-width="0.5"/><text x="110" y="68" text-anchor="middle" font-family="serif" font-size="7" fill="#e8d5a0" letter-spacing="2">DÜĞÜN DAVETİYESİ</text><text x="110" y="95" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#e8d5a0" font-style="italic">Berna &amp; Melih</text><line x1="50" y1="102" x2="170" y2="102" stroke="#5a4820" stroke-width="0.6"/><text x="110" y="116" text-anchor="middle" font-family="serif" font-size="7.5" fill="#b8985a" letter-spacing="1">15 Ekim 2026  •  16:00</text><text x="110" y="138" text-anchor="middle" font-family="serif" font-size="6" fill="#8a6830" letter-spacing="1">❧ Sizi Aramızda Görmek İsteriz ❧</text></svg>'
+      },
+      {
+        id:15, name:"Pudra & Gül", badge:"Romantik", tarz:"Romantik & Vintage",
+        bgcolor:"#f7eff3", baslikRenk:"#a05878", gelinRenk:"#6c3050", damatRenk:"#6c3050",
+        andRenk:"#d490a8", btncolor:"#a05878", btnTextColor:"#f7eff3",
+        sec1Font:"Great Vibes", baslikSize:70, isimSize:52,
+        aileIconRenk:"#d490a8", gelinTarafRenk:"#a05878", damatTarafRenk:"#a05878",
+        gelinEtiketRenk:"#d490a8", damatEtiketRenk:"#d490a8",
+        sec2Font:"Cormorant Garamond", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#d490a8", tarihRenk:"#6c3050", sec3Font:"Great Vibes", tarihSize:44,
+        konumBaslikRenk:"#a05878", konumAdresRenk:"#6c3050", konumIconRenk:"#d490a8",
+        konumBtnRenk:"#a05878", konumBtnTextRenk:"#f7eff3", sec4Font:"Cormorant Garamond", konumSize:24,
+        countdownLabelRenk:"#d490a8", countdownSayiRenk:"#6c3050", countdownSize:52,
+        muzikLabelRenk:"#d490a8", footerRenk:"#d490a8", footerIsimRenk:"#a05878",
+        sec7Font:"Great Vibes", footerSize:16,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#f7eff3"/><ellipse cx="110" cy="80" rx="88" ry="68" fill="#f0d8e4" opacity="0.38"/><ellipse cx="110" cy="80" rx="85" ry="65" fill="none" stroke="#d490a8" stroke-width="0.6" opacity="0.55"/><ellipse cx="110" cy="80" rx="80" ry="60" fill="none" stroke="#e8b0c8" stroke-width="0.3" opacity="0.45"/><circle cx="28" cy="28" r="10" fill="#f4c0d0" opacity="0.28"/><path d="M28,20 Q34,24 31,30 Q28,32 25,30 Q22,24 28,20Z" fill="#e090b0" opacity="0.65"/><circle cx="28" cy="28" r="3.5" fill="#c06090" opacity="0.75"/><circle cx="192" cy="30" r="9" fill="#f4c0d0" opacity="0.28"/><path d="M192,23 Q197,26 195,32 Q192,34 189,32 Q186,26 192,23Z" fill="#e090b0" opacity="0.65"/><circle cx="192" cy="30" r="3" fill="#c06090" opacity="0.75"/><circle cx="30" cy="138" r="8" fill="#f4c0d0" opacity="0.28"/><path d="M30,132 Q35,135 33,140 Q30,142 27,140 Q24,135 30,132Z" fill="#e090b0" opacity="0.65"/><circle cx="30" cy="138" r="2.5" fill="#c06090" opacity="0.75"/><circle cx="192" cy="138" r="8" fill="#f4c0d0" opacity="0.28"/><path d="M192,132 Q197,135 195,140 Q192,142 189,140 Q186,135 192,132Z" fill="#e090b0" opacity="0.65"/><circle cx="192" cy="138" r="2.5" fill="#c06090" opacity="0.75"/><text x="110" y="50" text-anchor="middle" font-family="serif" font-size="6" fill="#d490a8" letter-spacing="2">düğün davetiyesi</text><text x="110" y="80" text-anchor="middle" font-family="cursive" font-size="22" fill="#a05878">Berna &amp; Melih</text><text x="110" y="93" text-anchor="middle" font-size="10" fill="#e0a0c0">✿ ✿ ✿</text><text x="110" y="110" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#6c3050">15 Ekim 2026  •  16:00</text></svg>'
+      },
+      {
+        id:16, name:"Art Deco", badge:"Vintage", tarz:"Romantik & Vintage",
+        bgcolor:"#0e0c08", baslikRenk:"#e8c870", gelinRenk:"#f5e8c0", damatRenk:"#f5e8c0",
+        andRenk:"#c8a040", btncolor:"#2c2010", btnTextColor:"#e8c870",
+        sec1Font:"Cinzel", baslikSize:60, isimSize:44,
+        aileIconRenk:"#c8a040", gelinTarafRenk:"#d4b060", damatTarafRenk:"#d4b060",
+        gelinEtiketRenk:"#c8a040", damatEtiketRenk:"#c8a040",
+        sec2Font:"Cinzel", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#c8a040", tarihRenk:"#f5e8c0", sec3Font:"Cinzel", tarihSize:40,
+        konumBaslikRenk:"#e8c870", konumAdresRenk:"#f5e8c0", konumIconRenk:"#c8a040",
+        konumBtnRenk:"#2c2010", konumBtnTextRenk:"#e8c870", sec4Font:"Cinzel", konumSize:24,
+        countdownLabelRenk:"#c8a040", countdownSayiRenk:"#f5e8c0", countdownSize:52,
+        muzikLabelRenk:"#c8a040", footerRenk:"#c8a040", footerIsimRenk:"#e8c870",
+        sec7Font:"Cinzel", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="160" fill="#0e0c08"/><g opacity="0.28" fill="none" stroke="#c8a040"><line x1="110" y1="0" x2="30" y2="80" stroke-width="0.5"/><line x1="110" y1="0" x2="50" y2="80" stroke-width="0.5"/><line x1="110" y1="0" x2="70" y2="80" stroke-width="0.5"/><line x1="110" y1="0" x2="90" y2="80" stroke-width="0.5"/><line x1="110" y1="0" x2="110" y2="80" stroke-width="0.5"/><line x1="110" y1="0" x2="130" y2="80" stroke-width="0.5"/><line x1="110" y1="0" x2="150" y2="80" stroke-width="0.5"/><line x1="110" y1="0" x2="170" y2="80" stroke-width="0.5"/><line x1="110" y1="0" x2="190" y2="80" stroke-width="0.5"/></g><circle cx="110" cy="0" r="30" fill="none" stroke="#c8a040" stroke-width="0.6" opacity="0.38"/><circle cx="110" cy="0" r="50" fill="none" stroke="#c8a040" stroke-width="0.4" opacity="0.25"/><rect x="8" y="8" width="204" height="144" fill="none" stroke="#c8a040" stroke-width="1"/><rect x="11" y="11" width="198" height="138" fill="none" stroke="#5a4820" stroke-width="0.4"/><polygon points="8,8 18,8 8,18" fill="#c8a040"/><polygon points="212,8 202,8 212,18" fill="#c8a040"/><polygon points="8,152 18,152 8,142" fill="#c8a040"/><polygon points="212,152 202,152 212,142" fill="#c8a040"/><text x="110" y="94" text-anchor="middle" font-family="serif" font-size="18" fill="#e8c870" font-style="italic">Berna &amp; Melih</text><line x1="50" y1="100" x2="170" y2="100" stroke="#5a4820" stroke-width="0.6"/><text x="110" y="114" text-anchor="middle" font-family="serif" font-size="6.5" fill="#c8a040" letter-spacing="2">15 EKİM 2026 • 16:00</text><text x="110" y="130" text-anchor="middle" font-family="serif" font-size="5.5" fill="#8a7040" letter-spacing="2">DÜĞÜN DAVETİYESİ</text></svg>'
+      },
+
+      // ==================== LÜKS & KOYU ====================
+      {
+        id:17, name:"Siyah Kadife", badge:"Lüks", tarz:"Lüks & Koyu",
+        bgcolor:"#050505", baslikRenk:"#d4af37", gelinRenk:"#f0e0b0", damatRenk:"#f0e0b0",
+        andRenk:"#c4982a", btncolor:"#1a1408", btnTextColor:"#d4af37",
+        sec1Font:"Cinzel", baslikSize:62, isimSize:46,
+        aileIconRenk:"#d4af37", gelinTarafRenk:"#c4982a", damatTarafRenk:"#c4982a",
+        gelinEtiketRenk:"#c4982a", damatEtiketRenk:"#c4982a",
+        sec2Font:"Cormorant Garamond", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#c4982a", tarihRenk:"#f0e0b0", sec3Font:"Cinzel", tarihSize:40,
+        konumBaslikRenk:"#d4af37", konumAdresRenk:"#f0e0b0", konumIconRenk:"#c4982a",
+        konumBtnRenk:"#1a1408", konumBtnTextRenk:"#d4af37", sec4Font:"Cinzel", konumSize:24,
+        countdownLabelRenk:"#c4982a", countdownSayiRenk:"#f0e0b0", countdownSize:54,
+        muzikLabelRenk:"#c4982a", footerRenk:"#c4982a", footerIsimRenk:"#d4af37",
+        sec7Font:"Cinzel", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="vg1" cx="50%" cy="50%"><stop offset="0%" style="stop-color:#1a1408;stop-opacity:0.8"/><stop offset="100%" style="stop-color:#050505;stop-opacity:1"/></radialGradient></defs><rect width="220" height="160" fill="url(#vg1)"/><rect x="6" y="6" width="208" height="148" fill="none" stroke="#8a7020" stroke-width="1"/><rect x="9" y="9" width="202" height="142" fill="none" stroke="#d4af37" stroke-width="0.4"/><text x="9" y="26" font-size="14" fill="#d4af37" font-family="serif">✦</text><text x="199" y="26" font-size="14" fill="#d4af37" font-family="serif">✦</text><line x1="25" y1="42" x2="195" y2="42" stroke="#d4af37" stroke-width="0.6"/><line x1="35" y1="44" x2="185" y2="44" stroke="#8a7020" stroke-width="0.3"/><line x1="25" y1="116" x2="195" y2="116" stroke="#d4af37" stroke-width="0.6"/><line x1="35" y1="118" x2="185" y2="118" stroke="#8a7020" stroke-width="0.3"/><text x="110" y="38" text-anchor="middle" font-family="serif" font-size="6" fill="#8a7020" letter-spacing="4">DÜĞÜN DAVETİYESİ</text><text x="110" y="70" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#d4af37" font-style="italic">Berna &amp; Melih</text><text x="110" y="84" text-anchor="middle" font-family="serif" font-size="8" fill="#8a7020">— ✦ —</text><text x="110" y="102" text-anchor="middle" font-family="serif" font-size="7.5" fill="#c4982a" letter-spacing="1">15 Ekim 2026  •  16:00</text><text x="110" y="134" text-anchor="middle" font-family="serif" font-size="6" fill="#8a7020" letter-spacing="2">SİZİ BEKLİYORUZ</text></svg>'
+      },
+      {
+        id:18, name:"Gece & Altın", badge:"Lüks", tarz:"Lüks & Koyu",
+        bgcolor:"#020a18", baslikRenk:"#c8a840", gelinRenk:"#e8d090", damatRenk:"#e8d090",
+        andRenk:"#a88820", btncolor:"#0a1828", btnTextColor:"#c8a840",
+        sec1Font:"Cinzel", baslikSize:62, isimSize:46,
+        aileIconRenk:"#c8a840", gelinTarafRenk:"#b89030", damatTarafRenk:"#b89030",
+        gelinEtiketRenk:"#a88820", damatEtiketRenk:"#a88820",
+        sec2Font:"Cormorant Garamond", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#a88820", tarihRenk:"#e8d090", sec3Font:"Cinzel", tarihSize:40,
+        konumBaslikRenk:"#c8a840", konumAdresRenk:"#e8d090", konumIconRenk:"#a88820",
+        konumBtnRenk:"#0a1828", konumBtnTextRenk:"#c8a840", sec4Font:"Cinzel", konumSize:24,
+        countdownLabelRenk:"#a88820", countdownSayiRenk:"#e8d090", countdownSize:54,
+        muzikLabelRenk:"#a88820", footerRenk:"#a88820", footerIsimRenk:"#c8a840",
+        sec7Font:"Cinzel", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ng1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#020a18"/><stop offset="100%" style="stop-color:#04122a"/></linearGradient></defs><rect width="220" height="160" fill="url(#ng1)"/><circle cx="175" cy="25" r="12" fill="#04122a"/><circle cx="172" cy="22" r="10" fill="none" stroke="#c8a840" stroke-width="0.5" opacity="0.55"/><circle cx="178" cy="18" r="9" fill="#020a18"/><circle cx="30" cy="15" r="1" fill="#c8a840" opacity="0.7"/><circle cx="55" cy="8" r="0.8" fill="#c8a840" opacity="0.5"/><circle cx="80" cy="20" r="1.2" fill="#c8a840" opacity="0.6"/><circle cx="120" cy="10" r="0.9" fill="#c8a840" opacity="0.55"/><circle cx="145" cy="25" r="1" fill="#c8a840" opacity="0.45"/><circle cx="190" cy="35" r="0.8" fill="#c8a840" opacity="0.5"/><circle cx="40" cy="50" r="0.7" fill="#c8a840" opacity="0.4"/><circle cx="70" cy="40" r="1" fill="#c8a840" opacity="0.5"/><rect x="7" y="7" width="206" height="146" fill="none" stroke="#4a3810" stroke-width="1.2"/><rect x="10" y="10" width="200" height="140" fill="none" stroke="#c8a840" stroke-width="0.4"/><text x="10" y="25" font-size="12" fill="#c8a840" font-family="serif">★</text><text x="200" y="25" font-size="12" fill="#c8a840" font-family="serif">★</text><text x="10" y="154" font-size="12" fill="#c8a840" font-family="serif">★</text><text x="200" y="154" font-size="12" fill="#c8a840" font-family="serif">★</text><line x1="30" y1="44" x2="190" y2="44" stroke="#4a3810" stroke-width="0.6"/><line x1="30" y1="118" x2="190" y2="118" stroke="#4a3810" stroke-width="0.6"/><text x="110" y="38" text-anchor="middle" font-family="serif" font-size="5.5" fill="#7a6020" letter-spacing="3">DÜĞÜN DAVETİYESİ</text><text x="110" y="70" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#c8a840" font-style="italic">Berna &amp; Melih</text><text x="110" y="83" text-anchor="middle" font-family="serif" font-size="8" fill="#7a6020">✦ ✦ ✦</text><text x="110" y="100" text-anchor="middle" font-family="serif" font-size="7.5" fill="#a88820" letter-spacing="1">15 Ekim 2026  •  16:00</text><text x="110" y="135" text-anchor="middle" font-family="serif" font-size="5.5" fill="#7a6020" letter-spacing="2">SİZİ BEKLİYORUZ</text></svg>'
+      },
+      {
+        id:19, name:"Bordo Kraliyet", badge:"Lüks", tarz:"Lüks & Koyu",
+        bgcolor:"#0a0205", baslikRenk:"#d4a0c0", gelinRenk:"#f0d0e0", damatRenk:"#f0d0e0",
+        andRenk:"#a06080", btncolor:"#1e0810", btnTextColor:"#d4a0c0",
+        sec1Font:"Cinzel", baslikSize:60, isimSize:44,
+        aileIconRenk:"#d4a0c0", gelinTarafRenk:"#c080a0", damatTarafRenk:"#c080a0",
+        gelinEtiketRenk:"#a06080", damatEtiketRenk:"#a06080",
+        sec2Font:"Cormorant Garamond", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#a06080", tarihRenk:"#f0d0e0", sec3Font:"Cinzel", tarihSize:40,
+        konumBaslikRenk:"#d4a0c0", konumAdresRenk:"#f0d0e0", konumIconRenk:"#a06080",
+        konumBtnRenk:"#1e0810", konumBtnTextRenk:"#d4a0c0", sec4Font:"Cinzel", konumSize:24,
+        countdownLabelRenk:"#a06080", countdownSayiRenk:"#f0d0e0", countdownSize:52,
+        muzikLabelRenk:"#a06080", footerRenk:"#a06080", footerIsimRenk:"#d4a0c0",
+        sec7Font:"Cinzel", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="bg1" cx="50%" cy="50%"><stop offset="0%" style="stop-color:#200810"/><stop offset="100%" style="stop-color:#0a0205"/></radialGradient></defs><rect width="220" height="160" fill="url(#bg1)"/><rect x="6" y="6" width="208" height="148" fill="none" stroke="#4a1828" stroke-width="1.5"/><rect x="10" y="10" width="200" height="140" fill="none" stroke="#d4a0c0" stroke-width="0.4"/><text x="101" y="26" font-family="serif" font-size="18" fill="#d4a0c0" opacity="0.45">♛</text><text x="10" y="30" font-size="14" fill="#6a1030" opacity="0.45" font-family="serif">✿</text><text x="198" y="30" font-size="14" fill="#6a1030" opacity="0.45" font-family="serif">✿</text><line x1="28" y1="44" x2="192" y2="44" stroke="#4a1828" stroke-width="0.7"/><line x1="28" y1="118" x2="192" y2="118" stroke="#4a1828" stroke-width="0.7"/><text x="110" y="38" text-anchor="middle" font-family="serif" font-size="5.5" fill="#6a3050" letter-spacing="3">DÜĞÜN DAVETİYESİ</text><text x="110" y="70" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#d4a0c0" font-style="italic">Berna &amp; Melih</text><text x="110" y="84" text-anchor="middle" font-family="serif" font-size="8" fill="#6a3050">❦ ❦ ❦</text><text x="110" y="102" text-anchor="middle" font-family="serif" font-size="7.5" fill="#a06080" letter-spacing="1">15 Ekim 2026  •  16:00</text><text x="110" y="132" text-anchor="middle" font-family="serif" font-size="5.5" fill="#6a3050" letter-spacing="2">SİZİ BEKLİYORUZ</text></svg>'
+      },
+      {
+        id:20, name:"Derin Orman", badge:"Lüks", tarz:"Lüks & Koyu",
+        bgcolor:"#010e06", baslikRenk:"#90c878", gelinRenk:"#d0f0c0", damatRenk:"#d0f0c0",
+        andRenk:"#60a840", btncolor:"#081c04", btnTextColor:"#90c878",
+        sec1Font:"Cinzel", baslikSize:60, isimSize:44,
+        aileIconRenk:"#60a840", gelinTarafRenk:"#78b860", damatTarafRenk:"#78b860",
+        gelinEtiketRenk:"#60a840", damatEtiketRenk:"#60a840",
+        sec2Font:"Cormorant Garamond", aileBaslikSize:26, aileIsimSize:20,
+        tarihLabelRenk:"#60a840", tarihRenk:"#d0f0c0", sec3Font:"Cinzel", tarihSize:40,
+        konumBaslikRenk:"#90c878", konumAdresRenk:"#d0f0c0", konumIconRenk:"#60a840",
+        konumBtnRenk:"#081c04", konumBtnTextRenk:"#90c878", sec4Font:"Cinzel", konumSize:24,
+        countdownLabelRenk:"#60a840", countdownSayiRenk:"#d0f0c0", countdownSize:52,
+        muzikLabelRenk:"#60a840", footerRenk:"#60a840", footerIsimRenk:"#90c878",
+        sec7Font:"Cinzel", footerSize:12,
+        svgStr:'<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="fg1" cx="50%" cy="30%"><stop offset="0%" style="stop-color:#041c08"/><stop offset="100%" style="stop-color:#010e06"/></radialGradient></defs><rect width="220" height="160" fill="url(#fg1)"/><path d="M0,80 Q10,60 20,70 Q25,50 35,65 Q40,45 50,60 L50,160 L0,160Z" fill="#020e04" opacity="0.85"/><path d="M170,80 Q180,55 190,70 Q195,45 205,62 Q210,42 220,58 L220,160 L170,160Z" fill="#020e04" opacity="0.85"/><circle cx="45" cy="30" r="1" fill="#90c878" opacity="0.55"/><circle cx="75" cy="18" r="0.8" fill="#90c878" opacity="0.4"/><circle cx="100" cy="35" r="1.2" fill="#90c878" opacity="0.5"/><circle cx="130" cy="15" r="0.9" fill="#90c878" opacity="0.45"/><circle cx="160" cy="28" r="1" fill="#90c878" opacity="0.4"/><circle cx="60" cy="50" r="0.7" fill="#90c878" opacity="0.35"/><rect x="8" y="8" width="204" height="144" fill="none" stroke="#2a4820" stroke-width="1"/><rect x="11" y="11" width="198" height="138" fill="none" stroke="#60a840" stroke-width="0.3"/><line x1="30" y1="50" x2="190" y2="50" stroke="#2a4820" stroke-width="0.6"/><line x1="30" y1="118" x2="190" y2="118" stroke="#2a4820" stroke-width="0.6"/><text x="110" y="44" text-anchor="middle" font-family="serif" font-size="5.5" fill="#3a6828" letter-spacing="3">DÜĞÜN DAVETİYESİ</text><text x="110" y="74" text-anchor="middle" font-family="Georgia,serif" font-size="17" fill="#90c878" font-style="italic">Berna &amp; Melih</text><text x="110" y="87" text-anchor="middle" font-family="serif" font-size="8" fill="#3a6828">✦ ✦ ✦</text><text x="110" y="104" text-anchor="middle" font-family="serif" font-size="7.5" fill="#60a840" letter-spacing="1">15 Ekim 2026  •  16:00</text><text x="110" y="132" text-anchor="middle" font-family="serif" font-size="5.5" fill="#3a6828" letter-spacing="2">SİZİ BEKLİYORUZ</text></svg>'
+      }
+    ];
+
+    let selectedTemplateId = null;
+
+    function renderTemplates() {
+      const grid = document.getElementById('template-grid');
+      grid.innerHTML = '';
+      const groups = {};
+      TEMPLATES.forEach(t => { if (!groups[t.tarz]) groups[t.tarz]=[]; groups[t.tarz].push(t); });
+      Object.entries(groups).forEach(([tarz, tpls]) => {
+        const header = document.createElement('div');
+        header.style.cssText = 'grid-column:1/-1;font-weight:700;font-size:12px;color:#374151;padding:10px 4px 6px;border-bottom:2px solid #f3f4f6;letter-spacing:0.5px;text-transform:uppercase';
+        header.textContent = tarz;
+        grid.appendChild(header);
+        tpls.forEach(tpl => {
+          const card = document.createElement('div');
+          card.id = 'tpl-card-' + tpl.id;
+          card.style.cssText = 'border-radius:14px;overflow:hidden;border:3px solid '+(selectedTemplateId===tpl.id?'#7c3aed':'#f0f0f0')+';transition:all 0.2s;cursor:pointer;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.07)';
+          card.innerHTML = `<div style="position:relative">${tpl.svgStr}</div><div style="padding:6px 8px 0;font-size:11px;font-weight:700;color:#1f2937;text-align:center">${tpl.name}</div><button onclick="event.stopPropagation();applyTemplate(${tpl.id})" style="width:100%;padding:7px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border:none;border-radius:0 0 10px 10px;cursor:pointer;margin-top:6px" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">✨ Uygula</button>`;
+          card.onclick = () => { document.querySelectorAll('[id^=tpl-card-]').forEach(c=>c.style.borderColor='#f0f0f0'); card.style.borderColor='#7c3aed'; selectedTemplateId=tpl.id; };
+          grid.appendChild(card);
+        });
+      });
+    }
+
+
+        function applyTemplate(id) {
+      const tpl = TEMPLATES.find(t => t.id === id);
+      if (!tpl) return;
+
+      // Preserve personal data
+      const s = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      const preserved = {
+        gelin: s.gelin, damat: s.damat, baslik: s.baslik,
+        tarih: s.tarih, konum: s.konum, konumBaslik: s.konumBaslik,
+        mapQuery: s.mapQuery, konumGitUrl: s.konumGitUrl, map: s.map,
+        gelinAnne: s.gelinAnne, gelinBaba: s.gelinBaba,
+        damatAnne: s.damatAnne, damatBaba: s.damatBaba,
+        music: s.music, youtube: s.youtube, spotify: s.spotify,
+        bg: s.bg, footerMesaj: s.footerMesaj,
+        countdownLabel: s.countdownLabel, gunLabel: s.gunLabel,
+        saatLabel: s.saatLabel, dakikaLabel: s.dakikaLabel, saniyeLabel: s.saniyeLabel,
+        muzikLabel: s.muzikLabel, aileBaslik: s.aileBaslik,
+        btntext: s.btntext, konumGitText: s.konumGitText,
+        gelinAnneLabel: s.gelinAnneLabel, gelinBabaLabel: s.gelinBabaLabel,
+        damatAnneLabel: s.damatAnneLabel, damatBabaLabel: s.damatBabaLabel,
+        gelinTarafBaslik: s.gelinTarafBaslik, damatTarafBaslik: s.damatTarafBaslik,
+        aileIcon: s.aileIcon,
+      };
+
+      const newSettings = Object.assign({}, tpl, preserved);
+      // Remove preview key
+      delete newSettings.preview;
+      delete newSettings.id;
+      delete newSettings.name;
+      delete newSettings.badge;
+
+      localStorage.setItem('davetSettings', JSON.stringify(newSettings));
+      loadSettings();
+
+      // Highlight card
+      document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected-tpl'));
+      const card = document.getElementById('tpl-card-' + id);
+      if (card) card.classList.add('selected-tpl');
+      selectedTemplateId = id;
+
+      // Update all edit panel inputs to reflect new theme
+      openEditFill(newSettings);
+
+      alert('✅ "' + tpl.name + '" şablonu uygulandı!');
+    }
+
+    // ---- FONT SELECTION ----
+    function selectFont(section, font) {
+      document.getElementById('edit-' + section + '-font').value = font;
+      const picker = document.querySelectorAll('#font-picker-' + section + ' .font-option, [onclick*="selectFont(\'' + section + '\'"]');
+      // find all font-option buttons in this section by looking at all buttons with this section's selectFont call
+      document.querySelectorAll('button[onclick*="selectFont(\'' + section + '\'"]').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.getAttribute('onclick').includes("'" + font + "'")) btn.classList.add('selected');
+      });
+    }
+
+    // ---- ICON SELECTION ----
+    function selectAileIcon(icon) {
+      document.getElementById('edit-aile-icon').value = icon;
+      document.querySelectorAll('#aile-icon-picker .icon-option').forEach((btn, i) => {
+        btn.classList.remove('selected');
+        if (btn.getAttribute('onclick') === "selectAileIcon('" + icon + "')") btn.classList.add('selected');
+      });
+    }
+
+    function selectKonumIcon(icon) {
+      document.getElementById('edit-konum-icon').value = icon;
+      document.querySelectorAll('[onclick*="selectKonumIcon"]').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.getAttribute('onclick') === "selectKonumIcon('" + icon + "')") btn.classList.add('selected');
+      });
+    }
+
+    // ---- YOUTUBE ID ----
+    function getYouTubeId(url) {
+      const reg = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(reg);
+      return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    // ---- LOAD SETTINGS ----
+    function loadSettings() {
+      const s = JSON.parse(localStorage.getItem('davetSettings')) || {};
+
+      // Bölüm 1: Başlık & İsimler
+      const baslik = s.baslik || "Düğün Davetiyesi";
+      const gelin = s.gelin || "Berna";
+      const damat = s.damat || "Melih";
+      const baslikFont = s.sec1Font || "Playfair Display";
+      const baslikSize = s.baslikSize || 72;
+      const isimSize = s.isimSize || 48;
+
+      ['landing-baslik','baslik'].forEach(id => {
+        const el = document.getElementById(id);
+        el.textContent = baslik;
+        el.style.fontFamily = "'" + baslikFont + "', serif";
+        el.style.fontSize = baslikSize + "px";
+      });
+      ['landing-gelin','gelin'].forEach(id => {
+        const el = document.getElementById(id);
+        el.textContent = gelin;
+        el.style.fontSize = isimSize + "px";
+        el.style.fontFamily = "'" + baslikFont + "', serif";
+        el.style.color = s.gelinRenk || "#ffffff";
+      });
+      ['landing-damat','damat'].forEach(id => {
+        const el = document.getElementById(id);
+        el.textContent = damat;
+        el.style.fontSize = isimSize + "px";
+        el.style.fontFamily = "'" + baslikFont + "', serif";
+        el.style.color = s.damatRenk || "#ffffff";
+      });
+      document.getElementById('landing-and').style.color = s.andRenk || "#fb7185";
+      document.getElementById('and-symbol').style.color = s.andRenk || "#fb7185";
+      document.getElementById('and-symbol').style.fontSize = isimSize + "px";
+
+      if (s.baslikRenk) ['landing-baslik','baslik'].forEach(id => document.getElementById(id).style.color = s.baslikRenk);
+
+      const btn = document.getElementById('open-btn');
+      btn.textContent = s.btntext || "DAVETİYEYİ AÇ";
+      btn.style.backgroundColor = s.btncolor || "#e11d48";
+      btn.style.color = s.btnTextColor || "#ffffff";
+
+      // Footer isim
+      document.getElementById('footer-isim').textContent = s.footerIsim || (gelin + " & " + damat);
+
+      // Bölüm 2: Aile
+      const aileFont = s.sec2Font || "Playfair Display";
+      const aileBaslikSize = s.aileBaslikSize || 30;
+      const aileIsimSize = s.aileIsimSize || 24;
+
+      document.getElementById('aile-baslik-text').textContent = s.aileBaslik || "Ailelerimiz";
+      document.getElementById('aile-baslik').style.fontSize = aileBaslikSize + "px";
+      document.getElementById('aile-baslik').style.fontFamily = "'" + aileFont + "', serif";
+
+      const aileIconName = s.aileIcon !== undefined ? s.aileIcon : "fa-heart";
+      const aileIconRenk = s.aileIconRenk || "#fb7185";
+      if (aileIconName) {
+        document.getElementById('aile-icon-left').className = "fas " + aileIconName;
+        document.getElementById('aile-icon-right').className = "fas " + aileIconName;
+        document.getElementById('aile-icon-left').style.color = aileIconRenk;
+        document.getElementById('aile-icon-right').style.color = aileIconRenk;
+      } else {
+        document.getElementById('aile-icon-left').className = "";
+        document.getElementById('aile-icon-right').className = "";
+      }
+
+      document.getElementById('gelin-taraf-baslik').textContent = s.gelinTarafBaslik || "Gelin Tarafı";
+      document.getElementById('gelin-taraf-baslik').style.color = s.gelinTarafRenk || "#f9a8d4";
+      document.getElementById('damat-taraf-baslik').textContent = s.damatTarafBaslik || "Damat Tarafı";
+      document.getElementById('damat-taraf-baslik').style.color = s.damatTarafRenk || "#93c5fd";
+
+      document.getElementById('gelin-anne-label').textContent = s.gelinAnneLabel || "Anne";
+      document.getElementById('gelin-anne-label').style.color = s.gelinEtiketRenk || "#f9a8d4";
+      document.getElementById('gelin-baba-label').textContent = s.gelinBabaLabel || "Baba";
+      document.getElementById('gelin-baba-label').style.color = s.gelinEtiketRenk || "#f9a8d4";
+      document.getElementById('damat-anne-label').textContent = s.damatAnneLabel || "Anne";
+      document.getElementById('damat-anne-label').style.color = s.damatEtiketRenk || "#93c5fd";
+      document.getElementById('damat-baba-label').textContent = s.damatBabaLabel || "Baba";
+      document.getElementById('damat-baba-label').style.color = s.damatEtiketRenk || "#93c5fd";
+
+      const gelinAnneEl = document.getElementById('gelin-anne');
+      const gelinBabaEl = document.getElementById('gelin-baba');
+      const damatAnneEl = document.getElementById('damat-anne');
+      const damatBabaEl = document.getElementById('damat-baba');
+
+      gelinAnneEl.textContent = s.gelinAnne || "Ayşe";
+      gelinBabaEl.textContent = s.gelinBaba || "Mehmet";
+      damatAnneEl.textContent = s.damatAnne || "Fatma";
+      damatBabaEl.textContent = s.damatBaba || "Ahmet";
+      [gelinAnneEl,gelinBabaEl,damatAnneEl,damatBabaEl].forEach(el => el.style.fontSize = aileIsimSize + "px");
+
+      // Bölüm 3: Tarih
+      const tarihFont = s.sec3Font || "Playfair Display";
+      const tarihSize = s.tarihSize || 48;
+      document.getElementById('tarih-label').textContent = s.tarihLabel || "Tarih";
+      document.getElementById('tarih-label').style.color = s.tarihLabelRenk || "#fde68a";
+      const tarihEl = document.getElementById('tarih-goster');
+      tarihEl.style.fontFamily = "'" + tarihFont + "', serif";
+      tarihEl.style.fontSize = tarihSize + "px";
+      tarihEl.style.color = s.tarihRenk || "#ffffff";
+      if (s.tarih) {
+        const d = new Date(s.tarih);
+        tarihEl.innerHTML = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+        startCountdown(d.getTime());
+      }
+
+      // Bölüm 4: Konum
+      const konumFont = s.sec4Font || "Playfair Display";
+      const konumSize = s.konumSize || 30;
+      const konumBaslikEl = document.getElementById('konum-baslik');
+      konumBaslikEl.style.fontFamily = "'" + konumFont + "', serif";
+      konumBaslikEl.style.fontSize = konumSize + "px";
+      konumBaslikEl.style.color = s.konumBaslikRenk || "#ffffff";
+
+      const konumIconEl = document.getElementById('konum-icon');
+      const konumIconName = s.konumIcon !== undefined ? s.konumIcon : "fa-map-marker-alt";
+      if (konumIconName) {
+        konumIconEl.className = "fas " + konumIconName + " mr-2";
+        konumIconEl.style.color = s.konumIconRenk || "#fb7185";
+      } else {
+        konumIconEl.className = "";
+      }
+      // Rebuild konum-baslik with new icon
+      const konumBaslikText = s.konumBaslik || "Nerede Buluşuyoruz?";
+      document.getElementById('konum-baslik').innerHTML = '';
+      if (konumIconName) {
+        const iTag = document.createElement('i');
+        iTag.id = "konum-icon";
+        iTag.className = "fas " + konumIconName + " mr-2";
+        iTag.style.color = s.konumIconRenk || "#fb7185";
+        document.getElementById('konum-baslik').appendChild(iTag);
+      }
+      document.getElementById('konum-baslik').appendChild(document.createTextNode(konumBaslikText));
+
+      document.getElementById('konum-text').textContent = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
+      document.getElementById('konum-text').style.color = s.konumAdresRenk || "#ffffff";
+
+      // Harita — OpenStreetMap embed (engellenmez)
+      const mapQuery = s.mapQuery || s.konum || "Marmara Üniversitesi Kongre Merkezi İstanbul";
+      const encodedQuery = encodeURIComponent(mapQuery);
+      document.getElementById('googleMap').src = `https://www.openstreetmap.org/export/embed.html?bbox=&layer=mapnik&marker=&query=${encodedQuery}`;
+      // Daha güvenilir: nominatim tabanlı embed
+      document.getElementById('googleMap').src = `https://maps.google.com/maps?q=${encodedQuery}&output=embed&hl=tr`;
+
+      // "Konuma Git" butonu
+      const konumGitBtn = document.getElementById('konum-git-btn');
+      const konumGitText = s.konumGitText || "Konuma Git";
+      document.getElementById('konum-git-text').textContent = konumGitText;
+      konumGitBtn.style.backgroundColor = s.konumBtnRenk || "#e11d48";
+      konumGitBtn.style.color = s.konumBtnTextRenk || "#ffffff";
+      if (s.konumGitUrl) {
+        konumGitBtn.href = s.konumGitUrl;
+      } else {
+        konumGitBtn.href = `https://www.google.com/maps/search/?api=1&query=${encodedQuery}`;
+      }
+
+      // Bölüm 5: Geri Sayım
+      const countdownLabelEl = document.getElementById('countdown-label');
+      countdownLabelEl.textContent = s.countdownLabel || "Büyük güne kalan süre";
+      countdownLabelEl.style.color = s.countdownLabelRenk || "#fde68a";
+      document.getElementById('gun-label').textContent = s.gunLabel || "GÜN";
+      document.getElementById('saat-label').textContent = s.saatLabel || "SAAT";
+      document.getElementById('dakika-label').textContent = s.dakikaLabel || "DAKİKA";
+      document.getElementById('saniye-label').textContent = s.saniyeLabel || "SANİYE";
+      const countdownSize = s.countdownSize || 60;
+      ['gun','saat','dakika','saniye'].forEach(id => {
+        document.getElementById(id).style.fontSize = countdownSize + "px";
+        if (s.countdownSayiRenk) document.getElementById(id).style.color = s.countdownSayiRenk;
+      });
+
+      // Bölüm 6: Müzik
+      const muzikLabelEl = document.getElementById('muzik-label');
+      muzikLabelEl.textContent = s.muzikLabel || "Özel şarkımız çalıyor 💕";
+      muzikLabelEl.style.color = s.muzikLabelRenk || "#fde68a";
+      renderMusicPlayer(s);
+
+      // Bölüm 7: Footer
+      const footerMesajEl = document.getElementById('footer-mesaj');
+      const footerIsimEl = document.getElementById('footer-isim');
+      footerMesajEl.textContent = s.footerMesaj || "Seni aramızda görmek isteriz ❤️";
+      footerMesajEl.style.color = s.footerRenk || "rgba(253,230,138,0.6)";
+      footerIsimEl.style.color = s.footerIsimRenk || "rgba(253,230,138,0.6)";
+      const footerFont = s.sec7Font || "Inter";
+      const footerSize = s.footerSize || 14;
+      [footerMesajEl, footerIsimEl].forEach(el => {
+        el.style.fontFamily = "'" + footerFont + "', sans-serif";
+        el.style.fontSize = footerSize + "px";
+      });
+
+      // Genel: Arka Plan
+      const heroes = document.querySelectorAll('.hero-bg');
+      if (s.bg) heroes.forEach(el => el.style.backgroundImage = `url('${s.bg}')`);
+      else heroes.forEach(el => el.style.backgroundImage = 'none');
+      if (s.bgcolor) heroes.forEach(el => el.style.backgroundColor = s.bgcolor);
+    }
+
+    function renderMusicPlayer(s) {
+      document.getElementById('mp3-player').classList.add('hidden');
+      document.getElementById('youtube-player').classList.add('hidden');
+      document.getElementById('spotify-player').classList.add('hidden');
+      if (s.youtube) {
+        const id = getYouTubeId(s.youtube);
+        if (id) {
+          document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&loop=1&playlist=${id}`;
+          document.getElementById('youtube-player').classList.remove('hidden');
+        }
+      } else if (s.spotify) {
+        const id = s.spotify.split('/track/')[1]?.split('?')[0] || '';
+        if (id) {
+          document.getElementById('spotify-iframe').src = `https://open.spotify.com/embed/track/${id}?autoplay=1`;
+          document.getElementById('spotify-player').classList.remove('hidden');
+        }
+      } else if (s.music) {
+        document.getElementById('musicSource').src = s.music;
+        document.getElementById('musicPlayer').load();
+        document.getElementById('mp3-player').classList.remove('hidden');
+      }
+    }
+
+    function openInvitation() {
+      document.getElementById('landing').classList.add('hidden');
+      document.getElementById('invitation').classList.remove('hidden');
+      const audio = document.getElementById('musicPlayer');
+      if (audio.src) { audio.volume = 0.7; audio.play().catch(() => {}); }
+    }
+
+    function openEdit() {
+      const pw = prompt("Düzenleme paneli için şifreyi girin:");
+      if (pw !== EDIT_PASSWORD) { alert("❌ Yanlış şifre!"); return; }
+      const s = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      openEditFill(s);
+      renderTemplates();
+      document.getElementById('editPanel').classList.remove('hidden');
+    }
+
+    function openEditFill(s) {
+      // Fill Bölüm 1
+      document.getElementById('edit-gelin').value = s.gelin || "Berna";
+      document.getElementById('edit-damat').value = s.damat || "Melih";
+      document.getElementById('edit-baslik').value = s.baslik || "Düğün Davetiyesi";
+      document.getElementById('edit-btntext').value = s.btntext || "DAVETİYEYİ AÇ";
+      document.getElementById('edit-baslik-renk').value = s.baslikRenk || "#ffffff";
+      document.getElementById('edit-gelin-renk').value = s.gelinRenk || "#ffffff";
+      document.getElementById('edit-damat-renk').value = s.damatRenk || "#ffffff";
+      document.getElementById('edit-and-renk').value = s.andRenk || "#fb7185";
+      document.getElementById('edit-btncolor').value = s.btncolor || "#e11d48";
+      document.getElementById('edit-btn-textcolor').value = s.btnTextColor || "#ffffff";
+      document.getElementById('edit-baslik-size').value = s.baslikSize || 72;
+      document.getElementById('baslik-size-val').textContent = s.baslikSize || 72;
+      document.getElementById('edit-isim-size').value = s.isimSize || 48;
+      document.getElementById('isim-size-val').textContent = s.isimSize || 48;
+      if (s.sec1Font) highlightFont('sec1', s.sec1Font);
+
+      // Fill Bölüm 2
+      document.getElementById('edit-aile-baslik').value = s.aileBaslik || "Ailelerimiz";
+      document.getElementById('edit-aile-icon-renk').value = s.aileIconRenk || "#fb7185";
+      document.getElementById('edit-gelin-taraf-baslik').value = s.gelinTarafBaslik || "Gelin Tarafı";
+      document.getElementById('edit-gelin-taraf-renk').value = s.gelinTarafRenk || "#f9a8d4";
+      document.getElementById('edit-gelin-anne-label').value = s.gelinAnneLabel || "Anne";
+      document.getElementById('edit-gelin-anne').value = s.gelinAnne || "Ayşe";
+      document.getElementById('edit-gelin-baba-label').value = s.gelinBabaLabel || "Baba";
+      document.getElementById('edit-gelin-baba').value = s.gelinBaba || "Mehmet";
+      document.getElementById('edit-gelin-etiket-renk').value = s.gelinEtiketRenk || "#f9a8d4";
+      document.getElementById('edit-damat-taraf-baslik').value = s.damatTarafBaslik || "Damat Tarafı";
+      document.getElementById('edit-damat-taraf-renk').value = s.damatTarafRenk || "#93c5fd";
+      document.getElementById('edit-damat-anne-label').value = s.damatAnneLabel || "Anne";
+      document.getElementById('edit-damat-anne').value = s.damatAnne || "Fatma";
+      document.getElementById('edit-damat-baba-label').value = s.damatBabaLabel || "Baba";
+      document.getElementById('edit-damat-baba').value = s.damatBaba || "Ahmet";
+      document.getElementById('edit-damat-etiket-renk').value = s.damatEtiketRenk || "#93c5fd";
+      document.getElementById('edit-aile-baslik-size').value = s.aileBaslikSize || 30;
+      document.getElementById('aile-baslik-size-val').textContent = s.aileBaslikSize || 30;
+      document.getElementById('edit-aile-isim-size').value = s.aileIsimSize || 24;
+      document.getElementById('aile-isim-size-val').textContent = s.aileIsimSize || 24;
+      if (s.sec2Font) highlightFont('sec2', s.sec2Font);
+
+      // Fill Bölüm 3
+      document.getElementById('edit-tarih').value = s.tarih || "2026-10-15T16:00";
+      document.getElementById('edit-tarih-label').value = s.tarihLabel || "Tarih";
+      document.getElementById('edit-tarih-label-renk').value = s.tarihLabelRenk || "#fde68a";
+      document.getElementById('edit-tarih-renk').value = s.tarihRenk || "#ffffff";
+      document.getElementById('edit-tarih-size').value = s.tarihSize || 48;
+      document.getElementById('tarih-size-val').textContent = s.tarihSize || 48;
+      if (s.sec3Font) highlightFont('sec3', s.sec3Font);
+
+      // Fill Bölüm 4
+      document.getElementById('edit-konum-baslik').value = s.konumBaslik || "Nerede Buluşuyoruz?";
+      document.getElementById('edit-konum').value = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
+      document.getElementById('edit-map-query').value = s.mapQuery || "";
+      document.getElementById('edit-konum-git-text').value = s.konumGitText || "Konuma Git";
+      document.getElementById('edit-konum-git-url').value = s.konumGitUrl || "";
+      document.getElementById('edit-konum-btn-renk').value = s.konumBtnRenk || "#e11d48";
+      document.getElementById('edit-konum-btn-text-renk').value = s.konumBtnTextRenk || "#ffffff";
+      document.getElementById('edit-konum-icon-renk').value = s.konumIconRenk || "#fb7185";
+      document.getElementById('edit-konum-baslik-renk').value = s.konumBaslikRenk || "#ffffff";
+      document.getElementById('edit-konum-adres-renk').value = s.konumAdresRenk || "#ffffff";
+      document.getElementById('edit-konum-size').value = s.konumSize || 30;
+      document.getElementById('konum-size-val').textContent = s.konumSize || 30;
+      if (s.sec4Font) highlightFont('sec4', s.sec4Font);
+
+      // Fill Bölüm 5
+      document.getElementById('edit-countdown-label').value = s.countdownLabel || "Büyük güne kalan süre";
+      document.getElementById('edit-gun-label').value = s.gunLabel || "GÜN";
+      document.getElementById('edit-saat-label').value = s.saatLabel || "SAAT";
+      document.getElementById('edit-dakika-label').value = s.dakikaLabel || "DAKİKA";
+      document.getElementById('edit-saniye-label').value = s.saniyeLabel || "SANİYE";
+      document.getElementById('edit-countdown-label-renk').value = s.countdownLabelRenk || "#fde68a";
+      document.getElementById('edit-countdown-sayi-renk').value = s.countdownSayiRenk || "#ffffff";
+      document.getElementById('edit-countdown-size').value = s.countdownSize || 60;
+      document.getElementById('countdown-size-val').textContent = s.countdownSize || 60;
+
+      // Fill Bölüm 6
+      document.getElementById('edit-muzik-label').value = s.muzikLabel || "Özel şarkımız çalıyor 💕";
+      document.getElementById('edit-muzik-label-renk').value = s.muzikLabelRenk || "#fde68a";
+      document.getElementById('edit-music-url').value = s.music && !s.music.startsWith('data:') ? s.music : "";
+      document.getElementById('edit-youtube').value = s.youtube || "";
+      document.getElementById('edit-spotify').value = s.spotify || "";
+
+      // Fill Bölüm 7
+      document.getElementById('edit-footer-mesaj').value = s.footerMesaj || "Seni aramızda görmek isteriz ❤️";
+      document.getElementById('edit-footer-isim').value = s.footerIsim || ((s.gelin||"Berna") + " & " + (s.damat||"Melih"));
+      document.getElementById('edit-footer-renk').value = s.footerRenk || "#fde68a";
+      document.getElementById('edit-footer-isim-renk').value = s.footerIsimRenk || "#fde68a";
+      document.getElementById('edit-footer-size').value = s.footerSize || 14;
+      document.getElementById('footer-size-val').textContent = s.footerSize || 14;
+      if (s.sec7Font) highlightFont('sec7', s.sec7Font);
+
+      // Fill Genel
+      document.getElementById('edit-bg').value = s.bg || "";
+      document.getElementById('edit-bgcolor').value = s.bgcolor || "#1c1917";
+    }
+
+    function highlightFont(section, font) {
+      document.querySelectorAll('[onclick*="selectFont(\'' + section + '\'"]').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.getAttribute('onclick').includes("'" + font + "'")) btn.classList.add('selected');
+      });
+    }
+
+    function closeEdit() { document.getElementById('editPanel').classList.add('hidden'); }
+
+    function saveChanges() {
+      const file = document.getElementById('edit-music-upload').files[0];
+      const gelin = document.getElementById('edit-gelin').value;
+      const damat = document.getElementById('edit-damat').value;
+
+      const settings = {
+        // Bölüm 1
+        gelin, damat,
+        baslik: document.getElementById('edit-baslik').value,
+        btntext: document.getElementById('edit-btntext').value,
+        baslikRenk: document.getElementById('edit-baslik-renk').value,
+        gelinRenk: document.getElementById('edit-gelin-renk').value,
+        damatRenk: document.getElementById('edit-damat-renk').value,
+        andRenk: document.getElementById('edit-and-renk').value,
+        btncolor: document.getElementById('edit-btncolor').value,
+        btnTextColor: document.getElementById('edit-btn-textcolor').value,
+        baslikSize: document.getElementById('edit-baslik-size').value,
+        isimSize: document.getElementById('edit-isim-size').value,
+        sec1Font: document.getElementById('edit-sec1-font').value,
+
+        // Bölüm 2
+        aileBaslik: document.getElementById('edit-aile-baslik').value,
+        aileIcon: document.getElementById('edit-aile-icon').value,
+        aileIconRenk: document.getElementById('edit-aile-icon-renk').value,
+        gelinTarafBaslik: document.getElementById('edit-gelin-taraf-baslik').value,
+        gelinTarafRenk: document.getElementById('edit-gelin-taraf-renk').value,
+        gelinAnneLabel: document.getElementById('edit-gelin-anne-label').value,
+        gelinAnne: document.getElementById('edit-gelin-anne').value,
+        gelinBabaLabel: document.getElementById('edit-gelin-baba-label').value,
+        gelinBaba: document.getElementById('edit-gelin-baba').value,
+        gelinEtiketRenk: document.getElementById('edit-gelin-etiket-renk').value,
+        damatTarafBaslik: document.getElementById('edit-damat-taraf-baslik').value,
+        damatTarafRenk: document.getElementById('edit-damat-taraf-renk').value,
+        damatAnneLabel: document.getElementById('edit-damat-anne-label').value,
+        damatAnne: document.getElementById('edit-damat-anne').value,
+        damatBabaLabel: document.getElementById('edit-damat-baba-label').value,
+        damatBaba: document.getElementById('edit-damat-baba').value,
+        damatEtiketRenk: document.getElementById('edit-damat-etiket-renk').value,
+        aileBaslikSize: document.getElementById('edit-aile-baslik-size').value,
+        aileIsimSize: document.getElementById('edit-aile-isim-size').value,
+        sec2Font: document.getElementById('edit-sec2-font').value,
+
+        // Bölüm 3
+        tarih: document.getElementById('edit-tarih').value,
+        tarihLabel: document.getElementById('edit-tarih-label').value,
+        tarihLabelRenk: document.getElementById('edit-tarih-label-renk').value,
+        tarihRenk: document.getElementById('edit-tarih-renk').value,
+        tarihSize: document.getElementById('edit-tarih-size').value,
+        sec3Font: document.getElementById('edit-sec3-font').value,
+
+        // Bölüm 4
+        konumBaslik: document.getElementById('edit-konum-baslik').value,
+        konum: document.getElementById('edit-konum').value,
+        mapQuery: document.getElementById('edit-map-query').value.trim(),
+        konumGitText: document.getElementById('edit-konum-git-text').value,
+        konumGitUrl: document.getElementById('edit-konum-git-url').value.trim(),
+        konumBtnRenk: document.getElementById('edit-konum-btn-renk').value,
+        konumBtnTextRenk: document.getElementById('edit-konum-btn-text-renk').value,
+        konumIcon: document.getElementById('edit-konum-icon').value,
+        konumIconRenk: document.getElementById('edit-konum-icon-renk').value,
+        konumBaslikRenk: document.getElementById('edit-konum-baslik-renk').value,
+        konumAdresRenk: document.getElementById('edit-konum-adres-renk').value,
+        konumSize: document.getElementById('edit-konum-size').value,
+        sec4Font: document.getElementById('edit-sec4-font').value,
+
+        // Bölüm 5
+        countdownLabel: document.getElementById('edit-countdown-label').value,
+        gunLabel: document.getElementById('edit-gun-label').value,
+        saatLabel: document.getElementById('edit-saat-label').value,
+        dakikaLabel: document.getElementById('edit-dakika-label').value,
+        saniyeLabel: document.getElementById('edit-saniye-label').value,
+        countdownLabelRenk: document.getElementById('edit-countdown-label-renk').value,
+        countdownSayiRenk: document.getElementById('edit-countdown-sayi-renk').value,
+        countdownSize: document.getElementById('edit-countdown-size').value,
+
+        // Bölüm 6
+        muzikLabel: document.getElementById('edit-muzik-label').value,
+        muzikLabelRenk: document.getElementById('edit-muzik-label-renk').value,
+        music: document.getElementById('edit-music-url').value.trim(),
+        youtube: document.getElementById('edit-youtube').value.trim(),
+        spotify: document.getElementById('edit-spotify').value.trim(),
+
+        // Bölüm 7
+        footerMesaj: document.getElementById('edit-footer-mesaj').value,
+        footerIsim: document.getElementById('edit-footer-isim').value,
+        footerRenk: document.getElementById('edit-footer-renk').value,
+        footerIsimRenk: document.getElementById('edit-footer-isim-renk').value,
+        footerSize: document.getElementById('edit-footer-size').value,
+        sec7Font: document.getElementById('edit-sec7-font').value,
+
+        // Genel
+        bg: document.getElementById('edit-bg').value.trim(),
+        bgcolor: document.getElementById('edit-bgcolor').value,
+      };
+
+      // New password
+      const newPw = document.getElementById('edit-password').value.trim();
+      if (newPw) EDIT_PASSWORD = newPw;
+
+      const doSave = (s) => {
+        localStorage.setItem('davetSettings', JSON.stringify(s));
+        loadSettings();
+        closeEdit();
+        alert("✅ Kaydedildi!");
+      };
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => { settings.music = e.target.result; doSave(settings); };
+        reader.readAsDataURL(file);
+        return;
+      }
+      doSave(settings);
+    }
+
+    let countdownInterval;
+    function startCountdown(targetTime) {
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const d = targetTime - Date.now();
+        if (d < 0) return;
+        document.getElementById('gun').textContent = Math.floor(d / (1000*60*60*24));
+        document.getElementById('saat').textContent = Math.floor((d % (1000*60*60*24)) / (1000*60*60));
+        document.getElementById('dakika').textContent = Math.floor((d % (1000*60*60)) / (1000*60));
+        document.getElementById('saniye').textContent = Math.floor((d % (1000*60)) / 1000);
+      }, 1000);
+    }
+
+    window.onload = () => {
+      loadSettings();
+      if (window.location.search.includes('edit')) openEdit();
+    };
+  </script>
 </body>
 </html>
