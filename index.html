@@ -1234,20 +1234,19 @@
           const card = document.createElement('div');
           card.id = 'tpl-card-' + tpl.id;
           card.style.cssText = 'border-radius:14px;overflow:hidden;border:3px solid '+(selectedTemplateId===tpl.id?'#7c3aed':'#f0f0f0')+';transition:all 0.2s;cursor:pointer;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.07)';
-          card.innerHTML = `<div style="position:relative">${tpl.svgStr}</div><div style="padding:6px 8px 0;font-size:11px;font-weight:700;color:#1f2937;text-align:center">${tpl.name}</div><button onclick="event.stopPropagation();applyTemplate(${tpl.id})" style="width:100%;padding:7px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border:none;border-radius:0 0 10px 10px;cursor:pointer;margin-top:6px" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">✨ Uygula</button>`;
-          card.onclick = () => { document.querySelectorAll('[id^=tpl-card-]').forEach(c=>c.style.borderColor='#f0f0f0'); card.style.borderColor='#7c3aed'; selectedTemplateId=tpl.id; };
+          card.innerHTML = '<div style="position:relative">'+tpl.svgStr+'</div><div style="padding:6px 8px 0;font-size:11px;font-weight:700;color:#1f2937;text-align:center">'+tpl.name+'</div><button onclick="event.stopPropagation();applyTemplate('+tpl.id+')" style="width:100%;padding:7px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border:none;border-radius:0 0 10px 10px;cursor:pointer;margin-top:6px" onmouseover="this.style.opacity=0.85" onmouseout="this.style.opacity=1">✨ Uygula</button>';
+          card.onclick = function() { document.querySelectorAll('[id^=tpl-card-]').forEach(function(c){c.style.borderColor='#f0f0f0';}); card.style.borderColor='#7c3aed'; selectedTemplateId=tpl.id; };
           grid.appendChild(card);
         });
       });
     }
 
+    function applyTemplate(id) {
+      const tpl = TEMPLATES.find(function(t){ return t.id === id; });
+      if (!tpl) { alert('Şablon bulunamadı: ' + id); return; }
 
-        function applyTemplate(id) {
-      const tpl = TEMPLATES.find(t => t.id === id);
-      if (!tpl) return;
-
-      // Preserve personal data
-      const s = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      // Preserve personal data from current settings
+      const s = JSON.parse(localStorage.getItem('davetSettings') || '{}');
       const preserved = {
         gelin: s.gelin, damat: s.damat, baslik: s.baslik,
         tarih: s.tarih, konum: s.konum, konumBaslik: s.konumBaslik,
@@ -1266,23 +1265,27 @@
         aileIcon: s.aileIcon,
       };
 
-      const newSettings = Object.assign({}, tpl, preserved);
-      // Remove preview key
-      delete newSettings.preview;
+      // Copy theme settings, overlay with preserved personal data
+      var newSettings = Object.assign({}, tpl, preserved);
+
+      // Remove non-setting metadata keys
       delete newSettings.id;
       delete newSettings.name;
       delete newSettings.badge;
+      delete newSettings.tarz;
+      delete newSettings.svgStr;
+      delete newSettings.preview;
 
       localStorage.setItem('davetSettings', JSON.stringify(newSettings));
       loadSettings();
 
-      // Highlight card
-      document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected-tpl'));
-      const card = document.getElementById('tpl-card-' + id);
-      if (card) card.classList.add('selected-tpl');
+      // Highlight selected card
+      document.querySelectorAll('[id^=tpl-card-]').forEach(function(c){ c.style.borderColor='#f0f0f0'; });
+      var card = document.getElementById('tpl-card-' + id);
+      if (card) card.style.borderColor = '#7c3aed';
       selectedTemplateId = id;
 
-      // Update all edit panel inputs to reflect new theme
+      // Sync edit panel inputs with new theme
       openEditFill(newSettings);
 
       alert('✅ "' + tpl.name + '" şablonu uygulandı!');
