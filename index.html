@@ -9,6 +9,20 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Cinzel:wght@400;600&family=Lora:wght@400;600&family=Montserrat:wght@300;400;600&family=Raleway:wght@300;400;600&family=Inter:wght@300;400;600&display=swap');
 
+    /* Force inline styles to always win - prevents Tailwind override */
+    #landing-baslik, #baslik,
+    #landing-gelin, #gelin,
+    #landing-damat, #damat,
+    #landing-and, #and-symbol,
+    #tarih-goster, #tarih-label,
+    #aile-baslik, #konum-baslik,
+    #gun, #saat, #dakika, #saniye,
+    #footer-mesaj, #footer-isim,
+    #muzik-label, #countdown-label {
+      font-size: revert;
+      font-family: revert;
+    }
+
     body { font-family: 'Inter', sans-serif; }
     .hero-bg { background-size: cover; background-position: center; background-attachment: fixed; transition: all 0.4s; }
     .countdown-box { animation: pulse 2s infinite; }
@@ -90,11 +104,11 @@
   <!-- LANDING -->
   <div id="landing" class="hero-bg min-h-screen flex items-center justify-center relative">
     <div class="text-center z-10">
-      <h1 id="landing-baslik" class="title-font text-6xl md:text-7xl tracking-widest" style="font-family:'Playfair Display',serif">Düğün Davetiyesi</h1>
-      <div class="flex justify-center gap-6 mt-8 text-5xl md:text-6xl" style="font-family:'Playfair Display',serif">
-        <span id="landing-gelin">Berna</span>
-        <span id="landing-and" style="color:#fb7185">&</span>
-        <span id="landing-damat">Melih</span>
+      <h1 id="landing-baslik" class="tracking-widest" style="font-family:'Playfair Display',serif;font-size:72px">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-6 mt-8" style="font-family:'Playfair Display',serif">
+        <span id="landing-gelin" style="font-size:48px">Berna</span>
+        <span id="landing-and" style="color:#fb7185;font-size:48px">&</span>
+        <span id="landing-damat" style="font-size:48px">Melih</span>
       </div>
       <button onclick="openInvitation()" id="open-btn" class="mt-16 px-12 py-6 text-2xl font-semibold rounded-3xl shadow-2xl transition-all hover:scale-105" style="background:#e11d48;color:white">
         DAVETİYEYİ AÇ
@@ -107,24 +121,24 @@
 
     <!-- BÖLÜM 1: Başlık -->
     <div class="text-center pt-12 pb-8">
-      <h1 id="baslik" class="text-6xl md:text-7xl tracking-widest" style="font-family:'Playfair Display',serif">Düğün Davetiyesi</h1>
-      <div class="flex justify-center gap-8 mt-8 text-4xl md:text-5xl" id="isimler-wrap" style="font-family:'Playfair Display',serif">
-        <span id="gelin">Berna</span>
-        <span id="and-symbol" style="color:#fb7185">&</span>
-        <span id="damat">Melih</span>
+      <h1 id="baslik" class="tracking-widest" style="font-family:'Playfair Display',serif;font-size:72px">Düğün Davetiyesi</h1>
+      <div class="flex justify-center gap-8 mt-8" id="isimler-wrap" style="font-family:'Playfair Display',serif">
+        <span id="gelin" style="font-size:48px">Berna</span>
+        <span id="and-symbol" style="color:#fb7185;font-size:48px">&</span>
+        <span id="damat" style="font-size:48px">Melih</span>
       </div>
     </div>
 
     <!-- BÖLÜM 3: Tarih -->
     <div class="text-center py-12 bg-black/40 backdrop-blur-md">
-      <p id="tarih-label" class="text-xl" style="color:#fde68a">Tarih</p>
-      <p id="tarih-goster" class="text-5xl mt-2" style="font-family:'Playfair Display',serif">15 Ekim 2026 • 16:00</p>
+      <p id="tarih-label" style="color:#fde68a;font-size:20px">Tarih</p>
+      <p id="tarih-goster" class="mt-2" style="font-family:'Playfair Display',serif;font-size:48px">15 Ekim 2026 • 16:00</p>
     </div>
 
     <!-- BÖLÜM 2: Aile -->
     <div class="max-w-4xl mx-auto py-8 px-6">
       <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
-        <h2 id="aile-baslik" class="text-3xl text-center mb-8 flex items-center justify-center gap-3" style="font-family:'Playfair Display',serif">
+        <h2 id="aile-baslik" class="text-center mb-8 flex items-center justify-center gap-3" style="font-family:'Playfair Display',serif;font-size:30px">
           <i id="aile-icon-left" class="fas fa-heart" style="color:#fb7185"></i>
           <span id="aile-baslik-text">Ailelerimiz</span>
           <i id="aile-icon-right" class="fas fa-heart" style="color:#fb7185"></i>
@@ -163,7 +177,7 @@
     <!-- BÖLÜM 4: Konum -->
     <div class="max-w-4xl mx-auto px-6 pb-12">
       <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-10">
-        <h2 id="konum-baslik" class="text-3xl text-center mb-6" style="font-family:'Playfair Display',serif">
+        <h2 id="konum-baslik" class="text-center mb-6" style="font-family:'Playfair Display',serif;font-size:30px">
           <i id="konum-icon" class="fas fa-map-marker-alt mr-2" style="color:#fb7185"></i>Nerede Buluşuyoruz?
         </h2>
         <p id="konum-text" class="text-xl text-center mb-6">Marmara Üniversitesi Kongre Merkezi, İstanbul</p>
@@ -189,19 +203,19 @@
         <p id="countdown-label" class="mb-6 text-lg" style="color:#fde68a">Büyük güne kalan süre</p>
         <div class="grid grid-cols-4 gap-4 text-center">
           <div>
-            <span id="gun" class="text-6xl font-bold">124</span><br>
+            <span id="gun" class="font-bold" style="font-size:60px">124</span><br>
             <span id="gun-label" class="text-sm">GÜN</span>
           </div>
           <div>
-            <span id="saat" class="text-6xl font-bold">14</span><br>
+            <span id="saat" class="font-bold" style="font-size:60px">14</span><br>
             <span id="saat-label" class="text-sm">SAAT</span>
           </div>
           <div>
-            <span id="dakika" class="text-6xl font-bold">32</span><br>
+            <span id="dakika" class="font-bold" style="font-size:60px">32</span><br>
             <span id="dakika-label" class="text-sm">DAKİKA</span>
           </div>
           <div>
-            <span id="saniye" class="text-6xl font-bold">09</span><br>
+            <span id="saniye" class="font-bold" style="font-size:60px">09</span><br>
             <span id="saniye-label" class="text-sm">SANİYE</span>
           </div>
         </div>
@@ -1347,31 +1361,31 @@
         var el = document.getElementById(eid);
         if (!el) return;
         el.textContent = baslik;
-        el.style.fontFamily = "'" + baslikFont + "', cursive, serif";
-        el.style.fontSize   = baslikSize + "px";
-        el.style.color      = baslikRenk;
+        el.style.setProperty('font-family', "'" + baslikFont + "', cursive, serif", 'important');
+        el.style.setProperty('font-size', baslikSize + "px", 'important');
+        el.style.setProperty('color', baslikRenk, 'important');
       });
       ['landing-gelin','gelin'].forEach(function(eid) {
         var el = document.getElementById(eid);
         if (!el) return;
-        el.textContent      = gelin;
-        el.style.fontFamily = "'" + baslikFont + "', cursive, serif";
-        el.style.fontSize   = isimSize + "px";
-        el.style.color      = gelinRenk;
+        el.textContent = gelin;
+        el.style.setProperty('font-family', "'" + baslikFont + "', cursive, serif", 'important');
+        el.style.setProperty('font-size', isimSize + "px", 'important');
+        el.style.setProperty('color', gelinRenk, 'important');
       });
       ['landing-damat','damat'].forEach(function(eid) {
         var el = document.getElementById(eid);
         if (!el) return;
-        el.textContent      = damat;
-        el.style.fontFamily = "'" + baslikFont + "', cursive, serif";
-        el.style.fontSize   = isimSize + "px";
-        el.style.color      = damatRenk;
+        el.textContent = damat;
+        el.style.setProperty('font-family', "'" + baslikFont + "', cursive, serif", 'important');
+        el.style.setProperty('font-size', isimSize + "px", 'important');
+        el.style.setProperty('color', damatRenk, 'important');
       });
       ['landing-and','and-symbol'].forEach(function(eid) {
         var el = document.getElementById(eid);
         if (!el) return;
-        el.style.color    = andRenk;
-        el.style.fontSize = isimSize + "px";
+        el.style.setProperty('color', andRenk, 'important');
+        el.style.setProperty('font-size', isimSize + "px", 'important');
       });
 
       var btn = document.getElementById('open-btn');
@@ -1390,8 +1404,8 @@
 
       var aileBEl = document.getElementById('aile-baslik');
       if (aileBEl) {
-        aileBEl.style.fontFamily = "'" + aileFont + "', cursive, serif";
-        aileBEl.style.fontSize   = aileBaslikSz + "px";
+        aileBEl.style.setProperty('font-family', "'" + aileFont + "', cursive, serif", 'important');
+        aileBEl.style.setProperty('font-size', aileBaslikSz + "px", 'important');
       }
       var aileTextEl = document.getElementById('aile-baslik-text');
       if (aileTextEl) aileTextEl.textContent = s.aileBaslik || "Ailelerimiz";
@@ -1421,10 +1435,10 @@
       var gelinBabaEl = document.getElementById('gelin-baba');
       var damatAnneEl = document.getElementById('damat-anne');
       var damatBabaEl = document.getElementById('damat-baba');
-      if (gelinAnneEl) { gelinAnneEl.textContent = s.gelinAnne || "Ayşe";   gelinAnneEl.style.fontSize = aileIsimSz + "px"; }
-      if (gelinBabaEl) { gelinBabaEl.textContent = s.gelinBaba || "Mehmet"; gelinBabaEl.style.fontSize = aileIsimSz + "px"; }
-      if (damatAnneEl) { damatAnneEl.textContent = s.damatAnne || "Fatma";  damatAnneEl.style.fontSize = aileIsimSz + "px"; }
-      if (damatBabaEl) { damatBabaEl.textContent = s.damatBaba || "Ahmet";  damatBabaEl.style.fontSize = aileIsimSz + "px"; }
+      if (gelinAnneEl) { gelinAnneEl.textContent = s.gelinAnne || "Ayşe";   gelinAnneEl.style.setProperty('font-size', aileIsimSz + "px", 'important'); }
+      if (gelinBabaEl) { gelinBabaEl.textContent = s.gelinBaba || "Mehmet"; gelinBabaEl.style.setProperty('font-size', aileIsimSz + "px", 'important'); }
+      if (damatAnneEl) { damatAnneEl.textContent = s.damatAnne || "Fatma";  damatAnneEl.style.setProperty('font-size', aileIsimSz + "px", 'important'); }
+      if (damatBabaEl) { damatBabaEl.textContent = s.damatBaba || "Ahmet";  damatBabaEl.style.setProperty('font-size', aileIsimSz + "px", 'important'); }
 
       // ── BÖLÜM 3: TARİH ─────────────────────────────────────────────
       var tarihFont = s.sec3Font  || "Playfair Display";
@@ -1433,9 +1447,9 @@
       if (tarihLabelEl) { tarihLabelEl.textContent = s.tarihLabel || "Tarih"; tarihLabelEl.style.color = s.tarihLabelRenk || "#fde68a"; }
       var tarihEl = document.getElementById('tarih-goster');
       if (tarihEl) {
-        tarihEl.style.fontFamily = "'" + tarihFont + "', cursive, serif";
-        tarihEl.style.fontSize   = tarihSize + "px";
-        tarihEl.style.color      = s.tarihRenk || "#ffffff";
+        tarihEl.style.setProperty('font-family', "'" + tarihFont + "', cursive, serif", 'important');
+        tarihEl.style.setProperty('font-size', tarihSize + "px", 'important');
+        tarihEl.style.setProperty('color', s.tarihRenk || "#ffffff", 'important');
         if (s.tarih) {
           var d = new Date(s.tarih);
           tarihEl.innerHTML = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
@@ -1459,9 +1473,9 @@
           konumBaslikEl.appendChild(iTag);
         }
         konumBaslikEl.appendChild(document.createTextNode(konumBaslikText));
-        konumBaslikEl.style.fontFamily = "'" + konumFont + "', cursive, serif";
-        konumBaslikEl.style.fontSize   = konumSize + "px";
-        konumBaslikEl.style.color      = s.konumBaslikRenk || "#ffffff";
+        konumBaslikEl.style.setProperty('font-family', "'" + konumFont + "', cursive, serif", 'important');
+        konumBaslikEl.style.setProperty('font-size', konumSize + "px", 'important');
+        konumBaslikEl.style.setProperty('color', s.konumBaslikRenk || "#ffffff", 'important');
       }
       var konumTextEl = document.getElementById('konum-text');
       if (konumTextEl) { konumTextEl.textContent = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul"; konumTextEl.style.color = s.konumAdresRenk || "#ffffff"; }
@@ -1491,7 +1505,10 @@
       var cdRenk = s.countdownSayiRenk || "#ffffff";
       ['gun','saat','dakika','saniye'].forEach(function(eid) {
         var el = document.getElementById(eid);
-        if (el) { el.style.fontSize = cdSize + "px"; el.style.color = cdRenk; }
+        if (el) {
+          el.style.setProperty('font-size', cdSize + "px", 'important');
+          el.style.setProperty('color', cdRenk, 'important');
+        }
       });
 
       // ── BÖLÜM 6: MÜZİK ─────────────────────────────────────────────
