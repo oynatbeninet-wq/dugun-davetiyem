@@ -1328,199 +1328,193 @@
 
     // ---- LOAD SETTINGS ----
     function loadSettings() {
-      const s = JSON.parse(localStorage.getItem('davetSettings')) || {};
+      const s = JSON.parse(localStorage.getItem('davetSettings') || '{}');
 
-      // Bölüm 1: Başlık & İsimler
-      const baslik = s.baslik || "Düğün Davetiyesi";
-      const gelin = s.gelin || "Berna";
-      const damat = s.damat || "Melih";
+      // ── BÖLÜM 1: BAŞLIK & İSİMLER ──────────────────────────────────
+      const baslik    = s.baslik    || "Düğün Davetiyesi";
+      const gelin     = s.gelin     || "Berna";
+      const damat     = s.damat     || "Melih";
       const baslikFont = s.sec1Font || "Playfair Display";
-      const baslikSize = s.baslikSize || 72;
-      const isimSize = s.isimSize || 48;
+      const baslikSize = parseInt(s.baslikSize) || 72;
+      const isimSize   = parseInt(s.isimSize)   || 48;
+      const baslikRenk = s.baslikRenk || "#ffffff";
+      const gelinRenk  = s.gelinRenk  || "#ffffff";
+      const damatRenk  = s.damatRenk  || "#ffffff";
+      const andRenk    = s.andRenk    || "#fb7185";
 
-      ['landing-baslik','baslik'].forEach(id => {
-        const el = document.getElementById(id);
+      // Her iki sayfada da uygula
+      ['landing-baslik','baslik'].forEach(function(eid) {
+        var el = document.getElementById(eid);
+        if (!el) return;
         el.textContent = baslik;
-        el.style.fontFamily = "'" + baslikFont + "', serif";
-        el.style.fontSize = baslikSize + "px";
+        el.style.fontFamily = "'" + baslikFont + "', cursive, serif";
+        el.style.fontSize   = baslikSize + "px";
+        el.style.color      = baslikRenk;
       });
-      ['landing-gelin','gelin'].forEach(id => {
-        const el = document.getElementById(id);
-        el.textContent = gelin;
+      ['landing-gelin','gelin'].forEach(function(eid) {
+        var el = document.getElementById(eid);
+        if (!el) return;
+        el.textContent      = gelin;
+        el.style.fontFamily = "'" + baslikFont + "', cursive, serif";
+        el.style.fontSize   = isimSize + "px";
+        el.style.color      = gelinRenk;
+      });
+      ['landing-damat','damat'].forEach(function(eid) {
+        var el = document.getElementById(eid);
+        if (!el) return;
+        el.textContent      = damat;
+        el.style.fontFamily = "'" + baslikFont + "', cursive, serif";
+        el.style.fontSize   = isimSize + "px";
+        el.style.color      = damatRenk;
+      });
+      ['landing-and','and-symbol'].forEach(function(eid) {
+        var el = document.getElementById(eid);
+        if (!el) return;
+        el.style.color    = andRenk;
         el.style.fontSize = isimSize + "px";
-        el.style.fontFamily = "'" + baslikFont + "', serif";
-        el.style.color = s.gelinRenk || "#ffffff";
-      });
-      ['landing-damat','damat'].forEach(id => {
-        const el = document.getElementById(id);
-        el.textContent = damat;
-        el.style.fontSize = isimSize + "px";
-        el.style.fontFamily = "'" + baslikFont + "', serif";
-        el.style.color = s.damatRenk || "#ffffff";
-      });
-      document.getElementById('landing-and').style.color = s.andRenk || "#fb7185";
-      document.getElementById('and-symbol').style.color = s.andRenk || "#fb7185";
-      document.getElementById('and-symbol').style.fontSize = isimSize + "px";
-
-      if (s.baslikRenk) ['landing-baslik','baslik'].forEach(id => document.getElementById(id).style.color = s.baslikRenk);
-
-      const btn = document.getElementById('open-btn');
-      btn.textContent = s.btntext || "DAVETİYEYİ AÇ";
-      btn.style.backgroundColor = s.btncolor || "#e11d48";
-      btn.style.color = s.btnTextColor || "#ffffff";
-
-      // Footer isim
-      document.getElementById('footer-isim').textContent = s.footerIsim || (gelin + " & " + damat);
-
-      // Bölüm 2: Aile
-      const aileFont = s.sec2Font || "Playfair Display";
-      const aileBaslikSize = s.aileBaslikSize || 30;
-      const aileIsimSize = s.aileIsimSize || 24;
-
-      document.getElementById('aile-baslik-text').textContent = s.aileBaslik || "Ailelerimiz";
-      document.getElementById('aile-baslik').style.fontSize = aileBaslikSize + "px";
-      document.getElementById('aile-baslik').style.fontFamily = "'" + aileFont + "', serif";
-
-      const aileIconName = s.aileIcon !== undefined ? s.aileIcon : "fa-heart";
-      const aileIconRenk = s.aileIconRenk || "#fb7185";
-      if (aileIconName) {
-        document.getElementById('aile-icon-left').className = "fas " + aileIconName;
-        document.getElementById('aile-icon-right').className = "fas " + aileIconName;
-        document.getElementById('aile-icon-left').style.color = aileIconRenk;
-        document.getElementById('aile-icon-right').style.color = aileIconRenk;
-      } else {
-        document.getElementById('aile-icon-left').className = "";
-        document.getElementById('aile-icon-right').className = "";
-      }
-
-      document.getElementById('gelin-taraf-baslik').textContent = s.gelinTarafBaslik || "Gelin Tarafı";
-      document.getElementById('gelin-taraf-baslik').style.color = s.gelinTarafRenk || "#f9a8d4";
-      document.getElementById('damat-taraf-baslik').textContent = s.damatTarafBaslik || "Damat Tarafı";
-      document.getElementById('damat-taraf-baslik').style.color = s.damatTarafRenk || "#93c5fd";
-
-      document.getElementById('gelin-anne-label').textContent = s.gelinAnneLabel || "Anne";
-      document.getElementById('gelin-anne-label').style.color = s.gelinEtiketRenk || "#f9a8d4";
-      document.getElementById('gelin-baba-label').textContent = s.gelinBabaLabel || "Baba";
-      document.getElementById('gelin-baba-label').style.color = s.gelinEtiketRenk || "#f9a8d4";
-      document.getElementById('damat-anne-label').textContent = s.damatAnneLabel || "Anne";
-      document.getElementById('damat-anne-label').style.color = s.damatEtiketRenk || "#93c5fd";
-      document.getElementById('damat-baba-label').textContent = s.damatBabaLabel || "Baba";
-      document.getElementById('damat-baba-label').style.color = s.damatEtiketRenk || "#93c5fd";
-
-      const gelinAnneEl = document.getElementById('gelin-anne');
-      const gelinBabaEl = document.getElementById('gelin-baba');
-      const damatAnneEl = document.getElementById('damat-anne');
-      const damatBabaEl = document.getElementById('damat-baba');
-
-      gelinAnneEl.textContent = s.gelinAnne || "Ayşe";
-      gelinBabaEl.textContent = s.gelinBaba || "Mehmet";
-      damatAnneEl.textContent = s.damatAnne || "Fatma";
-      damatBabaEl.textContent = s.damatBaba || "Ahmet";
-      [gelinAnneEl,gelinBabaEl,damatAnneEl,damatBabaEl].forEach(el => el.style.fontSize = aileIsimSize + "px");
-
-      // Bölüm 3: Tarih
-      const tarihFont = s.sec3Font || "Playfair Display";
-      const tarihSize = s.tarihSize || 48;
-      document.getElementById('tarih-label').textContent = s.tarihLabel || "Tarih";
-      document.getElementById('tarih-label').style.color = s.tarihLabelRenk || "#fde68a";
-      const tarihEl = document.getElementById('tarih-goster');
-      tarihEl.style.fontFamily = "'" + tarihFont + "', serif";
-      tarihEl.style.fontSize = tarihSize + "px";
-      tarihEl.style.color = s.tarihRenk || "#ffffff";
-      if (s.tarih) {
-        const d = new Date(s.tarih);
-        tarihEl.innerHTML = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
-        startCountdown(d.getTime());
-      }
-
-      // Bölüm 4: Konum
-      const konumFont = s.sec4Font || "Playfair Display";
-      const konumSize = s.konumSize || 30;
-      const konumBaslikEl = document.getElementById('konum-baslik');
-      konumBaslikEl.style.fontFamily = "'" + konumFont + "', serif";
-      konumBaslikEl.style.fontSize = konumSize + "px";
-      konumBaslikEl.style.color = s.konumBaslikRenk || "#ffffff";
-
-      const konumIconEl = document.getElementById('konum-icon');
-      const konumIconName = s.konumIcon !== undefined ? s.konumIcon : "fa-map-marker-alt";
-      if (konumIconName) {
-        konumIconEl.className = "fas " + konumIconName + " mr-2";
-        konumIconEl.style.color = s.konumIconRenk || "#fb7185";
-      } else {
-        konumIconEl.className = "";
-      }
-      // Rebuild konum-baslik with new icon
-      const konumBaslikText = s.konumBaslik || "Nerede Buluşuyoruz?";
-      document.getElementById('konum-baslik').innerHTML = '';
-      if (konumIconName) {
-        const iTag = document.createElement('i');
-        iTag.id = "konum-icon";
-        iTag.className = "fas " + konumIconName + " mr-2";
-        iTag.style.color = s.konumIconRenk || "#fb7185";
-        document.getElementById('konum-baslik').appendChild(iTag);
-      }
-      document.getElementById('konum-baslik').appendChild(document.createTextNode(konumBaslikText));
-
-      document.getElementById('konum-text').textContent = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul";
-      document.getElementById('konum-text').style.color = s.konumAdresRenk || "#ffffff";
-
-      // Harita — OpenStreetMap embed (engellenmez)
-      const mapQuery = s.mapQuery || s.konum || "Marmara Üniversitesi Kongre Merkezi İstanbul";
-      const encodedQuery = encodeURIComponent(mapQuery);
-      document.getElementById('googleMap').src = `https://www.openstreetmap.org/export/embed.html?bbox=&layer=mapnik&marker=&query=${encodedQuery}`;
-      // Daha güvenilir: nominatim tabanlı embed
-      document.getElementById('googleMap').src = `https://maps.google.com/maps?q=${encodedQuery}&output=embed&hl=tr`;
-
-      // "Konuma Git" butonu
-      const konumGitBtn = document.getElementById('konum-git-btn');
-      const konumGitText = s.konumGitText || "Konuma Git";
-      document.getElementById('konum-git-text').textContent = konumGitText;
-      konumGitBtn.style.backgroundColor = s.konumBtnRenk || "#e11d48";
-      konumGitBtn.style.color = s.konumBtnTextRenk || "#ffffff";
-      if (s.konumGitUrl) {
-        konumGitBtn.href = s.konumGitUrl;
-      } else {
-        konumGitBtn.href = `https://www.google.com/maps/search/?api=1&query=${encodedQuery}`;
-      }
-
-      // Bölüm 5: Geri Sayım
-      const countdownLabelEl = document.getElementById('countdown-label');
-      countdownLabelEl.textContent = s.countdownLabel || "Büyük güne kalan süre";
-      countdownLabelEl.style.color = s.countdownLabelRenk || "#fde68a";
-      document.getElementById('gun-label').textContent = s.gunLabel || "GÜN";
-      document.getElementById('saat-label').textContent = s.saatLabel || "SAAT";
-      document.getElementById('dakika-label').textContent = s.dakikaLabel || "DAKİKA";
-      document.getElementById('saniye-label').textContent = s.saniyeLabel || "SANİYE";
-      const countdownSize = s.countdownSize || 60;
-      ['gun','saat','dakika','saniye'].forEach(id => {
-        document.getElementById(id).style.fontSize = countdownSize + "px";
-        if (s.countdownSayiRenk) document.getElementById(id).style.color = s.countdownSayiRenk;
       });
 
-      // Bölüm 6: Müzik
-      const muzikLabelEl = document.getElementById('muzik-label');
-      muzikLabelEl.textContent = s.muzikLabel || "Özel şarkımız çalıyor 💕";
-      muzikLabelEl.style.color = s.muzikLabelRenk || "#fde68a";
+      var btn = document.getElementById('open-btn');
+      if (btn) {
+        btn.textContent            = s.btntext    || "DAVETİYEYİ AÇ";
+        btn.style.backgroundColor  = s.btncolor   || "#e11d48";
+        btn.style.color            = s.btnTextColor|| "#ffffff";
+      }
+
+      // ── BÖLÜM 2: AİLE ──────────────────────────────────────────────
+      var aileFont      = s.sec2Font       || "Playfair Display";
+      var aileBaslikSz  = parseInt(s.aileBaslikSize) || 30;
+      var aileIsimSz    = parseInt(s.aileIsimSize)   || 24;
+      var aileIconRenk  = s.aileIconRenk   || "#fb7185";
+      var aileIconName  = (s.aileIcon !== undefined && s.aileIcon !== null) ? s.aileIcon : "fa-heart";
+
+      var aileBEl = document.getElementById('aile-baslik');
+      if (aileBEl) {
+        aileBEl.style.fontFamily = "'" + aileFont + "', cursive, serif";
+        aileBEl.style.fontSize   = aileBaslikSz + "px";
+      }
+      var aileTextEl = document.getElementById('aile-baslik-text');
+      if (aileTextEl) aileTextEl.textContent = s.aileBaslik || "Ailelerimiz";
+
+      ['aile-icon-left','aile-icon-right'].forEach(function(eid) {
+        var el = document.getElementById(eid);
+        if (!el) return;
+        el.className = aileIconName ? ("fas " + aileIconName) : "";
+        el.style.color = aileIconRenk;
+      });
+
+      var gelinTarafEl = document.getElementById('gelin-taraf-baslik');
+      if (gelinTarafEl) { gelinTarafEl.textContent = s.gelinTarafBaslik || "Gelin Tarafı"; gelinTarafEl.style.color = s.gelinTarafRenk || "#f9a8d4"; }
+      var damatTarafEl = document.getElementById('damat-taraf-baslik');
+      if (damatTarafEl) { damatTarafEl.textContent = s.damatTarafBaslik || "Damat Tarafı"; damatTarafEl.style.color = s.damatTarafRenk || "#93c5fd"; }
+
+      var gelinAnneLabelEl = document.getElementById('gelin-anne-label');
+      if (gelinAnneLabelEl) { gelinAnneLabelEl.textContent = s.gelinAnneLabel || "Anne"; gelinAnneLabelEl.style.color = s.gelinEtiketRenk || "#f9a8d4"; }
+      var gelinBabaLabelEl = document.getElementById('gelin-baba-label');
+      if (gelinBabaLabelEl) { gelinBabaLabelEl.textContent = s.gelinBabaLabel || "Baba"; gelinBabaLabelEl.style.color = s.gelinEtiketRenk || "#f9a8d4"; }
+      var damatAnneLabelEl = document.getElementById('damat-anne-label');
+      if (damatAnneLabelEl) { damatAnneLabelEl.textContent = s.damatAnneLabel || "Anne"; damatAnneLabelEl.style.color = s.damatEtiketRenk || "#93c5fd"; }
+      var damatBabaLabelEl = document.getElementById('damat-baba-label');
+      if (damatBabaLabelEl) { damatBabaLabelEl.textContent = s.damatBabaLabel || "Baba"; damatBabaLabelEl.style.color = s.damatEtiketRenk || "#93c5fd"; }
+
+      var gelinAnneEl = document.getElementById('gelin-anne');
+      var gelinBabaEl = document.getElementById('gelin-baba');
+      var damatAnneEl = document.getElementById('damat-anne');
+      var damatBabaEl = document.getElementById('damat-baba');
+      if (gelinAnneEl) { gelinAnneEl.textContent = s.gelinAnne || "Ayşe";   gelinAnneEl.style.fontSize = aileIsimSz + "px"; }
+      if (gelinBabaEl) { gelinBabaEl.textContent = s.gelinBaba || "Mehmet"; gelinBabaEl.style.fontSize = aileIsimSz + "px"; }
+      if (damatAnneEl) { damatAnneEl.textContent = s.damatAnne || "Fatma";  damatAnneEl.style.fontSize = aileIsimSz + "px"; }
+      if (damatBabaEl) { damatBabaEl.textContent = s.damatBaba || "Ahmet";  damatBabaEl.style.fontSize = aileIsimSz + "px"; }
+
+      // ── BÖLÜM 3: TARİH ─────────────────────────────────────────────
+      var tarihFont = s.sec3Font  || "Playfair Display";
+      var tarihSize = parseInt(s.tarihSize) || 48;
+      var tarihLabelEl = document.getElementById('tarih-label');
+      if (tarihLabelEl) { tarihLabelEl.textContent = s.tarihLabel || "Tarih"; tarihLabelEl.style.color = s.tarihLabelRenk || "#fde68a"; }
+      var tarihEl = document.getElementById('tarih-goster');
+      if (tarihEl) {
+        tarihEl.style.fontFamily = "'" + tarihFont + "', cursive, serif";
+        tarihEl.style.fontSize   = tarihSize + "px";
+        tarihEl.style.color      = s.tarihRenk || "#ffffff";
+        if (s.tarih) {
+          var d = new Date(s.tarih);
+          tarihEl.innerHTML = d.toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) + ' • ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+          startCountdown(d.getTime());
+        }
+      }
+
+      // ── BÖLÜM 4: KONUM ─────────────────────────────────────────────
+      var konumFont = s.sec4Font || "Playfair Display";
+      var konumSize = parseInt(s.konumSize) || 30;
+      var konumBaslikText = s.konumBaslik || "Nerede Buluşuyoruz?";
+      var konumIconName = (s.konumIcon !== undefined) ? s.konumIcon : "fa-map-marker-alt";
+      var konumBaslikEl = document.getElementById('konum-baslik');
+      if (konumBaslikEl) {
+        konumBaslikEl.innerHTML = '';
+        if (konumIconName) {
+          var iTag = document.createElement('i');
+          iTag.id = "konum-icon";
+          iTag.className = "fas " + konumIconName + " mr-2";
+          iTag.style.color = s.konumIconRenk || "#fb7185";
+          konumBaslikEl.appendChild(iTag);
+        }
+        konumBaslikEl.appendChild(document.createTextNode(konumBaslikText));
+        konumBaslikEl.style.fontFamily = "'" + konumFont + "', cursive, serif";
+        konumBaslikEl.style.fontSize   = konumSize + "px";
+        konumBaslikEl.style.color      = s.konumBaslikRenk || "#ffffff";
+      }
+      var konumTextEl = document.getElementById('konum-text');
+      if (konumTextEl) { konumTextEl.textContent = s.konum || "Marmara Üniversitesi Kongre Merkezi, İstanbul"; konumTextEl.style.color = s.konumAdresRenk || "#ffffff"; }
+
+      var mapQuery = s.mapQuery || s.konum || "Marmara Üniversitesi Kongre Merkezi İstanbul";
+      var encodedQuery = encodeURIComponent(mapQuery);
+      var mapEl = document.getElementById('googleMap');
+      if (mapEl) mapEl.src = "https://maps.google.com/maps?q=" + encodedQuery + "&output=embed&hl=tr";
+
+      var konumGitBtn = document.getElementById('konum-git-btn');
+      if (konumGitBtn) {
+        var konumGitTextEl = document.getElementById('konum-git-text');
+        if (konumGitTextEl) konumGitTextEl.textContent = s.konumGitText || "Konuma Git";
+        konumGitBtn.style.backgroundColor = s.konumBtnRenk    || "#e11d48";
+        konumGitBtn.style.color           = s.konumBtnTextRenk || "#ffffff";
+        konumGitBtn.href = s.konumGitUrl || ("https://www.google.com/maps/search/?api=1&query=" + encodedQuery);
+      }
+
+      // ── BÖLÜM 5: GERİ SAYIM ────────────────────────────────────────
+      var cdLabelEl = document.getElementById('countdown-label');
+      if (cdLabelEl) { cdLabelEl.textContent = s.countdownLabel || "Büyük güne kalan süre"; cdLabelEl.style.color = s.countdownLabelRenk || "#fde68a"; }
+      var gunLabelEl = document.getElementById('gun-label');     if (gunLabelEl) gunLabelEl.textContent = s.gunLabel || "GÜN";
+      var saatLabelEl = document.getElementById('saat-label');   if (saatLabelEl) saatLabelEl.textContent = s.saatLabel || "SAAT";
+      var dakLabelEl = document.getElementById('dakika-label');  if (dakLabelEl) dakLabelEl.textContent = s.dakikaLabel || "DAKİKA";
+      var sanLabelEl = document.getElementById('saniye-label');  if (sanLabelEl) sanLabelEl.textContent = s.saniyeLabel || "SANİYE";
+      var cdSize = parseInt(s.countdownSize) || 60;
+      var cdRenk = s.countdownSayiRenk || "#ffffff";
+      ['gun','saat','dakika','saniye'].forEach(function(eid) {
+        var el = document.getElementById(eid);
+        if (el) { el.style.fontSize = cdSize + "px"; el.style.color = cdRenk; }
+      });
+
+      // ── BÖLÜM 6: MÜZİK ─────────────────────────────────────────────
+      var muzikLabelEl = document.getElementById('muzik-label');
+      if (muzikLabelEl) { muzikLabelEl.textContent = s.muzikLabel || "Özel şarkımız çalıyor 💕"; muzikLabelEl.style.color = s.muzikLabelRenk || "#fde68a"; }
       renderMusicPlayer(s);
 
-      // Bölüm 7: Footer
-      const footerMesajEl = document.getElementById('footer-mesaj');
-      const footerIsimEl = document.getElementById('footer-isim');
-      footerMesajEl.textContent = s.footerMesaj || "Seni aramızda görmek isteriz ❤️";
-      footerMesajEl.style.color = s.footerRenk || "rgba(253,230,138,0.6)";
-      footerIsimEl.style.color = s.footerIsimRenk || "rgba(253,230,138,0.6)";
-      const footerFont = s.sec7Font || "Inter";
-      const footerSize = s.footerSize || 14;
-      [footerMesajEl, footerIsimEl].forEach(el => {
-        el.style.fontFamily = "'" + footerFont + "', sans-serif";
-        el.style.fontSize = footerSize + "px";
-      });
+      // ── BÖLÜM 7: FOOTER ────────────────────────────────────────────
+      var footerMesajEl = document.getElementById('footer-mesaj');
+      var footerIsimEl  = document.getElementById('footer-isim');
+      var footerFont = s.sec7Font || "Inter";
+      var footerSize = parseInt(s.footerSize) || 14;
+      if (footerMesajEl) { footerMesajEl.textContent = s.footerMesaj || "Seni aramızda görmek isteriz ❤️"; footerMesajEl.style.color = s.footerRenk || "rgba(253,230,138,0.6)"; footerMesajEl.style.fontFamily = "'" + footerFont + "', sans-serif"; footerMesajEl.style.fontSize = footerSize + "px"; }
+      if (footerIsimEl)  { footerIsimEl.textContent  = s.footerIsim || (gelin + " & " + damat); footerIsimEl.style.color = s.footerIsimRenk || "rgba(253,230,138,0.6)"; footerIsimEl.style.fontFamily = "'" + footerFont + "', sans-serif"; footerIsimEl.style.fontSize = footerSize + "px"; }
 
-      // Genel: Arka Plan
-      const heroes = document.querySelectorAll('.hero-bg');
-      if (s.bg) heroes.forEach(el => el.style.backgroundImage = `url('${s.bg}')`);
-      else heroes.forEach(el => el.style.backgroundImage = 'none');
-      if (s.bgcolor) heroes.forEach(el => el.style.backgroundColor = s.bgcolor);
+      // ── GENEL: ARKA PLAN ───────────────────────────────────────────
+      var bgcolor = s.bgcolor || "#1c1917";
+      // Body arka planını da güncelle (Tailwind class'ını override et)
+      document.body.style.backgroundColor = bgcolor;
+      document.querySelectorAll('.hero-bg').forEach(function(el) {
+        el.style.backgroundColor = bgcolor;
+        el.style.backgroundImage = s.bg ? "url('" + s.bg + "')" : 'none';
+      });
     }
 
     function renderMusicPlayer(s) {
